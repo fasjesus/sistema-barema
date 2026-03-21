@@ -1,0 +1,56 @@
+classDiagram
+    class Estudante {
+        +String nome
+        +String matricula
+        +String email
+    }
+
+    class Atividade {
+        +String id
+        +String descricao
+        +String carga_maxima
+        +int max_horas_num
+    }
+
+    class ItemBarema {
+        +Atividade atividade
+        +String horas_input
+        +String tipo_barema
+        +String intervalo_paginas
+        +horas_validas() float
+    }
+
+    class ProcessoBarema {
+        +Estudante estudante
+        +String tipo_barema
+        +String data_envio
+        +List~ItemBarema~ itens
+        +adicionar_item(ItemBarema)
+        +total_horas() int
+    }
+
+    class BaremaRepository {
+        +base_dir: String
+        +extract_max_hours(String) int
+        +load_atividades(String) List
+        +to_entity(dict) Atividade
+    }
+
+    class PDFService {
+        +logo_uesc: String
+        +logo_colcic: String
+        +gerar_completo(ProcessoBarema, List) BytesIO
+        -_desenhar_capa(ProcessoBarema) BytesIO
+        -_adicionar_numeracao(BytesIO) BytesIO
+    }
+
+    class CertificateProcessor {
+        +get_page_info(int, File) tuple
+    }
+
+    %% Relacionamentos
+    ProcessoBarema "1" -- "1" Estudante : possui
+    ProcessoBarema "1" -- "*" ItemBarema : contém
+    ItemBarema "1" -- "1" Atividade : refere-se a
+    PDFService ..> ProcessoBarema : consome para desenhar
+    BaremaRepository ..> Atividade : cria

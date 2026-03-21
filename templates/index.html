@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Documento de Horas Complementares</title>
+    
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/favicon.png') }}" type="image/x-icon" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reset.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/header.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/buttons.css') }}" />
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pages/barema.css') }}" />
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/footer.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/goToTop.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/scrollAnimation.css') }}" />
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="wrapper">
+            <div class="wrapperContent">
+                <a class="logo" href="https://colcic.uesc.br/">
+                    <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo COLCIC" />
+                </a>
+                
+                <div class="navList">
+                    <ul>
+                        <a href="https://colcic.uesc.br/">Início</a>
+                        <li class="dropdown">
+                            <span class="title">
+                                <span> Sobre o curso </span>
+                                <iconify-icon icon="dashicons:arrow-down-alt2"></iconify-icon>
+                            </span>
+                            <ul>
+                                <a href="https://colcic.uesc.br/sobre">Ciência da Computação na UESC</a>
+                                <a href="https://colcic.uesc.br/disciplinas">Programa das Disciplinas</a>
+                                <a target="_blank" href="https://colcic.uesc.br/files/comp_curriculares/matriz_cic_2012.pdf">
+                                    <span> Fluxograma do Curso </span>
+                                    <iconify-icon icon="akar-icons:download"></iconify-icon>
+                                </a>
+                                <a href="https://colcic.uesc.br/#horarios">
+                                    <span> Horários </span>
+                                    <iconify-icon icon="dashicons:calendar-alt"></iconify-icon>
+                                </a>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <span class="title">
+                                <span> Apoio ao estudante </span>
+                                <iconify-icon icon="dashicons:arrow-down-alt2"></iconify-icon>
+                            </span>
+                            <ul>
+                                <a target="_blank" href="http://www.prograd.uesc.br/PortalSagres/Acesso.aspx">
+                                    <span> Portal Acadêmico </span>
+                                    <iconify-icon icon="akar-icons:link-chain"></iconify-icon>
+                                </a>
+                                <a href="https://colcic.uesc.br/email">Email dos professores</a>
+                                <a href="https://colcic.uesc.br/aproveitamentos">Aproveitamento de Estudos</a>
+                                <a href="/" class="active">Gerador de Barema</a>                                
+                                <a href="https://colcic.uesc.br/matricula" class="displayNone">Matrícula para Veteranos</a>
+                                <a href="https://colcic.uesc.br/complementares">Atividades complementares (Info)</a>
+                                <a target="_blank" href="https://colcic.uesc.br/files/comp_curriculares/regulamentoestagio.pdf">
+                                    <span> Regulamento do Estágio </span>
+                                    <iconify-icon icon="akar-icons:download"></iconify-icon>
+                                </a>
+                            </ul>
+                        </li>
+    
+                        <li class="dropdown">
+                            <span class="title">
+                                <span> Diversos </span>
+                                <iconify-icon icon="dashicons:arrow-down-alt2"></iconify-icon>
+                            </span>
+                            <ul>
+                                <a target="_blank" href="http://sinform.tecnojr.com.br/">
+                                    <span> SINFORM </span>
+                                    <iconify-icon icon="akar-icons:link-chain"></iconify-icon>
+                                </a>
+                                <a href="https://colcic.uesc.br/licencas">Licenças acadêmicas de Software</a>
+                            </ul>
+                        </li>
+
+                        <a href="https://colcic.uesc.br/colegiado">Colegiado</a>
+                        <a href="https://colcic.uesc.br/contato">Contato</a>
+                        <a href="https://colcic.uesc.br/reserva">Reservas</a>
+                    </ul>
+                </div>
+                <button class="iconMenu" onclick="toggleNavList()">
+                    <div>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div id="top"></div>
+    </header>
+    
+    <a id="goToTop" href="#top" class="hide">
+        <iconify-icon icon="akar-icons:arrow-up"></iconify-icon>
+    </a>
+
+    <main>
+        <section variant>
+            <div class="MaxWidthWrapper">
+                <div class="mainWrapper">
+                    <div class="mainContent">
+                        <h1 id="titulo-barema">
+                            Barema de <br />
+                            <b>Atividades Complementares</b>
+                        </h1>
+                        <p>
+                            Preencha o formulário abaixo para gerar o PDF oficial. Utilize os campos para calcular suas horas e anexe os certificados correspondentes.
+                        </p>
+                        <a href="#baremaForm" class="SecondaryButton" style="background-color: #ffe45e; color: #333; padding: 0.5em 1em; border-radius: 10px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 20px;">
+                            Monte seu Barema
+                        </a>
+                    </div>
+                    <div class="mainContentPhoto">
+                        <img src="{{ url_for('static', filename='assets/formatura.png') }}" onerror="this.style.display='none'" alt="Ilustração Barema" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <form action="/barema" method="post" enctype="multipart/form-data" id="baremaForm">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nome">Nome do Discente:</label>
+                            <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="matricula">Matrícula:</label>
+                            <input type="text" id="matriculaInput" name="matricula" placeholder="Ex: 202310..." required pattern="\d{4}[12]\d{4}" maxlength="9" title="A matrícula deve conter 9 dígitos.">
+                            <span id="matriculaError" class="error-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_verificacao">Data de Verificação:</label>
+                            <input type="text" id="data_verificacao" name="data_verificacao" value="{{ data_hoje }}" readonly>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="baremaTipoInput" name="barema_tipo" value="antigo"> 
+
+                    <div id="tabela-atividades"> 
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 35%;">Atividade</th>
+                                    <th style="width: 15%;">C.H. Máxima</th>
+                                    <th style="width: 15%;">C.H. Cumprida</th>
+                                    <th style="width: 35%;">Anexar Comprovante(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="atividadesTbody"> 
+                                {% for atividade in atividades %}
+                                <tr>
+                                    <td data-label="Atividade:">{{ atividade.id }}. {{ atividade.atividade }}</td>
+                                    <td data-label="C.H. Máxima:">{{ atividade.carga_maxima }}</td>
+                                    <td data-label="C.H. Cumprida:">
+                                        <input type="number" name="horas_{{ atividade.id }}" placeholder=" ex: 30" min="0" step="1" {% if atividade.max_horas_num %} max="{{ atividade.max_horas_num }}" title="Máx: {{ atividade.max_horas_num }}h" {% endif %}>
+                                    </td>
+                                    <td data-label="Comprovante(s):">
+                                        <div class="input-container" id="input-container-{{ atividade.id }}">
+                                            <div class="file-input-wrapper">
+                                                <label class="file-button">
+                                                    <span>Escolher Arquivo</span>
+                                                    <input type="file" name="certificado_{{ atividade.id }}" accept=".pdf" class="file-input"> 
+                                                </label>
+                                                <span class="file-name">Nenhum arquivo</span>
+                                                <span class="delete-file" title="Remover">&times;</span>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="add-more" data-target-id="{{ atividade.id }}">+ Adicionar outro</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="button-container">
+                            <button type="submit">Gerar PDF Unificado</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+       <footer>
+            <div class="footerWave">
+                <div class="left"></div>
+                <a class="footerLogo" href="#top">
+                    <div class="logo">
+                        <img
+                            src="{{ url_for('static', filename='assets/footerLogo.png') }}"
+                            alt="Logo do curso de Ciência da Computação"
+                        />
+                    </div>
+                </a>
+                <div class="right"></div>
+            </div>
+            <div class="MaxWidthWrapper">
+                <div class="footerWrapper">
+                    <div class="footerFloat">
+                        <div class="footerContent">
+                            <h1>Contato</h1>
+                            <ul>
+                                <a
+                                    target="_blank"
+                                    href="https://goo.gl/maps/FKcmwBJ76WYrLQSj8"
+                                >
+                                    <iconify-icon
+                                        icon="heroicons:map-pin-solid"
+                                    ></iconify-icon>
+                                    <span>
+                                        UESC, Pavilhão do DCET, 1º andar
+                                    </span>
+                                </a>
+                                <a target="_blank" href="mailto:colcic@uesc.br">
+                                    <iconify-icon
+                                        icon="bi:envelope-fill"
+                                    ></iconify-icon>
+                                    <span> colcic@uesc.br </span>
+                                </a>
+                                <a target="_blank" href="tel:7336805110">
+                                    <iconify-icon
+                                        icon="ant-design:phone-filled"
+                                    ></iconify-icon>
+                                    <span> (73) 3680-5110 </span>
+                                </a>
+                                <a
+                                    target="_blank"
+                                    href="https://www.facebook.com/groups/colcic/"
+                                >
+                                    <iconify-icon
+                                        icon="akar-icons:facebook-fill"
+                                    ></iconify-icon>
+                                    <span> Facebook </span>
+                                </a>
+                            </ul>
+                        </div>
+                        <div class="footerContent">
+                            <h1>Endereço</h1>
+                            <a target="_blank" href="#" class="linkEndereco">
+                                <p>
+                                    UNIVERSIDADE ESTADUAL DE SANTA CRUZ - UESC
+                                </p>
+                                <p>Campus Soane Nazaré de Andrade</p>
+                                <p>Rodovia Jorge Amado, Km 16, Salobrinho</p>
+                                <p>CEP 45662-900. Ilhéus-Bahia</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footerCopy">
+                        <p>© 2025 - Todos os direitos reservados | COLCIC</p>
+                        <p>
+                            Desenvolvido por
+                            <a
+                                target="_blank"
+                                href="https://ilrocha.com"
+                                id="copyIgor"
+                                >Igor Rocha</a
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <script>
+        // Menu Mobile
+        function toggleNavList() {
+            document.querySelector('.navList').classList.toggle('active');
+            document.querySelector('.iconMenu').classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+        }
+
+        // Elementos principais
+        const matriculaInput = document.getElementById('matriculaInput');
+        const baremaTipoInput = document.getElementById('baremaTipoInput');
+        const tituloBarema = document.getElementById('titulo-barema');
+        const matriculaError = document.getElementById('matriculaError');
+        const tbody = document.getElementById('atividadesTbody');
+
+        // Helper para criar input de arquivo
+        function createNewFileInputHTML(inputName) { 
+            return `<div class="file-input-wrapper"><label class="file-button"><span>Escolher Arquivo</span><input type="file" name="${inputName}" accept=".pdf" class="file-input"></label><span class="file-name">Nenhum arquivo</span><span class="delete-file" title="Remover">&times;</span></div>`;
+        }
+
+        // Função AJAX para carregar dados do barema
+        async function loadBaremaData(matricula) {
+            const matriculaRegex = /^\d{4}[12]\d{4}$/;
+            let tipoBarema = 'antigo'; 
+            
+            // Validação visual da matrícula
+            if (!matricula || !matriculaRegex.test(matricula)) {
+                if (matricula.length > 0) {
+                    matriculaInput.style.borderColor = "red";
+                    matriculaError.textContent = "Formato inválido (ex: 202310001).";
+                    matriculaError.style.display = 'block';
+                }
+            } else {
+                matriculaInput.style.borderColor = "#ddd"; // Volta ao normal
+                matriculaError.style.display = 'none';
+                
+                const ano = parseInt(matricula.substring(0, 4));
+                if (ano >= 2023) tipoBarema = 'novo';
+
+                // Só recarrega se o tipo mudar
+                if (baremaTipoInput.value !== tipoBarema) {
+                    baremaTipoInput.value = tipoBarema;
+                    
+                    // Atualiza Título
+                    if (tipoBarema === 'novo') {
+                        tituloBarema.innerHTML = "Barema de <br><b>Atividades (Pós 2023.1)</b>";
+                    } else {
+                        tituloBarema.innerHTML = "Barema de <br><b>Atividades Complementares</b>";
+                    }
+                    
+                    // Busca dados no Python
+                    try {
+                        const response = await fetch(`/get_barema_data/${tipoBarema}`);
+                        if (response.ok) {
+                            const activities = await response.json();
+                            rebuildTable(activities);
+                        }
+                    } catch (e) { console.error(e); }
+                }
+            }
+        }
+
+        function rebuildTable(activities) {
+            const tipoBarema = baremaTipoInput.value;
+            tbody.innerHTML = '';
+            
+            activities.forEach(atv => {
+                const row = tbody.insertRow();
+                
+                // --- LÓGICA DE LIMITE ---
+                let limiteHoras = atv.max_horas_num;
+                // Se for Barema Antigo E Atividade 1, força teto de 100
+                if (tipoBarema === 'antigo' && atv.id == 1) {
+                    limiteHoras = 100;
+                }
+
+                let maxAttr = limiteHoras ? `max="${limiteHoras}"` : '';
+
+                row.innerHTML = `
+                    <td data-label="Atividade:">${atv.id}. ${atv.atividade}</td>
+                    <td data-label="C.H. Máxima:">${atv.carga_maxima}</td>
+                    <td data-label="C.H. Cumprida:">
+                        <input type="number" name="horas_${atv.id}" min="0" ${maxAttr} class="input-horas">
+                    </td>
+                    <td data-label="Comprovante(s):">
+                        <div class="input-container" id="input-container-${atv.id}">${createNewFileInputHTML('certificado_' + atv.id)}</div>
+                        <a href="#" class="add-more" data-target-id="${atv.id}">+ Adicionar outro</a>
+                    </td>`;
+            });
+        }
+
+        matriculaInput.addEventListener('blur', (e) => loadBaremaData(e.target.value));
+
+        // --- GESTÃO DE EVENTOS DELEGADOS (Para elementos dinâmicos) ---
+        
+        // 1. Monitorar Inputs de Horas (FEEDBACK INSTANTÂNEO)
+        document.querySelector('.container').addEventListener('input', function(e) {
+            if (e.target.classList.contains('input-horas')) {
+                const input = e.target;
+                const max = parseFloat(input.getAttribute('max'));
+                const valor = parseFloat(input.value);
+
+                // Se o valor digitado ultrapassar o limite definido no 'max'
+                if (max && valor > max) {
+                    // Feedback Visual: Borda vermelha e fundo levemente rosado
+                    input.style.borderColor = "#ff4d4d";
+                    input.style.backgroundColor = "#fff5f5";
+                    
+                    // Mostra o aviso nativo do navegador imediatamente
+                    input.setCustomValidity(`Limite excedido! O máximo permitido aqui é ${max} horas.`);
+                    input.reportValidity();
+                } else {
+                    // Volta ao normal se o valor for válido
+                    input.style.borderColor = "#ddd";
+                    input.style.backgroundColor = "#fff";
+                    input.setCustomValidity("");
+                }
+            }
+        });
+
+        // 2. Adicionar/Remover Arquivos
+        document.querySelector('.container').addEventListener('click', function(e) {
+            // Botão Adicionar
+            if (e.target.classList.contains('add-more')) {
+                e.preventDefault();
+                const id = e.target.dataset.targetId;
+                const div = document.createElement('div');
+                div.innerHTML = createNewFileInputHTML('certificado_' + id);
+                document.getElementById('input-container-' + id).appendChild(div.firstChild);
+            }
+            // Botão Remover
+            if (e.target.classList.contains('delete-file')) {
+                const wrapper = e.target.closest('.file-input-wrapper');
+                // Se tiver mais de um input, remove. Se for o único, só limpa.
+                if (wrapper.closest('.input-container').children.length > 1) {
+                    wrapper.remove();
+                } else { 
+                    wrapper.querySelector('input').value = '';
+                    wrapper.querySelector('.file-name').textContent = 'Nenhum arquivo';
+                    wrapper.querySelector('.delete-file').style.display = 'none';
+                }
+            }
+        });
+
+        // 3. Atualizar nome do arquivo quando selecionado
+        document.querySelector('.container').addEventListener('change', function(e) {
+            if (e.target.classList.contains('file-input') && e.target.files.length > 0) {
+                const wrapper = e.target.closest('.file-input-wrapper');
+                wrapper.querySelector('.file-name').textContent = e.target.files[0].name;
+                wrapper.querySelector('.delete-file').style.display = 'inline';
+            }
+        });
+
+        // --- VALIDAÇÃO FINAL AO ENVIAR ---
+        document.getElementById('baremaForm').addEventListener('submit', function(e) {
+            const rows = document.querySelectorAll('#atividadesTbody tr');
+            let errors = [];
+            
+            rows.forEach(row => {
+                const inputHoras = row.querySelector('input[type="number"]');
+                const horas = inputHoras.value;
+                
+                // Verifica se tem pelo menos um arquivo selecionado nessa linha
+                const files = Array.from(row.querySelectorAll('input[type="file"]')).some(i => i.files.length > 0);
+                const idTexto = row.cells[0].innerText; // Pega "1. Nome da Atividade"
+
+                // Regra 1: Tem arquivo mas esqueceu as horas
+                if (files && !horas) {
+                    errors.push(`⚠️ ${idTexto}: Você anexou arquivo mas não informou as horas.`);
+                    inputHoras.style.borderColor = "red"; // Destaca o input
+                } 
+                // Regra 2: Tem horas mas esqueceu o arquivo
+                else if (horas > 0 && !files) {
+                    errors.push(`⚠️ ${idTexto}: Você informou horas mas não anexou o comprovante.`);
+                }
+                else {
+                    inputHoras.style.borderColor = "#ddd"; // Limpa erro visual antigo
+                }
+            });
+
+            if (errors.length > 0) {
+                e.preventDefault(); // Impede o envio
+                alert("Por favor, corrija os seguintes erros antes de continuar:\n\n" + errors.join("\n"));
+            }
+        });
+    </script>
+</body>
+</html>
