@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel do Coordenador - COLCIC</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #003366; border-bottom: 2px solid #ffe45e; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        tr:hover { background: #f9f9f9; }
+        .status-pendente { color: orange; font-weight: bold; }
+        .status-analisado { color: green; font-weight: bold; }
+        .btn-revisar { background: #003366; color: white; padding: 5px 10px; text-decoration: none; border-radius: 5px; font-size: 0.9em; }
+        textarea { width: 100%; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; padding: 10px; }
+        .btn-enviar { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Solicitações de Análise - COLCIC</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Matrícula</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for analise in analises %}
+                <tr>
+                    <td>{{ analise[2] }}</td> <td>{{ analise[1] }}</td> <td class="status-{{ analise[4].lower() }}">{{ analise[4] }}</td> <td>
+                        <a href="{{ url_for('static', filename='uploads/' + analise[3]) }}" target="_blank" class="btn-revisar">Abrir PDF</a>
+                        <form action="/salvar-feedback" method="post" style="margin-top: 10px;">
+                            <input type="hidden" name="id" value="{{ analise[0] }}">
+                            <textarea name="feedback" placeholder="Escreva o feedback aqui...">{{ analise[5] or '' }}</textarea>
+                            <button type="submit" class="btn-enviar">Salvar Comentário</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

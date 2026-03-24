@@ -1,6 +1,6 @@
-# 📑 Gerador de Barema de Atividades Complementares - UESC
+# 📑 Gerador de Barema de Atividades Complementares v1.0.0 - UESC
 
-Este projeto é uma ferramenta para o **Colegiado de Ciência da Computação (COLCIC/UESC)**, permitindo que discentes gerem automaticamente o PDF do Barema de Atividades Complementares, anexando e numerando os certificados de forma organizada.
+Este projeto é uma ferramenta para o **Colegiado de Ciência da Computação (COLCIC/UESC)**, permitindo que discentes gerem automaticamente o PDF do Barema de Atividades Complementares, anexando e numerando os certificados de forma organizada. Esta versão adiciona um feedback da coordenação ao documento gerado pelo aluno.
 
 ## 🚀 Como Executar o Projeto
 
@@ -79,6 +79,7 @@ O projeto foi refatorado seguindo os princípios de **Clean Architecture** e **P
 ├── wsgi.py              # Entrada para servidor de produção
 ├── barema_antigo.csv    # Regras para ingressantes até 2022.2
 └── barema_novo.csv      # Regras para ingressantes a partir de 2023.1
+└── database.py                # Banco de Dados
 ```
 
 ---

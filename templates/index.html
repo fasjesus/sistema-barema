@@ -196,7 +196,23 @@
                             <button type="submit">Gerar PDF Unificado</button>
                         </div>
                     </div>
-                </form>
+                </form>                        
+                <div id="sucessoConteudo" style="display:none; text-align: center; margin-top: 30px; padding: 20px; border: 2px dashed #ffe45e; border-radius: 15px;">
+                    <iconify-icon icon="emojione:white-heavy-check-mark" width="50"></iconify-icon>
+                    <h2>Barema Gerado com Sucesso!</h2>
+                    <p>O que você deseja fazer agora?</p>
+                            
+                    <div style="margin-top: 20px; display: flex; gap: 15px; justify-content: center;">
+                        <a id="btnDownload" href="#" class="SecondaryButton" style="background-color: #eee;">
+                                    Baixar no meu PC
+                        </a>
+                        
+                        <button id="btnSolicitarAnalise" class="SecondaryButton" style="background-color: #28a745; color: white;">
+                            Solicitar Análise da Coordenação
+                        </button>
+                    </div>
+                    <p id="msgStatusAnalise" style="margin-top: 15px; font-weight: bold;"></p>
+                </div>
             </div>
         </section>
     </main>
@@ -273,9 +289,9 @@
                             Desenvolvido por
                             <a
                                 target="_blank"
-                                href="https://ilrocha.com"
+                                href="https://fasjesus.github.io/"
                                 id="copyIgor"
-                                >Igor Rocha</a
+                                >Flávia Jesus</a
                             >
                         </p>
                     </div>
@@ -437,35 +453,37 @@
         });
 
         // --- VALIDAÇÃO FINAL AO ENVIAR ---
-        document.getElementById('baremaForm').addEventListener('submit', function(e) {
-            const rows = document.querySelectorAll('#atividadesTbody tr');
-            let errors = [];
+        document.getElementById('baremaForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); 
             
-            rows.forEach(row => {
-                const inputHoras = row.querySelector('input[type="number"]');
-                const horas = inputHoras.value;
+            const formData = new FormData(this);
+            const response = await fetch('/barema', { method: 'POST', body: formData });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
                 
-                // Verifica se tem pelo menos um arquivo selecionado nessa linha
-                const files = Array.from(row.querySelectorAll('input[type="file"]')).some(i => i.files.length > 0);
-                const idTexto = row.cells[0].innerText; // Pega "1. Nome da Atividade"
+                // Configura o botão de download local
+                const btnDownload = document.getElementById('btnDownload');
+                btnDownload.href = url;
+                btnDownload.download = `Barema_${document.getElementById('matriculaInput').value}.pdf`;
 
-                // Regra 1: Tem arquivo mas esqueceu as horas
-                if (files && !horas) {
-                    errors.push(`⚠️ ${idTexto}: Você anexou arquivo mas não informou as horas.`);
-                    inputHoras.style.borderColor = "red"; // Destaca o input
-                } 
-                // Regra 2: Tem horas mas esqueceu o arquivo
-                else if (horas > 0 && !files) {
-                    errors.push(`⚠️ ${idTexto}: Você informou horas mas não anexou o comprovante.`);
-                }
-                else {
-                    inputHoras.style.borderColor = "#ddd"; // Limpa erro visual antigo
-                }
-            });
+                // Esconde o formulário e mostra as opções de sucesso
+                document.getElementById('baremaForm').style.display = 'none';
+                document.getElementById('sucessoConteudo').style.display = 'block';
 
-            if (errors.length > 0) {
-                e.preventDefault(); // Impede o envio
-                alert("Por favor, corrija os seguintes erros antes de continuar:\n\n" + errors.join("\n"));
+                // Lógica do botão de SOLICITAR ANÁLISE
+                document.getElementById('btnSolicitarAnalise').onclick = async () => {
+                    const solicitacao = await fetch('/solicitar-analise', {
+                        method: 'POST',
+                        body: formData // Reenvia os dados para salvar no banco
+                    });
+
+                    if (solicitacao.ok) {
+                        document.getElementById('msgStatusAnalise').innerText = "✅ Solicitação enviada ao Coordenador!";
+                        document.getElementById('btnSolicitarAnalise').disabled = true;
+                    }
+                };
             }
         });
     </script>
