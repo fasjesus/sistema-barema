@@ -121,7 +121,7 @@
         async function checkAndLoadBarema(matricula) {
             const matriculaRegex = /^\d{4}[12]\d{4}$/;
             
-            // 1. Verifica se a matrícula tem 9 dígitos e o formato correto
+            // 1. Verifica matrícula
             if (matricula.length === 9 && matriculaRegex.test(matricula)) {
                 matriculaInput.style.borderColor = "#ddd";
                 matriculaError.style.display = 'none';
@@ -145,7 +145,6 @@
                             const activities = await response.json();
                             rebuildTable(activities);
                             
-                            // 3. REVELA A TABELA: Garantimos que ela só apareça com dados
                             tabelaContainer.style.display = 'block';
                         }
                     } catch (e) { 
@@ -212,14 +211,12 @@
 
                 // Se o valor digitado ultrapassar o limite definido no 'max'
                 if (max && valor > max) {
-                    // Feedback Visual Crítico
                     input.style.borderColor = "#ff4d4d";
                     input.style.backgroundColor = "#fff5f5";
                     
-                    // A MÁGICA: Preenche com o valor máximo automaticamente
+                    // reenche com o valor máximo automaticamente
                     input.value = max; 
 
-                    // Mostra o aviso para o usuário entender o que aconteceu
                     input.setCustomValidity(`Limite excedido! O valor foi ajustado para o máximo de ${max} horas.`);
                     input.reportValidity();
 

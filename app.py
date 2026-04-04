@@ -35,9 +35,8 @@ def barema_process():
         pag_atual = 2
 
         for ativ in atividades_base:
-            id_at = ativ['id'] # Garanta que o nome aqui seja 'id_at'
+            id_at = ativ['id'] 
             
-            # Use o mesmo nome 'id_at' aqui embaixo:
             horas_raw = request.form.get(f"horas_{id_at}", "")
             
             files = request.files.getlist(f"certificado_{id_at}")
