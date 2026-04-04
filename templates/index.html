@@ -6,107 +6,32 @@
     <title>Gerador de Documento de Horas Complementares</title>
     
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/favicon.png') }}" type="image/x-icon" />
-
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reset.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/header.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/buttons.css') }}" />
-    
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pages/barema.css') }}" />
-    
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/footer.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/goToTop.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/scrollAnimation.css') }}" />
 
     <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+    <style>
+        /* Oculta a tabela e o botão de envio inicialmente */
+        #tabela-atividades {
+            display: none;
+            margin-top: 30px;
+        }
+        .input-error {
+            border-color: #ff4d4d !important;
+            background-color: #fff5f5 !important;
+        }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="wrapper">
-            <div class="wrapperContent">
-                <a class="logo" href="https://colcic.uesc.br/">
-                    <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo COLCIC" />
-                </a>
-                
-                <div class="navList">
-                    <ul>
-                        <a href="https://colcic.uesc.br/">Início</a>
-                        <li class="dropdown">
-                            <span class="title">
-                                <span> Sobre o curso </span>
-                                <iconify-icon icon="dashicons:arrow-down-alt2"></iconify-icon>
-                            </span>
-                            <ul>
-                                <a href="https://colcic.uesc.br/sobre">Ciência da Computação na UESC</a>
-                                <a href="https://colcic.uesc.br/disciplinas">Programa das Disciplinas</a>
-                                <a target="_blank" href="https://colcic.uesc.br/files/comp_curriculares/matriz_cic_2012.pdf">
-                                    <span> Fluxograma do Curso </span>
-                                    <iconify-icon icon="akar-icons:download"></iconify-icon>
-                                </a>
-                                <a href="https://colcic.uesc.br/#horarios">
-                                    <span> Horários </span>
-                                    <iconify-icon icon="dashicons:calendar-alt"></iconify-icon>
-                                </a>
-                            </ul>
-                        </li>
-
-                        <li class="dropdown">
-                            <span class="title">
-                                <span> Apoio ao estudante </span>
-                                <iconify-icon icon="dashicons:arrow-down-alt2"></iconify-icon>
-                            </span>
-                            <ul>
-                                <a target="_blank" href="http://www.prograd.uesc.br/PortalSagres/Acesso.aspx">
-                                    <span> Portal Acadêmico </span>
-                                    <iconify-icon icon="akar-icons:link-chain"></iconify-icon>
-                                </a>
-                                <a href="https://colcic.uesc.br/email">Email dos professores</a>
-                                <a href="https://colcic.uesc.br/aproveitamentos">Aproveitamento de Estudos</a>
-                                <a href="/" class="active">Gerador de Barema</a>                                
-                                <a href="https://colcic.uesc.br/matricula" class="displayNone">Matrícula para Veteranos</a>
-                                <a href="https://colcic.uesc.br/complementares">Atividades complementares (Info)</a>
-                                <a target="_blank" href="https://colcic.uesc.br/files/comp_curriculares/regulamentoestagio.pdf">
-                                    <span> Regulamento do Estágio </span>
-                                    <iconify-icon icon="akar-icons:download"></iconify-icon>
-                                </a>
-                            </ul>
-                        </li>
-    
-                        <li class="dropdown">
-                            <span class="title">
-                                <span> Diversos </span>
-                                <iconify-icon icon="dashicons:arrow-down-alt2"></iconify-icon>
-                            </span>
-                            <ul>
-                                <a target="_blank" href="http://sinform.tecnojr.com.br/">
-                                    <span> SINFORM </span>
-                                    <iconify-icon icon="akar-icons:link-chain"></iconify-icon>
-                                </a>
-                                <a href="https://colcic.uesc.br/licencas">Licenças acadêmicas de Software</a>
-                            </ul>
-                        </li>
-
-                        <a href="https://colcic.uesc.br/colegiado">Colegiado</a>
-                        <a href="https://colcic.uesc.br/contato">Contato</a>
-                        <a href="https://colcic.uesc.br/reserva">Reservas</a>
-                    </ul>
-                </div>
-                <button class="iconMenu" onclick="toggleNavList()">
-                    <div>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </button>
-            </div>
-        </div>
-        <div id="top"></div>
-    </header>
-    
-    <a id="goToTop" href="#top" class="hide">
-        <iconify-icon icon="akar-icons:arrow-up"></iconify-icon>
-    </a>
+        </header>
 
     <main>
         <section variant>
@@ -115,17 +40,15 @@
                     <div class="mainContent">
                         <h1 id="titulo-barema">
                             Barema de <br />
-                            <b>Atividades Complementares</b>
+                            <b>Atividades</b>
                         </h1>
-                        <p>
-                            Preencha o formulário abaixo para gerar o PDF oficial. Utilize os campos para calcular suas horas e anexe os certificados correspondentes.
-                        </p>
+                        <p>Digite sua matrícula para carregar o formulário compatível com seu regulamento.</p>
                         <a href="#baremaForm" class="SecondaryButton" style="background-color: #ffe45e; color: #333; padding: 0.5em 1em; border-radius: 10px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 20px;">
                             Monte seu Barema
                         </a>
                     </div>
                     <div class="mainContentPhoto">
-                        <img src="{{ url_for('static', filename='assets/formatura.png') }}" onerror="this.style.display='none'" alt="Ilustração Barema" />
+                        <img src="{{ url_for('static', filename='assets/formatura.png') }}" alt="Ilustração Barema" />
                     </div>
                 </div>
             </div>
@@ -142,8 +65,8 @@
                         </div>
                         <div class="form-group">
                             <label for="matricula">Matrícula:</label>
-                            <input type="text" id="matriculaInput" name="matricula" placeholder="Ex: 202310..." required pattern="\d{4}[12]\d{4}" maxlength="9" title="A matrícula deve conter 9 dígitos.">
-                            <span id="matriculaError" class="error-message"></span>
+                            <input type="text" id="matriculaInput" name="matricula" placeholder="Ex: 202310..." required pattern="\d{4}[12]\d{4}" maxlength="9" oninput="checkAndLoadBarema(this.value)">
+                            <span id="matriculaError" class="error-message" style="color: red; display: none; font-size: 0.8em; margin-top: 5px;"></span>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
@@ -155,7 +78,7 @@
                         </div>
                     </div>
 
-                    <input type="hidden" id="baremaTipoInput" name="barema_tipo" value="antigo"> 
+                    <input type="hidden" id="baremaTipoInput" name="barema_tipo" value="novo"> 
 
                     <div id="tabela-atividades"> 
                         <table>
@@ -168,29 +91,7 @@
                                 </tr>
                             </thead>
                             <tbody id="atividadesTbody"> 
-                                {% for atividade in atividades %}
-                                <tr>
-                                    <td data-label="Atividade:">{{ atividade.id }}. {{ atividade.atividade }}</td>
-                                    <td data-label="C.H. Máxima:">{{ atividade.carga_maxima }}</td>
-                                    <td data-label="C.H. Cumprida:">
-                                        <input type="number" name="horas_{{ atividade.id }}" placeholder=" ex: 30" min="0" step="1" {% if atividade.max_horas_num %} max="{{ atividade.max_horas_num }}" title="Máx: {{ atividade.max_horas_num }}h" {% endif %}>
-                                    </td>
-                                    <td data-label="Comprovante(s):">
-                                        <div class="input-container" id="input-container-{{ atividade.id }}">
-                                            <div class="file-input-wrapper">
-                                                <label class="file-button">
-                                                    <span>Escolher Arquivo</span>
-                                                    <input type="file" name="certificado_{{ atividade.id }}" accept=".pdf" class="file-input"> 
-                                                </label>
-                                                <span class="file-name">Nenhum arquivo</span>
-                                                <span class="delete-file" title="Remover">&times;</span>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="add-more" data-target-id="{{ atividade.id }}">+ Adicionar outro</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
+                                </tbody>
                         </table>
                         <div class="button-container">
                             <button type="submit">Gerar PDF Unificado</button>
@@ -201,146 +102,67 @@
         </section>
     </main>
 
-       <footer>
-            <div class="footerWave">
-                <div class="left"></div>
-                <a class="footerLogo" href="#top">
-                    <div class="logo">
-                        <img
-                            src="{{ url_for('static', filename='assets/footerLogo.png') }}"
-                            alt="Logo do curso de Ciência da Computação"
-                        />
-                    </div>
-                </a>
-                <div class="right"></div>
-            </div>
-            <div class="MaxWidthWrapper">
-                <div class="footerWrapper">
-                    <div class="footerFloat">
-                        <div class="footerContent">
-                            <h1>Contato</h1>
-                            <ul>
-                                <a
-                                    target="_blank"
-                                    href="https://goo.gl/maps/FKcmwBJ76WYrLQSj8"
-                                >
-                                    <iconify-icon
-                                        icon="heroicons:map-pin-solid"
-                                    ></iconify-icon>
-                                    <span>
-                                        UESC, Pavilhão do DCET, 1º andar
-                                    </span>
-                                </a>
-                                <a target="_blank" href="mailto:colcic@uesc.br">
-                                    <iconify-icon
-                                        icon="bi:envelope-fill"
-                                    ></iconify-icon>
-                                    <span> colcic@uesc.br </span>
-                                </a>
-                                <a target="_blank" href="tel:7336805110">
-                                    <iconify-icon
-                                        icon="ant-design:phone-filled"
-                                    ></iconify-icon>
-                                    <span> (73) 3680-5110 </span>
-                                </a>
-                                <a
-                                    target="_blank"
-                                    href="https://www.facebook.com/groups/colcic/"
-                                >
-                                    <iconify-icon
-                                        icon="akar-icons:facebook-fill"
-                                    ></iconify-icon>
-                                    <span> Facebook </span>
-                                </a>
-                            </ul>
-                        </div>
-                        <div class="footerContent">
-                            <h1>Endereço</h1>
-                            <a target="_blank" href="#" class="linkEndereco">
-                                <p>
-                                    UNIVERSIDADE ESTADUAL DE SANTA CRUZ - UESC
-                                </p>
-                                <p>Campus Soane Nazaré de Andrade</p>
-                                <p>Rodovia Jorge Amado, Km 16, Salobrinho</p>
-                                <p>CEP 45662-900. Ilhéus-Bahia</p>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="footerCopy">
-                        <p>© 2025 - Todos os direitos reservados | COLCIC</p>
-                        <p>
-                            Desenvolvido por
-                            <a
-                                target="_blank"
-                                href="https://ilrocha.com"
-                                id="copyIgor"
-                                >Igor Rocha</a
-                            >
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <footer>
         </footer>
 
     <script>
-        // Menu Mobile
-        function toggleNavList() {
-            document.querySelector('.navList').classList.toggle('active');
-            document.querySelector('.iconMenu').classList.toggle('active');
-            document.body.classList.toggle('no-scroll');
-        }
-
-        // Elementos principais
         const matriculaInput = document.getElementById('matriculaInput');
         const baremaTipoInput = document.getElementById('baremaTipoInput');
         const tituloBarema = document.getElementById('titulo-barema');
         const matriculaError = document.getElementById('matriculaError');
         const tbody = document.getElementById('atividadesTbody');
+        const tabelaContainer = document.getElementById('tabela-atividades');
 
-        // Helper para criar input de arquivo
         function createNewFileInputHTML(inputName) { 
             return `<div class="file-input-wrapper"><label class="file-button"><span>Escolher Arquivo</span><input type="file" name="${inputName}" accept=".pdf" class="file-input"></label><span class="file-name">Nenhum arquivo</span><span class="delete-file" title="Remover">&times;</span></div>`;
         }
 
-        // Função AJAX para carregar dados do barema
-        async function loadBaremaData(matricula) {
+        // Controla a visibilidade e o carregamento
+        async function checkAndLoadBarema(matricula) {
             const matriculaRegex = /^\d{4}[12]\d{4}$/;
-            let tipoBarema = 'antigo'; 
             
-            // Validação visual da matrícula
-            if (!matricula || !matriculaRegex.test(matricula)) {
-                if (matricula.length > 0) {
-                    matriculaInput.style.borderColor = "red";
-                    matriculaError.textContent = "Formato inválido (ex: 202310001).";
-                    matriculaError.style.display = 'block';
-                }
-            } else {
-                matriculaInput.style.borderColor = "#ddd"; // Volta ao normal
+            // 1. Verifica matrícula
+            if (matricula.length === 9 && matriculaRegex.test(matricula)) {
+                matriculaInput.style.borderColor = "#ddd";
                 matriculaError.style.display = 'none';
                 
+                let tipoBarema = 'novo'; 
                 const ano = parseInt(matricula.substring(0, 4));
-                if (ano >= 2023) tipoBarema = 'novo';
+                if (ano < 2023) tipoBarema = 'antigo';
 
-                // Só recarrega se o tipo mudar
-                if (baremaTipoInput.value !== tipoBarema) {
+                // 2. Carrega se o tipo mudou OU se a tabela ainda está vazia (primeiro carregamento)
+                if (baremaTipoInput.value !== tipoBarema || tbody.innerHTML.trim() === "") {
                     baremaTipoInput.value = tipoBarema;
                     
-                    // Atualiza Título
-                    if (tipoBarema === 'novo') {
-                        tituloBarema.innerHTML = "Barema de <br><b>Atividades (Pós 2023.1)</b>";
-                    } else {
-                        tituloBarema.innerHTML = "Barema de <br><b>Atividades Complementares</b>";
-                    }
+                    // Atualiza o Título conforme o regulamento
+                    tituloBarema.innerHTML = tipoBarema === 'novo' 
+                        ? "Barema de <br><b>Atividades (Pós 2023.1)</b>" 
+                        : "Barema de <br><b>Atividades Complementares</b>";
                     
-                    // Busca dados no Python
                     try {
                         const response = await fetch(`/get_barema_data/${tipoBarema}`);
                         if (response.ok) {
                             const activities = await response.json();
                             rebuildTable(activities);
+                            
+                            tabelaContainer.style.display = 'block';
                         }
-                    } catch (e) { console.error(e); }
+                    } catch (e) { 
+                        console.error("Erro ao buscar dados do Barema:", e); 
+                    }
+                } else {
+                    // Se o tipo for o mesmo e a tabela já estiver lá, apenas garante que esteja visível
+                    tabelaContainer.style.display = 'block';
+                }
+            } else {
+                // Se a matrícula for apagada ou estiver incompleta, esconde tudo
+                tabelaContainer.style.display = 'none';
+                
+                // Se chegou em 9 dígitos e o Regex falhou (ex: 202330001 - semestre 3 não existe)
+                if (matricula.length === 9) {
+                    matriculaInput.style.borderColor = "red";
+                    matriculaError.textContent = "Semestre inválido (use 1 ou 2).";
+                    matriculaError.style.display = 'block';
                 }
             }
         }
@@ -351,34 +173,36 @@
             
             activities.forEach(atv => {
                 const row = tbody.insertRow();
+                let limiteHoras = atv.max_horas_num; 
                 
-                // --- LÓGICA DE LIMITE ---
-                let limiteHoras = atv.max_horas_num;
-                // Se for Barema Antigo E Atividade 1, força teto de 100
-                if (tipoBarema === 'antigo' && atv.id == 1) {
-                    limiteHoras = 100;
-                }
+                // Regra específica para barema antigo atividade 1
+                if (tipoBarema === 'antigo' && atv.id == 1) limiteHoras = 100;
 
-                let maxAttr = limiteHoras ? `max="${limiteHoras}"` : '';
+                let maxAttr = (limiteHoras && limiteHoras > 0) ? `max="${limiteHoras}"` : '';
 
                 row.innerHTML = `
                     <td data-label="Atividade:">${atv.id}. ${atv.atividade}</td>
                     <td data-label="C.H. Máxima:">${atv.carga_maxima}</td>
                     <td data-label="C.H. Cumprida:">
-                        <input type="number" name="horas_${atv.id}" min="0" ${maxAttr} class="input-horas">
+                        <input type="number" 
+                               name="horas_${atv.id}" 
+                               min="0" 
+                               ${maxAttr} 
+                               class="input-horas" 
+                               oninput="this.reportValidity()"
+                               placeholder="0">
                     </td>
                     <td data-label="Comprovante(s):">
-                        <div class="input-container" id="input-container-${atv.id}">${createNewFileInputHTML('certificado_' + atv.id)}</div>
+                        <div class="input-container" id="input-container-${atv.id}">
+                            ${createNewFileInputHTML('certificado_' + atv.id)}
+                        </div>
                         <a href="#" class="add-more" data-target-id="${atv.id}">+ Adicionar outro</a>
                     </td>`;
             });
         }
 
-        matriculaInput.addEventListener('blur', (e) => loadBaremaData(e.target.value));
-
-        // --- GESTÃO DE EVENTOS DELEGADOS (Para elementos dinâmicos) ---
-        
-        // 1. Monitorar Inputs de Horas (FEEDBACK INSTANTÂNEO)
+        // GESTÃO DE EVENTOS DELEGADOS (Para funcionar com a tabela dinâmica)
+        // 1. Monitorar Inputs de Horas (FEEDBACK E CORREÇÃO AUTOMÁTICA)
         document.querySelector('.container').addEventListener('input', function(e) {
             if (e.target.classList.contains('input-horas')) {
                 const input = e.target;
@@ -387,13 +211,22 @@
 
                 // Se o valor digitado ultrapassar o limite definido no 'max'
                 if (max && valor > max) {
-                    // Feedback Visual: Borda vermelha e fundo levemente rosado
                     input.style.borderColor = "#ff4d4d";
                     input.style.backgroundColor = "#fff5f5";
                     
-                    // Mostra o aviso nativo do navegador imediatamente
-                    input.setCustomValidity(`Limite excedido! O máximo permitido aqui é ${max} horas.`);
+                    // reenche com o valor máximo automaticamente
+                    input.value = max; 
+
+                    input.setCustomValidity(`Limite excedido! O valor foi ajustado para o máximo de ${max} horas.`);
                     input.reportValidity();
+
+                    // Remove o aviso após 3 segundos para não atrapalhar a navegação
+                    setTimeout(() => {
+                        input.setCustomValidity("");
+                        input.style.borderColor = "#ddd";
+                        input.style.backgroundColor = "#fff";
+                    }, 3000);
+
                 } else {
                     // Volta ao normal se o valor for válido
                     input.style.borderColor = "#ddd";
@@ -403,9 +236,7 @@
             }
         });
 
-        // 2. Adicionar/Remover Arquivos
         document.querySelector('.container').addEventListener('click', function(e) {
-            // Botão Adicionar
             if (e.target.classList.contains('add-more')) {
                 e.preventDefault();
                 const id = e.target.dataset.targetId;
@@ -413,59 +244,46 @@
                 div.innerHTML = createNewFileInputHTML('certificado_' + id);
                 document.getElementById('input-container-' + id).appendChild(div.firstChild);
             }
-            // Botão Remover
             if (e.target.classList.contains('delete-file')) {
                 const wrapper = e.target.closest('.file-input-wrapper');
-                // Se tiver mais de um input, remove. Se for o único, só limpa.
                 if (wrapper.closest('.input-container').children.length > 1) {
                     wrapper.remove();
                 } else { 
                     wrapper.querySelector('input').value = '';
                     wrapper.querySelector('.file-name').textContent = 'Nenhum arquivo';
-                    wrapper.querySelector('.delete-file').style.display = 'none';
                 }
             }
         });
 
-        // 3. Atualizar nome do arquivo quando selecionado
         document.querySelector('.container').addEventListener('change', function(e) {
             if (e.target.classList.contains('file-input') && e.target.files.length > 0) {
                 const wrapper = e.target.closest('.file-input-wrapper');
                 wrapper.querySelector('.file-name').textContent = e.target.files[0].name;
-                wrapper.querySelector('.delete-file').style.display = 'inline';
             }
         });
 
-        // --- VALIDAÇÃO FINAL AO ENVIAR ---
+        // VALIDAÇÃO FINAL
         document.getElementById('baremaForm').addEventListener('submit', function(e) {
             const rows = document.querySelectorAll('#atividadesTbody tr');
             let errors = [];
             
             rows.forEach(row => {
-                const inputHoras = row.querySelector('input[type="number"]');
+                const inputHoras = row.querySelector('.input-horas');
                 const horas = inputHoras.value;
-                
-                // Verifica se tem pelo menos um arquivo selecionado nessa linha
                 const files = Array.from(row.querySelectorAll('input[type="file"]')).some(i => i.files.length > 0);
-                const idTexto = row.cells[0].innerText; // Pega "1. Nome da Atividade"
+                const idTexto = row.cells[0].innerText;
 
-                // Regra 1: Tem arquivo mas esqueceu as horas
                 if (files && !horas) {
-                    errors.push(`⚠️ ${idTexto}: Você anexou arquivo mas não informou as horas.`);
-                    inputHoras.style.borderColor = "red"; // Destaca o input
-                } 
-                // Regra 2: Tem horas mas esqueceu o arquivo
-                else if (horas > 0 && !files) {
-                    errors.push(`⚠️ ${idTexto}: Você informou horas mas não anexou o comprovante.`);
-                }
-                else {
-                    inputHoras.style.borderColor = "#ddd"; // Limpa erro visual antigo
+                    errors.push(`⚠️ ${idTexto}: Falta informar as horas.`);
+                    inputHoras.classList.add('input-error');
+                } else if (horas > 0 && !files) {
+                    errors.push(`⚠️ ${idTexto}: Falta anexar o comprovante.`);
                 }
             });
 
             if (errors.length > 0) {
-                e.preventDefault(); // Impede o envio
-                alert("Por favor, corrija os seguintes erros antes de continuar:\n\n" + errors.join("\n"));
+                e.preventDefault();
+                alert("Erros encontrados:\n\n" + errors.join("\n"));
             }
         });
     </script>

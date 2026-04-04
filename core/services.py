@@ -111,7 +111,7 @@ class PDFService:
         total_h = 0
 
         for item in processo.itens:
-            # Aqui usamos 'horas_validas' que agora existe na Entidade
+           
             val_h = int(item.horas_validas)
             h_str = str(val_h) if val_h > 0 else ""
             
@@ -148,7 +148,7 @@ class PDFService:
         return packet
 
     def _adicionar_numeracao(self, stream):
-        # (Mesma lógica de numeração anterior)
+       
         reader = PdfReader(stream)
         writer = PdfWriter()
         for i, page in enumerate(reader.pages):
