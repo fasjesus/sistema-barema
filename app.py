@@ -41,9 +41,8 @@ def barema_process():
         pag_atual = 2
 
         for ativ in atividades_base:
-            id_at = ativ['id'] # Garanta que o nome aqui seja 'id_at'
+            id_at = ativ['id'] 
             
-            # Use o mesmo nome 'id_at' aqui embaixo:
             horas_raw = request.form.get(f"horas_{id_at}", "")
             
             files = request.files.getlist(f"certificado_{id_at}")
@@ -123,14 +122,8 @@ def solicitar_analise():
                 )
                 processo.adicionar_item(item)
 
-        # GERAR O PDF COMPLETO (Agora enviando a lista de certificados)
+        # 4. GERAR O PDF COMPLETO 
         pdf_buffer = pdf_service.gerar_completo(processo, certificados=certificados_para_anexar) 
-
-        # ... restante do código de salvamento (open wb, etc) ...
-
-        # 4. GERAR O PDF (Usando o serviço global já instanciado no topo)
-        # Passamos certificados vazios ou a lista se você a processar acima
-        pdf_buffer = pdf_service.gerar_completo(processo, certificados=[]) 
 
         # 5. SALVAR NO DISCO
         nome_arquivo = f"barema_{matricula}_{uuid.uuid4().hex[:6]}.pdf"
@@ -156,7 +149,7 @@ def solicitar_analise():
         print(traceback.format_exc()) # Mostra o erro detalhado no terminal
         return str(e), 500
 
-# Rota do Painel (Protegida por um token simples na URL)
+# Rota do Painel (token simples na URL)
 @app.route('/coordenador/painel')
 def painel_coordenador():
     token = request.args.get('token')
