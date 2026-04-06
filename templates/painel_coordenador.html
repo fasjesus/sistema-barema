@@ -99,8 +99,16 @@
 </head>
 <body>
     <div class="container">
-        <header>
+        <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--accent-yellow); margin-bottom: 20px; padding-bottom: 10px;">
             <h1>Solicitações de Análise - COLCIC</h1>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <span style="color: var(--primary-blue); font-size: 0.9em;">
+                    Olá, <b>{{ session['usuario'] }}</b>
+                </span>
+                <a href="/logout" style="color: #d9534f; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 5px;">
+                    <iconify-icon icon="ls:logout"></iconify-icon> Sair
+                </a>
+            </div>
         </header>
 
         <div class="filter-bar">
@@ -137,17 +145,21 @@
                         </span>
                     </td>
                     <td>
-                        <a href="{{ url_for('static', filename='uploads/' + analise[3]) }}" target="_blank" class="btn-pdf">
-                            <iconify-icon icon="akar-icons:pdf"></iconify-icon> Abrir Documento
-                        </a>
-                        
-                        <form action="/salvar-feedback" method="post">
-                            <input type="hidden" name="id" value="{{ analise[0] }}">
-                            <textarea name="feedback" rows="3" placeholder="Escreva as observações para o aluno...">{{ analise[5] or '' }}</textarea>
-                            <button type="submit" class="btn-enviar">
-                                <iconify-icon icon="fluent:save-24-filled"></iconify-icon> Salvar Parecer
-                            </button>
-                        </form>
+                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                            
+                            <a href="{{ url_for('static', filename='uploads/' + analise[3]) }}" target="_blank" class="btn-pdf">
+                                <iconify-icon icon="akar-icons:pdf"></iconify-icon> Abrir Documento
+                            </a>
+
+                            <form action="/salvar-feedback" method="post" style="margin: 0;">
+                                <input type="hidden" name="id" value="{{ analise[0] }}">
+                                <button type="submit" class="btn-enviar" style="margin-top: 0;">
+                                    <iconify-icon icon="fluent:save-24-filled"></iconify-icon> Salvar Parecer
+                                </button>
+                        </div>
+
+                        <textarea name="feedback" rows="3" placeholder="Escreva as observações para o aluno..." form-id-referencia="{{ analise[0] }}" style="width: 100%; box-sizing: border-box;">{{ analise[5] or '' }}</textarea>
+                        </form> 
                     </td>
                 </tr>
                 {% endfor %}
