@@ -1,28 +1,62 @@
 import os
 import uuid
-import sqlite3
 import traceback
 from datetime import datetime, date
-from flask import Flask, request, render_template, send_file, jsonify, session, redirect, url_for
-from flask_cors import CORS
+from flask import Flask, request, render_template, send_file, jsonify, redirect, url_for
+from models import db, Usuario, AnaliseBarema
 from werkzeug.security import check_password_hash
-from dotenv import load_dotenv
 
-# Carrega as variáveis do arquivo .env
-load_dotenv()
+# Imports do Admin e Login
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+
+app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY', 'chave-padrao')
+
+# --- CONFIGURAÇÃO DO SQLALCHEMY ---
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 # Importações das entidades e serviços
 from core.entities import Estudante, ProcessoBarema, ItemBarema
 from core.repository import BaremaRepository
 from core.services import PDFService, CertificateProcessor
-from database import init_db
 
-app = Flask(__name__)
-CORS(app)
+# ==========================================
+# 1. CONFIGURAÇÃO DO FLASK-LOGIN (O Segurança)
+# ==========================================
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login' 
 
-# CONFIGURAÇÕES DE SEGURANÇA
-app.secret_key = os.getenv('SECRET_KEY', 'chave-padrao-caso-nao-encontre-env')
+@login_manager.user_loader
+def load_user(user_id):
+    return Usuario.query.get(int(user_id))
 
+# ==========================================
+# 2. CONFIGURAÇÃO DO FLASK-ADMIN (Os Bastidores)
+# ==========================================
+class ViewProtegida(ModelView):
+    def is_accessible(self):
+        # login dev
+        return current_user.is_authenticated and getattr(current_user, 'cargo', '') == 'admin'
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
+
+admin = Admin(app, name='Bastidores - Dev')
+admin.add_view(ViewProtegida(AnaliseBarema, db.session, name='Banco: Solicitações'))
+admin.add_view(ViewProtegida(Usuario, db.session, name='Banco: Usuários'))
+
+
+# --- CONFIGURAÇÕES DE PASTAS ---
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -35,11 +69,12 @@ pdf_service = PDFService(
     logo_colcic=os.path.join(BASE_DIR, 'static', 'images', 'logo_computacao.png')
 )
 
-# --- ROTAS PÚBLICAS (ALUNO) ---
+# ==========================================
+# ROTAS PÚBLICAS (ALUNO)
+# ==========================================
 
 @app.route('/')
 def home():
-    # Carrega os dados iniciais do barema (regulamento antigo por padrão)
     atividades = repo.load_atividades('antigo')
     return render_template('index.html', data_hoje=date.today().strftime("%d/%m/%Y"), atividades=atividades)
 
@@ -133,14 +168,14 @@ def solicitar_analise():
         with open(caminho_completo, 'wb') as f:
             f.write(pdf_buffer.getbuffer())
 
-        conn = sqlite3.connect('database.db')
-        cursor = conn.cursor()
-        cursor.execute("""
-            INSERT INTO analises (matricula, nome_aluno, caminho_pdf, status) 
-            VALUES (?, ?, ?, ?)
-        """, (matricula, nome, nome_arquivo, 'Pendente'))
-        conn.commit()
-        conn.close()
+        nova_analise = AnaliseBarema(
+            matricula=matricula,
+            nome_aluno=nome,
+            caminho_pdf=nome_arquivo,
+            status='Pendente'
+        )
+        db.session.add(nova_analise)
+        db.session.commit()
 
         return "Solicitação enviada!", 200
 
@@ -148,7 +183,9 @@ def solicitar_analise():
         print(traceback.format_exc())
         return str(e), 500
 
-# --- ROTAS DE AUTENTICAÇÃO E PAINEL (COORDENADOR) ---
+# ==========================================
+# ROTAS DE AUTENTICAÇÃO E PAINEL (COORDENADOR)
+# ==========================================
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -156,59 +193,51 @@ def login():
         user = request.form.get('username')
         pw = request.form.get('password')
 
-        conn = sqlite3.connect('database.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT password FROM usuarios WHERE username = ?", (user,))
-        data = cursor.fetchone()
-        conn.close()
+        usuario = Usuario.query.filter_by(username=user).first()
 
-        # Verifica se o usuário existe e a senha (hash) bate
-        if data and check_password_hash(data[0], pw):
-            session['logado'] = True
-            session['usuario'] = user
-            return redirect(url_for('painel_coordenador'))
+        if usuario and check_password_hash(usuario.password, pw):
+            login_user(usuario)
+            
+            # Verifica a coluna 'cargo'
+            if getattr(usuario, 'cargo', '') == 'admin':
+                return redirect('/admin') 
+            if getattr(usuario, 'cargo', '') == 'coordenador':
+                return redirect(url_for('painel_coordenador')) 
         
         return render_template('login.html', erro="Usuário ou senha inválidos.")
     
     return render_template('login.html')
 
+
 @app.route('/logout')
+@login_required
 def logout():
-    session.clear()
+    logout_user()
     return redirect(url_for('login'))
 
-@app.route('/coordenador/painel')
-def painel_coordenador():
-    # Proteção
-    if not session.get('logado'):
-        return redirect(url_for('login'))
 
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM analises ORDER BY data_solicitacao DESC")
-    analises = cursor.fetchall()
-    conn.close()
-    return render_template('painel_coordenador.html', analises=analises)
+@app.route('/coordenador/painel')
+@login_required 
+def painel_coordenador():
+    analises_banco = AnaliseBarema.query.order_by(AnaliseBarema.data_solicitacao.desc()).all()
+    return render_template('painel_coordenador.html', analises=analises_banco)
+
 
 @app.route('/salvar-feedback', methods=['POST'])
+@login_required
 def salvar_feedback():
-    if not session.get('logado'):
-        return redirect(url_for('login'))
-
     id_analise = request.form.get('id')
     feedback = request.form.get('feedback')
 
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute(
-        "UPDATE analises SET feedback = ?, status = 'Analisado' WHERE id = ?",
-        (feedback, id_analise)
-    )
-    conn.commit()
-    conn.close()
+    analise = AnaliseBarema.query.get(id_analise)
+    
+    if analise:
+        analise.feedback = feedback
+        analise.status = 'Analisado'
+        db.session.commit()
 
     return redirect(url_for('painel_coordenador'))
 
+
 if __name__ == '__main__':
-    init_db() # Cria tabelas e usuário administrador inicial
     app.run(debug=True)

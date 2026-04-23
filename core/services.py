@@ -64,7 +64,7 @@ class PDFService:
             h_c = 1.5*cm 
             w_orig, h_orig = img_c.getSize()
             w_c = (h_c / h_orig) * w_orig
-            # O X é a largura total - margem de 2cm - largura da própria imagem
+            # X é a largura total - margem de 2cm - largura da própria imagem
             x_c = width - 2*cm - w_c 
             c.drawImage(img_c, x_c, y_header - (h_c / 2), height=h_c, width=w_c, mask='auto', preserveAspectRatio=True)
         except Exception as e:
@@ -81,7 +81,7 @@ class PDFService:
         sub = f"(Ingressantes {'a partir de 2023.1' if processo.tipo_barema == 'novo' else 'até 2022.2'})"
         c.drawCentredString(width/2, y_header - 1.0*cm, sub)
 
-        # --- DADOS DO DISCENTE (Com Email - Foto 2) ---
+        # --- DADOS DO DISCENTE ---
         y_data = y_header - 2.2*cm
         c.setFont("Helvetica", 9)
         c.drawString(1.5*cm, y_data, f"Discente: {processo.estudante.nome}")
@@ -111,7 +111,6 @@ class PDFService:
         total_h = 0
 
         for item in processo.itens:
-            # Aqui usamos 'horas_validas' que agora existe na Entidade
             val_h = int(item.horas_validas)
             h_str = str(val_h) if val_h > 0 else ""
             
@@ -148,7 +147,7 @@ class PDFService:
         return packet
 
     def _adicionar_numeracao(self, stream):
-        # (Mesma lógica de numeração anterior)
+        # lógica de numeração com pdf completo
         reader = PdfReader(stream)
         writer = PdfWriter()
         for i, page in enumerate(reader.pages):

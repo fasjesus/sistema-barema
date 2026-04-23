@@ -8,6 +8,7 @@
     <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
     
     <style>
+        /* ... SEUS ESTILOS INTACTOS AQUI ... */
         :root {
             --primary-blue: #003366;
             --accent-yellow: #ffe45e;
@@ -25,75 +26,23 @@
             min-height: 100vh;
         }
 
-        .container { 
-            max-width: 1000px; 
-            margin: auto; 
-            background: white; 
-            padding: 30px; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 3px solid var(--accent-yellow);
-            padding-bottom: 15px;
-        }
-
-        /* Área de Filtros */
-        .filter-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f1f1f1;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--primary-blue);
-            font-weight: bold;
-        }
-
-        select {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .stats-badge {
-            background: var(--primary-blue);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85em;
-        }
-
-        /* Estilos da Tabela */
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        header { text-align: center; margin-bottom: 20px; border-bottom: 3px solid var(--accent-yellow); padding-bottom: 15px; }
+        .filter-bar { display: flex; justify-content: space-between; align-items: center; background: #f1f1f1; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; gap: 15px; flex-wrap: wrap; }
+        .filter-group { display: flex; align-items: center; gap: 10px; color: var(--primary-blue); font-weight: bold; }
+        select { padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; cursor: pointer; }
+        .stats-badge { background: var(--primary-blue); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85em; }
         table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
         th { color: var(--primary-blue); text-transform: uppercase; font-size: 0.85em; padding: 15px; border-bottom: 2px solid #eee; text-align: left; }
         td { padding: 20px 15px; background: #fff; border-bottom: 1px solid #eee; }
-
         .status-pill { padding: 5px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; display: inline-block; }
         .status-pendente { background: #fff4e5; color: #ff8c00; }
         .status-analisado { background: #e8f5e9; color: var(--success-green); }
-
         .btn-pdf { background: var(--primary-blue); color: white; padding: 8px 16px; text-decoration: none; border-radius: 8px; font-size: 0.9em; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
         textarea { width: 100%; box-sizing: border-box; margin-top: 15px; border-radius: 8px; border: 1px solid #ddd; padding: 12px; font-family: inherit; resize: vertical; }
         .btn-enviar { background: var(--accent-yellow); color: var(--text-dark); border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
-
         .aluno-info b { display: block; color: var(--primary-blue); font-size: 1.1em; }
         .aluno-info span { color: #777; font-size: 0.9em; }
-
         .no-results { text-align: center; padding: 40px; color: #999; display: none; }
     </style>
 </head>
@@ -103,7 +52,7 @@
             <h1>Solicitações de Análise - COLCIC</h1>
             <div style="display: flex; align-items: center; gap: 20px;">
                 <span style="color: var(--primary-blue); font-size: 0.9em;">
-                    Olá, <b>{{ session['usuario'] }}</b>
+                    Olá, <b>{{ current_user.username }}</b>
                 </span>
                 <a href="/logout" style="color: #d9534f; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 5px;">
                     <iconify-icon icon="ls:logout"></iconify-icon> Sair
@@ -134,31 +83,30 @@
             </thead>
             <tbody>
                 {% for analise in analises %}
-                <tr class="analise-row" data-status="{{ analise[4].lower() }}">
+                <tr class="analise-row" data-status="{{ analise.status.lower() }}">
                     <td class="aluno-info">
-                        <b>{{ analise[2] }}</b>
-                        <span>Matrícula: {{ analise[1] }}</span>
+                        <b>{{ analise.nome_aluno }}</b>
+                        <span>Matrícula: {{ analise.matricula }}</span>
                     </td>
                     <td>
-                        <span class="status-pill status-{{ analise[4].lower() }}">
-                            {{ analise[4] }}
+                        <span class="status-pill status-{{ analise.status.lower() }}">
+                            {{ analise.status }}
                         </span>
                     </td>
                     <td>
                         <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-                            
-                            <a href="{{ url_for('static', filename='uploads/' + analise[3]) }}" target="_blank" class="btn-pdf">
+                            <a href="{{ url_for('static', filename='uploads/' + analise.caminho_pdf) }}" target="_blank" class="btn-pdf">
                                 <iconify-icon icon="akar-icons:pdf"></iconify-icon> Abrir Documento
                             </a>
 
                             <form action="/salvar-feedback" method="post" style="margin: 0;">
-                                <input type="hidden" name="id" value="{{ analise[0] }}">
+                                <input type="hidden" name="id" value="{{ analise.id }}">
                                 <button type="submit" class="btn-enviar" style="margin-top: 0;">
                                     <iconify-icon icon="fluent:save-24-filled"></iconify-icon> Salvar Parecer
                                 </button>
                         </div>
 
-                        <textarea name="feedback" rows="3" placeholder="Escreva as observações para o aluno..." form-id-referencia="{{ analise[0] }}" style="width: 100%; box-sizing: border-box;">{{ analise[5] or '' }}</textarea>
+                        <textarea name="feedback" rows="3" placeholder="Escreva as observações para o aluno..." style="width: 100%; box-sizing: border-box;">{{ analise.feedback or '' }}</textarea>
                         </form> 
                     </td>
                 </tr>
@@ -190,18 +138,15 @@
                 }
             });
 
-            // Atualiza contador
             if (filterValue === 'todos') {
                 counter.innerText = `Total: ${visibleCount} registros`;
             } else {
                 counter.innerText = `Encontrados: ${visibleCount} ${filterValue}(s)`;
             }
 
-            // Mostra mensagem se não houver resultados
             noResults.style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
-        // Executa ao carregar para atualizar o contador inicial
         window.onload = filterTable;
     </script>
 </body>
