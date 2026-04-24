@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Coordenador - COLCIC</title>
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+    
+    <style>
+        /* ... SEUS ESTILOS INTACTOS AQUI ... */
+        :root {
+            --primary-blue: #003366;
+            --accent-yellow: #ffe45e;
+            --bg-gray: #f8f9fa;
+            --text-dark: #333;
+            --success-green: #28a745;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--primary-blue);
+            background-image: linear-gradient(180deg, var(--primary-blue) 0%, #001a33 100%);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        header { text-align: center; margin-bottom: 20px; border-bottom: 3px solid var(--accent-yellow); padding-bottom: 15px; }
+        .filter-bar { display: flex; justify-content: space-between; align-items: center; background: #f1f1f1; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; gap: 15px; flex-wrap: wrap; }
+        .filter-group { display: flex; align-items: center; gap: 10px; color: var(--primary-blue); font-weight: bold; }
+        select { padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; cursor: pointer; }
+        .stats-badge { background: var(--primary-blue); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85em; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+        th { color: var(--primary-blue); text-transform: uppercase; font-size: 0.85em; padding: 15px; border-bottom: 2px solid #eee; text-align: left; }
+        td { padding: 20px 15px; background: #fff; border-bottom: 1px solid #eee; }
+        .status-pill { padding: 5px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; display: inline-block; }
+        .status-pendente { background: #fff4e5; color: #ff8c00; }
+        .status-analisado { background: #e8f5e9; color: var(--success-green); }
+        .btn-pdf { background: var(--primary-blue); color: white; padding: 8px 16px; text-decoration: none; border-radius: 8px; font-size: 0.9em; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
+        textarea { width: 100%; box-sizing: border-box; margin-top: 15px; border-radius: 8px; border: 1px solid #ddd; padding: 12px; font-family: inherit; resize: vertical; }
+        .btn-enviar { background: var(--accent-yellow); color: var(--text-dark); border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
+        .aluno-info b { display: block; color: var(--primary-blue); font-size: 1.1em; }
+        .aluno-info span { color: #777; font-size: 0.9em; }
+        .no-results { text-align: center; padding: 40px; color: #999; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--accent-yellow); margin-bottom: 20px; padding-bottom: 10px;">
+            <h1>Solicitações de Análise - COLCIC</h1>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <span style="color: var(--primary-blue); font-size: 0.9em;">
+                    Olá, <b>{{ current_user.username }}</b>
+                </span>
+                <a href="/logout" style="color: #d9534f; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 5px;">
+                    <iconify-icon icon="ls:logout"></iconify-icon> Sair
+                </a>
+            </div>
+        </header>
+
+        <div class="filter-bar">
+            <div class="filter-group">
+                <iconify-icon icon="mi:filter"></iconify-icon>
+                <label for="statusFilter">Exibir:</label>
+                <select id="statusFilter" onchange="filterTable()">
+                    <option value="todos">Todos os registros</option>
+                    <option value="pendente">Apenas Pendentes</option>
+                    <option value="analisado">Apenas Analisados</option>
+                </select>
+            </div>
+            <div id="counter" class="stats-badge">Mostrando todas as solicitações</div>
+        </div>
+
+        <table id="analisesTable">
+            <thead>
+                <tr>
+                    <th>Estudante</th>
+                    <th>Status</th>
+                    <th style="width: 50%;">Ações e Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for analise in analises %}
+                <tr class="analise-row" data-status="{{ analise.status.lower() }}">
+                    <td class="aluno-info">
+                        <b>{{ analise.nome_aluno }}</b>
+                        <span>Matrícula: {{ analise.matricula }}</span>
+                    </td>
+                    <td>
+                        <span class="status-pill status-{{ analise.status.lower() }}">
+                            {{ analise.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                            <a href="{{ url_for('static', filename='uploads/' + analise.caminho_pdf) }}" target="_blank" class="btn-pdf">
+                                <iconify-icon icon="akar-icons:pdf"></iconify-icon> Abrir Documento
+                            </a>
+
+                           <form action="{{ url_for('coordenador.salvar_feedback') }}" method="POST" style="margin: 0;">
+                                <input type="hidden" name="id" value="{{ analise.id }}">
+                                <button type="submit" class="btn-enviar" style="margin-top: 0;">
+                                    <iconify-icon icon="fluent:save-24-filled"></iconify-icon> Salvar Parecer
+                                </button>
+                        </div>
+
+                        <textarea name="feedback" rows="3" placeholder="Escreva as observações para o aluno..." style="width: 100%; box-sizing: border-box;">{{ analise.feedback or '' }}</textarea>
+                        </form> 
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div id="noResults" class="no-results">
+            <iconify-icon icon="tabler:mood-empty" width="48"></iconify-icon>
+            <p>Nenhuma solicitação encontrada para este filtro.</p>
+        </div>
+    </div>
+
+    <script>
+        function filterTable() {
+            const filterValue = document.getElementById('statusFilter').value;
+            const rows = document.querySelectorAll('.analise-row');
+            const noResults = document.getElementById('noResults');
+            const counter = document.getElementById('counter');
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const status = row.getAttribute('data-status');
+                if (filterValue === 'todos' || status === filterValue) {
+                    row.style.display = 'table-row';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            if (filterValue === 'todos') {
+                counter.innerText = `Total: ${visibleCount} registros`;
+            } else {
+                counter.innerText = `Encontrados: ${visibleCount} ${filterValue}(s)`;
+            }
+
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        window.onload = filterTable;
+    </script>
+</body>
+</html>

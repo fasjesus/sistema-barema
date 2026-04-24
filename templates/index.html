@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Documento de Horas Complementares</title>
+    
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/favicon.png') }}" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reset.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/header.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/buttons.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pages/barema.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/footer.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/goToTop.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/scrollAnimation.css') }}" />
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+    <style>
+        #tabela-atividades {
+            display: none;
+            margin-top: 30px;
+        }
+        .input-error {
+            border-color: #ff4d4d !important;
+            background-color: #fff5f5 !important;
+        }
+        /* Estilo do Modal de Sucesso */
+        #sucessoConteudo {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 40px 20px;
+            border: 2px dashed #ffe45e;
+            border-radius: 15px;
+            background-color: #fffdf5;
+        }
+        .SecondaryButton {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .SecondaryButton:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        </header>
+
+    <main>
+        <section variant>
+            <div class="MaxWidthWrapper">
+                <div class="mainWrapper">
+                    <div class="mainContent">
+                        <h1 id="titulo-barema">
+                            Barema de <br />
+                            <b>Atividades</b>
+                        </h1>
+                        <p>Digite sua matrícula para carregar o formulário compatível com seu regulamento.</p>
+                        <a href="#baremaForm" class="SecondaryButton" style="background-color: #ffe45e; color: #333; padding: 0.5em 1em; border-radius: 10px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 20px;">
+                            Monte seu Barema
+                        </a>
+                                
+                        <a href="/login" class="SecondaryButton" style="background-color: #28a745; color: #333; padding: 0.5em 1em; border-radius: 10px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 20px;">
+                            <iconify-icon icon="ri:admin-line"></iconify-icon> Acesso Administrativo
+                        </a>
+        
+                    </div>
+                    <div class="mainContentPhoto">
+                        <img src="{{ url_for('static', filename='assets/formatura.png') }}" alt="Ilustração Barema" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <form action="/barema" method="post" enctype="multipart/form-data" id="baremaForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nome">Nome do Discente:</label>
+                            <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="matricula">Matrícula:</label>
+                            <input type="text" id="matriculaInput" name="matricula" placeholder="Ex: 202310..." required pattern="\d{4}[12]\d{4}" maxlength="9" oninput="checkAndLoadBarema(this.value)">
+                            <span id="matriculaError" class="error-message" style="color: red; display: none; font-size: 0.8em; margin-top: 5px;"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" placeholder="seu.email@exemplo.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_verificacao">Data de Verificação:</label>
+                            <input type="text" id="data_verificacao" name="data_verificacao" value="{{ data_hoje }}" readonly>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="baremaTipoInput" name="barema_tipo" value="novo"> 
+
+                    <div id="tabela-atividades"> 
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 35%;">Atividade</th>
+                                    <th style="width: 15%;">C.H. Máxima</th>
+                                    <th style="width: 15%;">C.H. Cumprida</th>
+                                    <th style="width: 35%;">Anexar Comprovante(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="atividadesTbody"></tbody>
+                        </table>
+                        <div class="button-container">
+                            <button type="submit">Gerar PDF Unificado</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="sucessoConteudo">
+                    <iconify-icon icon="emojione:white-heavy-check-mark" width="60"></iconify-icon>
+                    <h2 style="margin-top: 15px;">Barema Gerado com Sucesso!</h2>
+                    <p>O que você deseja fazer agora?</p>
+                    
+                    <div style="margin-top: 25px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <a id="btnDownload" href="#" class="SecondaryButton" style="background-color: #eee; color: #333; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; border: 1px solid #ccc;">
+                            Baixar Documento
+                        </a>
+                        
+                        <button id="btnSolicitarAnalise" class="SecondaryButton" style="background-color: #28a745; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; border: none;">
+                            Solicitar Análise da Coordenação
+                        </button>
+                    </div>
+                    <p id="msgStatusAnalise" style="margin-top: 20px; font-weight: bold; color: #28a745;"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script>
+        const matriculaInput = document.getElementById('matriculaInput');
+        const baremaTipoInput = document.getElementById('baremaTipoInput');
+        const tituloBarema = document.getElementById('titulo-barema');
+        const matriculaError = document.getElementById('matriculaError');
+        const tbody = document.getElementById('atividadesTbody');
+        const tabelaContainer = document.getElementById('tabela-atividades');
+        const baremaForm = document.getElementById('baremaForm');
+        const sucessoConteudo = document.getElementById('sucessoConteudo');
+
+        function createNewFileInputHTML(inputName) { 
+            return `<div class="file-input-wrapper"><label class="file-button"><span>Escolher Arquivo</span><input type="file" name="${inputName}" accept=".pdf" class="file-input"></label><span class="file-name">Nenhum arquivo</span><span class="delete-file" title="Remover">&times;</span></div>`;
+        }
+
+        async function checkAndLoadBarema(matricula) {
+            const matriculaRegex = /^\d{4}[12]\d{4}$/;
+            if (matricula.length === 9 && matriculaRegex.test(matricula)) {
+                matriculaInput.style.borderColor = "#ddd";
+                matriculaError.style.display = 'none';
+                
+                let tipoBarema = 'novo'; 
+                const ano = parseInt(matricula.substring(0, 4));
+                if (ano < 2023) tipoBarema = 'antigo';
+
+                if (baremaTipoInput.value !== tipoBarema || tbody.innerHTML.trim() === "") {
+                    baremaTipoInput.value = tipoBarema;
+                    tituloBarema.innerHTML = tipoBarema === 'novo' 
+                        ? "Barema de <br><b>Atividades (Pós 2023.1)</b>" 
+                        : "Barema de <br><b>Atividades Complementares</b>";
+                    
+                    try {
+                        const response = await fetch(`/get_barema_data/${tipoBarema}`);
+                        if (response.ok) {
+                            const activities = await response.json();
+                            rebuildTable(activities);
+                            tabelaContainer.style.display = 'block';
+                        }
+                    } catch (e) { console.error(e); }
+                } else {
+                    tabelaContainer.style.display = 'block';
+                }
+            } else {
+                tabelaContainer.style.display = 'none';
+                if (matricula.length === 9) {
+                    matriculaInput.style.borderColor = "red";
+                    matriculaError.textContent = "Semestre inválido (use 1 ou 2).";
+                    matriculaError.style.display = 'block';
+                }
+            }
+        }
+
+        function rebuildTable(activities) {
+            const tipoBarema = baremaTipoInput.value;
+            tbody.innerHTML = '';
+            activities.forEach(atv => {
+                const row = tbody.insertRow();
+                let limiteHoras = atv.max_horas_num; 
+                if (tipoBarema === 'antigo' && atv.id == 1) limiteHoras = 100;
+                let maxAttr = (limiteHoras && limiteHoras > 0) ? `max="${limiteHoras}"` : '';
+
+                row.innerHTML = `
+                    <td data-label="Atividade:">${atv.id}. ${atv.atividade}</td>
+                    <td data-label="C.H. Máxima:">${atv.carga_maxima}</td>
+                    <td data-label="C.H. Cumprida:">
+                        <input type="number" name="horas_${atv.id}" min="0" ${maxAttr} class="input-horas" oninput="this.reportValidity()" placeholder="0">
+                    </td>
+                    <td data-label="Comprovante(s):">
+                        <div class="input-container" id="input-container-${atv.id}">${createNewFileInputHTML('certificado_' + atv.id)}</div>
+                        <a href="#" class="add-more" data-target-id="${atv.id}">+ Adicionar outro</a>
+                    </td>`;
+            });
+        }
+
+        // Delegação de Eventos para Inputs Dinâmicos
+        document.querySelector('.container').addEventListener('input', function(e) {
+            if (e.target.classList.contains('input-horas')) {
+                const input = e.target;
+                const max = parseFloat(input.getAttribute('max'));
+                const valor = parseFloat(input.value);
+                // Se o valor digitado ultrapassar o limite definido no 'max'
+                if (max && valor > max) {
+                    input.style.borderColor = "#ff4d4d";
+                    input.style.backgroundColor = "#fff5f5";
+                    
+                    // Preenche com o valor máximo automaticamente
+                    input.value = max; 
+
+                    input.setCustomValidity(`Limite excedido! O valor foi ajustado para o máximo de ${max} horas.`);
+                    input.reportValidity();
+
+                    // Remove o aviso após 3 segundos para não atrapalhar a navegação
+                    setTimeout(() => {
+                        input.setCustomValidity("");
+                        input.style.borderColor = "#ddd";
+                        input.style.backgroundColor = "#fff";
+                    }, 3000);
+                }else {
+                    // Volta ao normal se o valor for válido
+                    input.style.borderColor = "#ddd";
+                    input.style.backgroundColor = "#fff";
+                    input.setCustomValidity("");
+                }    
+            }
+        });
+
+        document.querySelector('.container').addEventListener('click', function(e) {
+            if (e.target.classList.contains('add-more')) {
+                e.preventDefault();
+                const id = e.target.dataset.targetId;
+                const div = document.createElement('div');
+                div.innerHTML = createNewFileInputHTML('certificado_' + id);
+                document.getElementById('input-container-' + id).appendChild(div.firstChild);
+            }
+            if (e.target.classList.contains('delete-file')) {
+                const wrapper = e.target.closest('.file-input-wrapper');
+                if (wrapper.closest('.input-container').children.length > 1) wrapper.remove();
+                else { 
+                    wrapper.querySelector('input').value = ''; 
+                    wrapper.querySelector('.file-name').textContent = 'Nenhum arquivo';
+                }
+            }
+        });
+
+        document.querySelector('.container').addEventListener('change', function(e) {
+            if (e.target.classList.contains('file-input') && e.target.files.length > 0) {
+                e.target.closest('.file-input-wrapper').querySelector('.file-name').textContent = e.target.files[0].name;
+            }
+        });
+
+        // SUBMISSÃO COM LÓGICA DE EXIBIÇÃO DO MODAL
+        baremaForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validação simples de campos obrigatórios (Horas vs Arquivo)
+            const rows = document.querySelectorAll('#atividadesTbody tr');
+            let errors = [];
+            rows.forEach(row => {
+                const h = row.querySelector('.input-horas').value;
+                const f = Array.from(row.querySelectorAll('input[type="file"]')).some(i => i.files.length > 0);
+                if (f && !h) errors.push(`⚠️ Defina as horas para ${row.cells[0].innerText}`);
+                if (h > 0 && !f) errors.push(`⚠️Anexe comprovante para ${row.cells[0].innerText}`);
+            });
+
+            if (errors.length > 0) {
+                alert(errors.join("\n"));
+                return;
+            }
+
+            const formData = new FormData(this);
+            try {
+                const response = await fetch('/barema', { method: 'POST', body: formData });
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    
+                    // Configura Download
+                    const btnDownload = document.getElementById('btnDownload');
+                    btnDownload.href = url;
+                    btnDownload.download = `Barema_${matriculaInput.value}.pdf`;
+
+                    // Transição visual para o Modal
+                    baremaForm.style.display = 'none';
+                    sucessoConteudo.style.display = 'block';
+                    window.scrollTo(0, sucessoConteudo.offsetTop - 100);
+
+                    // Ação de Solicitar Análise
+                    document.getElementById('btnSolicitarAnalise').onclick = async () => {
+                        const sol = await fetch('/solicitar-analise', { method: 'POST', body: formData });
+                        if (sol.ok) {
+                            document.getElementById('msgStatusAnalise').innerText = "✅ Solicitação enviada com sucesso!";
+                            document.getElementById('btnSolicitarAnalise').disabled = true;
+                            document.getElementById('btnSolicitarAnalise').style.opacity = "0.5";
+                        }
+                    };
+                }
+            } catch (err) {
+                alert("Erro ao processar documento.");
+            }
+        });
+    </script>
+</body>
+</html>

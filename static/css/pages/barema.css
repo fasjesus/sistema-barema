@@ -1,0 +1,361 @@
+:root {
+    --primary-color: #314ca5;
+    --secondary-color: #ffe45e;
+    --text-color: #444;
+    --bg-light: #f4f7f6;
+    --white: #ffffff;
+}
+
+body { 
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+    background-color: var(--bg-light);
+    margin: 0; 
+    padding: 0; 
+    min-height: 100vh; 
+}
+
+/* ========================================= */
+/* === HERO SECTION (Topo Azul Compacto) === */
+/* ========================================= */
+
+section[variant] {
+    width: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    /* Padding ajustado para ficar mais "fino" como na página de email */
+    padding: 50px 0 100px 0; 
+    margin-bottom: -70px; /* Faz o formulário subir e sobrepor a faixa */
+    box-sizing: border-box;
+}
+
+.MaxWidthWrapper {
+    width: 100%;
+    max-width: 1100px; /* Mesma largura do menu */
+    display: flex;
+    justify-content: center;
+    padding: 0 20px; /* Garante margem lateral em telas menores */
+    box-sizing: border-box;
+}
+
+.mainWrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 50%; /* Ocupa metade da área, igual à ref de email */
+}
+
+.mainContent h1 {
+    font-size: 2rem; /* Tamanho reduzido para bater com a ref */
+    color: var(--white);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: 700;
+}
+
+.mainContent h1 b {
+    color: var(--secondary-color);
+}
+
+.mainContent p {
+    color: #e0e0e0;
+    font-size: 1rem; /* Fonte padrão de leitura */
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Foto do Hero */
+.mainWrapper .mainContentPhoto {
+    display: none; /* Mobile first */
+    width: auto;
+    max-width: 40%;
+    position: relative;
+}
+
+.mainWrapper .mainContentPhoto img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+
+}
+
+/* ========================================= */
+/* === CONTAINER DO FORMULÁRIO ============= */
+/* ========================================= */
+
+section:not([variant]) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.container { 
+    max-width: 1100px; /* Alinha com o Hero */
+    width: 100%; 
+    background: var(--white); 
+    padding: 40px; 
+    border-radius: 8px; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+    box-sizing: border-box;
+    z-index: 2; /* Fica acima do azul */
+    position: relative;
+}
+
+/* --- FORMULÁRIO (GRID) --- */
+.form-grid { 
+    display: grid; 
+    grid-template-columns: 3fr 2fr 3fr 2fr; 
+    gap: 20px; 
+    margin-bottom: 30px; 
+}
+
+.form-group label { 
+    display: block; 
+    font-weight: 600; 
+    margin-bottom: 8px; 
+    color: var(--text-color); 
+    font-size: 0.95rem;
+}
+
+.form-group input { 
+    width: 100%; 
+    padding: 10px 15px; /* Altura do input um pouco menor */
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    box-sizing: border-box; 
+    font-size: 0.95rem;
+    background-color: #f9f9f9;
+    color: #555;
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    background-color: #fff;
+    outline: none;
+}
+
+.form-group input[readonly] { 
+    background-color: #e9ecef; 
+    color: #6c757d; 
+}
+
+/* ========================================= */
+/* === TABELA ============================== */
+/* ========================================= */
+
+table { 
+    width: 100%; 
+    border-collapse: separate; 
+    border-spacing: 0;
+    margin-top: 25px; 
+    border-radius: 6px; 
+    overflow: hidden; 
+    border: 1px solid #eee; 
+    background: #fff;
+    table-layout: fixed;
+}
+
+thead { display: table-header-group; }
+tr { display: table-row; }
+
+th, td { 
+    padding: 12px 15px; 
+    text-align: left; 
+    border-bottom: 1px solid #eee; 
+    vertical-align: middle;
+}
+
+th { 
+    background-color: var(--primary-color); 
+    color: var(--white); 
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+tbody tr:nth-child(even) { background-color: #f8f9fa; }
+
+/* Inputs Tabela */
+td input[type="number"] {
+    width: 100%; 
+    padding: 6px; 
+    border: 1px solid #ccc;
+    border-radius: 6px; 
+    text-align: center;
+}
+
+/* ========================================= */
+/* === INPUTS DE ARQUIVO (Botão Amarelo) === */
+/* ========================================= */
+
+.file-input-wrapper { 
+    display: flex; 
+    align-items: center; 
+    flex-wrap: wrap;
+    gap: 8px; /* Espaço entre botão e texto */
+}
+
+/* 1. Esconde o input padrão do navegador (o botão cinza feio) */
+.file-input { 
+    display: none; 
+}
+
+/* 2. Estiliza a LABEL para parecer o botão amarelo */
+.file-button { 
+    background-color: #ffe45e; /* Amarelo (var(--secondary-color)) */
+    color: #333;               /* Texto escuro */
+    border: none; 
+    border-radius: 6px;       /* Bordas arredondadas iguais ao botão "Monte seu Barema" */
+    padding: 10px 15px; 
+    cursor: pointer; 
+    font-size: 0.85rem; 
+    font-weight: 700;          /* Negrito */
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.file-button:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    background-color: #ffd700; /* Amarelo um pouco mais escuro no hover */
+}
+
+/* Texto "Nenhum arquivo" */
+.file-name { 
+    font-size: 0.85em; 
+    color: #666; 
+    max-width: 200px; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+/* Botão X para remover */
+.delete-file { 
+    display: none; 
+    color: #dc3545; 
+    cursor: pointer; 
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 5px;
+}
+
+/* Link "+ Adicionar outro" */
+.add-more { 
+    font-size: 0.85em; 
+    text-decoration: none; 
+    color: var(--primary-color); 
+    font-weight: 600;
+    display: inline-block; 
+    margin-top: 8px;
+}
+/* ========================================= */
+/* === BOTÕES (CTA) ======================== */
+/* ========================================= */
+
+.button-container { text-align: center; margin-top: 30px; }
+
+/* Botão Amarelo do Topo */
+.SecondaryButton {
+    background-color: var(--secondary-color);
+    color: #333;
+    padding: 0.5em 1em;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    font-size: 1.2em;
+}
+.SecondaryButton:hover { transform: translateY(-2px); }
+
+/* Botão de Enviar */
+button[type="submit"] { 
+    padding: 14px 40px; 
+    background-color: var(--primary-color); 
+    color: white;
+    border: none; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    font-size: 1rem; 
+    font-weight: bold; 
+    box-shadow: 0 5px 15px rgba(49, 76, 165, 0.3);
+    transition: transform 0.2s;
+    text-transform: uppercase;
+}
+
+button[type="submit"]:hover { 
+    background-color: #263b85; 
+    transform: translateY(-3px);
+}
+
+/* ========================================= */
+/* === RESPONSIVIDADE ====================== */
+/* ========================================= */
+
+@media (min-width: 860px) {
+    .mainWrapper .mainContentPhoto {
+        display: block; 
+    }
+}
+
+@media (max-width: 860px) {
+    .mainContent { max-width: 100%; text-align: center; }
+    .mainContent h1 { font-size: 1.8em; }
+    
+    .container { padding: 20px; }
+    .form-grid { grid-template-columns: 1fr; gap: 15px; }
+
+    table, thead, tbody, th, td, tr { display: block; }
+    thead { display: none; }
+    
+    tr { 
+        border: 1px solid #e0e0e0; 
+        border-radius: 8px; 
+        margin-bottom: 20px; 
+        background: #fff;
+    }
+
+    td[data-label="Atividade:"] {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        font-weight: 700;
+        color: var(--primary-color);
+        padding: 15px;
+    }
+    
+    td {
+        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 15px;
+    }
+    
+    td:not([data-label="Atividade:"]):before { 
+        content: attr(data-label); 
+        font-weight: 600;
+        color: #555;
+    }
+    
+    td input[type="number"] { width: 80px; }
+    td:last-child { display: block; text-align: left; }
+    .file-input-wrapper { justify-content: space-between; }
+}

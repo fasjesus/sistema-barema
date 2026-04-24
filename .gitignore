@@ -1,0 +1,27 @@
+# --- Ambiente e Segredo ---
+.env
+*.env
+.flaskenv
+venv/
+env/
+
+# --- Banco de Dados ---
+database.db
+*.db
+*.sqlite
+
+# --- Python e Cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# --- Uploads e Arquivos Estáticos ---
+static/uploads/*
+!static/uploads/.gitkeep
+
+# --- IDEs e Sistema ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
