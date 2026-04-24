@@ -7,7 +7,16 @@ Este projeto é uma ferramenta para o **Colegiado de Ciência da Computação (C
 ### 1. Requisitos Prévios
 Certifique-se de ter o Python 3.8+ instalado em sua máquina. Obs: não use o Python 3.14+, foi constatado problemas com o uso dessa versão.
 
-### 2. Configuração do Ambiente Virtual (Recomendado)
+### 2. Configuração das Variáveis de Ambiente (.env)
+Antes de iniciar, crie um ficheiro chamado `.env` na raiz do projeto e adicione as seguintes chaves (estas informações são ignoradas pelo Git por segurança):
+
+```env
+SECRET_KEY=sua-chave
+SENHA_ADMIN_DEV=senha
+SENHA_COORDENADOR=senha
+``` 
+
+### 3. Configuração do Ambiente Virtual (Recomendado)
 No terminal, dentro da pasta do projeto, execute:
 
 ```bash
