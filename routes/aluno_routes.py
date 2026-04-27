@@ -113,7 +113,17 @@ class SolicitarAnaliseView(MethodView):
             with open(caminho_completo, 'wb') as f:
                 f.write(pdf_buffer.getbuffer())
 
-            nova_analise = AnaliseBarema(matricula=matricula, nome_aluno=nome, caminho_pdf=nome_arquivo, status='Pendente')
+            metodo = request.form.get('metodo_notificacao')  # 'email' ou 'whatsapp'
+            contato = request.form.get('contato_notificacao')
+
+            nova_analise = AnaliseBarema(
+                matricula=matricula,
+                nome_aluno=nome,
+                caminho_pdf=nome_arquivo,
+                status='Pendente',
+                metodo_notificacao=metodo,
+                contato_notificacao=contato
+            )
             db.session.add(nova_analise)
             db.session.commit()
 

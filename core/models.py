@@ -23,3 +23,5 @@ class AnaliseBarema(db.Model):
     status = db.Column(db.String(20), default='Pendente')
     feedback = db.Column(db.Text, nullable=True)
     data_solicitacao = db.Column(db.DateTime, default=datetime.utcnow)
+    metodo_notificacao = db.Column(db.String(20)) # 'email' ou 'whatsapp'
+    contato_notificacao = db.Column(db.String(100)) # O e-mail ou o número do Zap
