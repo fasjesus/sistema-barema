@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Documento de Horas Complementares</title>
+    <title>Gerador de Documento de Horas Complementares - UESC</title>
     
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/favicon.png') }}" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.css') }}" />
@@ -25,7 +25,7 @@
             border-color: #ff4d4d !important;
             background-color: #fff5f5 !important;
         }
-        /* Estilo do Modal de Sucesso */
+        /* Estilo do Modal de Sucesso e Notificação */
         #sucessoConteudo {
             display: none;
             text-align: center;
@@ -35,9 +35,50 @@
             border-radius: 15px;
             background-color: #fffdf5;
         }
+        .notificacao-opcoes {
+            margin: 25px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 500px;
+        }
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            font-weight: bold;
+        }
+        .radio-group label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #campo-whatsapp {
+            display: none;
+            width: 100%;
+            max-width: 320px;
+            animation: fadeIn 0.3s ease;
+        }
+        #campo-whatsapp input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            outline-color: #28a745;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .SecondaryButton {
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background-color 0.2s;
         }
         .SecondaryButton:hover {
             transform: scale(1.05);
@@ -46,8 +87,7 @@
 </head>
 <body>
 
-    <header>
-        </header>
+    <header></header>
 
     <main>
         <section variant>
@@ -63,10 +103,9 @@
                             Monte seu Barema
                         </a>
                                 
-                        <a href="/login" class="SecondaryButton" style="background-color: #28a745; color: #333; padding: 0.5em 1em; border-radius: 10px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 20px;">
+                        <a href="/login" class="SecondaryButton" style="background-color: #28a745; color: #fff; padding: 0.5em 1em; border-radius: 10px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 20px;">
                             <iconify-icon icon="ri:admin-line"></iconify-icon> Acesso Administrativo
                         </a>
-        
                     </div>
                     <div class="mainContentPhoto">
                         <img src="{{ url_for('static', filename='assets/formatura.png') }}" alt="Ilustração Barema" />
@@ -121,26 +160,48 @@
                 <div id="sucessoConteudo">
                     <iconify-icon icon="emojione:white-heavy-check-mark" width="60"></iconify-icon>
                     <h2 style="margin-top: 15px;">Barema Gerado com Sucesso!</h2>
-                    <p>O que você deseja fazer agora?</p>
                     
-                    <div style="margin-top: 25px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <a id="btnDownload" href="#" class="SecondaryButton" style="background-color: #eee; color: #333; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; border: 1px solid #ccc;">
-                            Baixar Documento
-                        </a>
+                    <div id="escolhaNotificacao">
+                        <p>Como você deseja receber o feedback da coordenação?</p>
                         
-                        <button id="btnSolicitarAnalise" class="SecondaryButton" style="background-color: #28a745; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; border: none;">
-                            Solicitar Análise da Coordenação
-                        </button>
+                        <div class="notificacao-opcoes">
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="pref_notificacao" value="email" checked onchange="toggleWhatsInput(false)"> E-mail
+                                </label>
+                                <label>
+                                    <input type="radio" name="pref_notificacao" value="whatsapp" onchange="toggleWhatsInput(true)"> WhatsApp
+                                </label>
+                            </div>
+
+                            <div id="campo-whatsapp">
+                                <input type="text" id="whatsapp_input" placeholder="DDD + Número (Ex: 73988887777)" maxlength="11">
+                                <small style="display:block; margin-top:5px; color:#666;">Use apenas números.</small>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 25px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <a id="btnDownload" href="#" class="SecondaryButton" style="background-color: #eee; color: #333; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; border: 1px solid #ccc;">
+                                Baixar Documento
+                            </a>
+                            
+                            <button id="btnConfirmarSolicitacao" class="SecondaryButton" style="background-color: #28a745; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; border: none;">
+                                Solicitar Análise da Coordenação
+                            </button>
+                        </div>
                     </div>
-                    <p id="msgStatusAnalise" style="margin-top: 20px; font-weight: bold; color: #28a745;"></p>
+
+                    <div id="feedbackFinal" style="display: none; margin-top: 20px;">
+                        <p id="msgStatusAnalise" style="font-weight: bold; color: #28a745; font-size: 1.2em;"></p>
+                        <p>Você será notificado no canal escolhido assim que o parecer for emitido.</p>
+                        <button onclick="location.reload()" style="background:none; border:none; color:#007bff; cursor:pointer; text-decoration:underline; margin-top:10px;">Voltar ao início</button>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
-
-    </footer>
+    <footer></footer>
 
     <script>
         const matriculaInput = document.getElementById('matriculaInput');
@@ -151,6 +212,11 @@
         const tabelaContainer = document.getElementById('tabela-atividades');
         const baremaForm = document.getElementById('baremaForm');
         const sucessoConteudo = document.getElementById('sucessoConteudo');
+
+        // Alterna campo de entrada do WhatsApp
+        function toggleWhatsInput(show) {
+            document.getElementById('campo-whatsapp').style.display = show ? 'block' : 'none';
+        }
 
         function createNewFileInputHTML(inputName) { 
             return `<div class="file-input-wrapper"><label class="file-button"><span>Escolher Arquivo</span><input type="file" name="${inputName}" accept=".pdf" class="file-input"></label><span class="file-name">Nenhum arquivo</span><span class="delete-file" title="Remover">&times;</span></div>`;
@@ -206,7 +272,7 @@
                     <td data-label="Atividade:">${atv.id}. ${atv.atividade}</td>
                     <td data-label="C.H. Máxima:">${atv.carga_maxima}</td>
                     <td data-label="C.H. Cumprida:">
-                        <input type="number" name="horas_${atv.id}" min="0" ${maxAttr} class="input-horas" oninput="this.reportValidity()" placeholder="0">
+                        <input type="number" name="horas_${atv.id}" min="0" ${maxAttr} class="input-horas" placeholder="0">
                     </td>
                     <td data-label="Comprovante(s):">
                         <div class="input-container" id="input-container-${atv.id}">${createNewFileInputHTML('certificado_' + atv.id)}</div>
@@ -215,23 +281,16 @@
             });
         }
 
-        // Delegação de Eventos para Inputs Dinâmicos
+        // Delegação de Eventos
         document.querySelector('.container').addEventListener('input', function(e) {
             if (e.target.classList.contains('input-horas')) {
                 const input = e.target;
                 const max = parseFloat(input.getAttribute('max'));
                 const valor = parseFloat(input.value);
-                // Se o valor digitado ultrapassar o limite definido no 'max'
                 if (max && valor > max) {
-                    input.style.borderColor = "#ff4d4d";
-                    input.style.backgroundColor = "#fff5f5";
-                    
-                    // Preenche com o valor máximo automaticamente
                     input.value = max; 
-
-                    input.setCustomValidity(`Limite excedido! O valor foi ajustado para o máximo de ${max} horas.`);
+                    input.setCustomValidity(`Máximo permitido: ${max}h.`);
                     input.reportValidity();
-
                     // Remove o aviso após 3 segundos para não atrapalhar a navegação
                     setTimeout(() => {
                         input.setCustomValidity("");
@@ -242,8 +301,7 @@
                     // Volta ao normal se o valor for válido
                     input.style.borderColor = "#ddd";
                     input.style.backgroundColor = "#fff";
-                    input.setCustomValidity("");
-                }    
+                    input.setCustomValidity(""); }
             }
         });
 
@@ -271,55 +329,56 @@
             }
         });
 
-        // SUBMISSÃO COM LÓGICA DE EXIBIÇÃO DO MODAL
+        // SUBMISSÃO FINAL
         baremaForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Validação simples de campos obrigatórios (Horas vs Arquivo)
             const rows = document.querySelectorAll('#atividadesTbody tr');
             let errors = [];
             rows.forEach(row => {
                 const h = row.querySelector('.input-horas').value;
                 const f = Array.from(row.querySelectorAll('input[type="file"]')).some(i => i.files.length > 0);
-                if (f && !h) errors.push(`⚠️ Defina as horas para ${row.cells[0].innerText}`);
-                if (h > 0 && !f) errors.push(`⚠️Anexe comprovante para ${row.cells[0].innerText}`);
+                if (f && !h) errors.push(`⚠️ Defina horas para: ${row.cells[0].innerText}`);
+                if (h > 0 && !f) errors.push(`⚠️ Anexe comprovante para: ${row.cells[0].innerText}`);
             });
-
-            if (errors.length > 0) {
-                alert(errors.join("\n"));
-                return;
-            }
+            if (errors.length > 0) { alert(errors.join("\n")); return; }
 
             const formData = new FormData(this);
             try {
-                const response = await fetch('/barema', { method: 'POST', body: formData });
+                // Chamada usando url_for para segurança
+                const response = await fetch("{{ url_for('aluno.barema_process') }}", { method: 'POST', body: formData });
                 if (response.ok) {
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
-                    
-                    // Configura Download
-                    const btnDownload = document.getElementById('btnDownload');
-                    btnDownload.href = url;
-                    btnDownload.download = `Barema_${matriculaInput.value}.pdf`;
+                    document.getElementById('btnDownload').href = url;
+                    document.getElementById('btnDownload').download = `Barema_${matriculaInput.value}.pdf`;
 
-                    // Transição visual para o Modal
                     baremaForm.style.display = 'none';
                     sucessoConteudo.style.display = 'block';
                     window.scrollTo(0, sucessoConteudo.offsetTop - 100);
 
-                    // Ação de Solicitar Análise
-                    document.getElementById('btnSolicitarAnalise').onclick = async () => {
-                        const sol = await fetch('/solicitar-analise', { method: 'POST', body: formData });
+                    document.getElementById('btnConfirmarSolicitacao').onclick = async () => {
+                        const metodo = document.querySelector('input[name="pref_notificacao"]:checked').value;
+                        const whatsNum = document.getElementById('whatsapp_input').value;
+                        const emailAluno = document.getElementById('email').value;
+
+                        if(metodo === 'whatsapp' && whatsNum.length < 10) { alert("Insira um WhatsApp válido."); return; }
+
+                        formData.append('metodo_notificacao', metodo);
+                        formData.append('contato_notificacao', metodo === 'whatsapp' ? whatsNum : emailAluno);
+
+                        document.getElementById('btnConfirmarSolicitacao').disabled = true;
+                        document.getElementById('btnConfirmarSolicitacao').innerText = "Enviando...";
+
+                        const sol = await fetch("{{ url_for('aluno.solicitar_analise') }}", { method: 'POST', body: formData });
                         if (sol.ok) {
+                            document.getElementById('escolhaNotificacao').style.display = 'none';
+                            document.getElementById('feedbackFinal').style.display = 'block';
                             document.getElementById('msgStatusAnalise').innerText = "✅ Solicitação enviada com sucesso!";
-                            document.getElementById('btnSolicitarAnalise').disabled = true;
-                            document.getElementById('btnSolicitarAnalise').style.opacity = "0.5";
                         }
                     };
                 }
-            } catch (err) {
-                alert("Erro ao processar documento.");
-            }
+            } catch (err) { alert("Erro ao processar Barema."); }
         });
     </script>
 </body>
