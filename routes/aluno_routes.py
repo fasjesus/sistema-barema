@@ -121,8 +121,9 @@ class SolicitarAnaliseView(MethodView):
                 nome_aluno=nome,
                 caminho_pdf=nome_arquivo,
                 status='Pendente',
-                metodo_notificacao=metodo,
-                contato_notificacao=contato
+                email_aluno = email, # Pego do campo 'email' do topo
+                whatsapp_aluno = contato if metodo == 'whatsapp' else None,
+                metodo_preferencial = metodo
             )
             db.session.add(nova_analise)
             db.session.commit()

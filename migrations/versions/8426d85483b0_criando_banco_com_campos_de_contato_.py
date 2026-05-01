@@ -1,8 +1,8 @@
-"""Migracao inicial: criacao das tabelas Usuario e AnaliseBarema
+"""Criando banco com campos de contato separados
 
-Revision ID: bfe5fa352487
+Revision ID: 8426d85483b0
 Revises: 
-Create Date: 2026-04-24 12:21:58.502003
+Create Date: 2026-05-01 15:39:13.847553
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'bfe5fa352487'
+revision = '8426d85483b0'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,10 +22,15 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('matricula', sa.String(length=20), nullable=False),
     sa.Column('nome_aluno', sa.String(length=100), nullable=False),
+    sa.Column('email_aluno', sa.String(length=120), nullable=False),
+    sa.Column('whatsapp_aluno', sa.String(length=20), nullable=True),
+    sa.Column('metodo_preferencial', sa.String(length=20), nullable=True),
     sa.Column('caminho_pdf', sa.String(length=255), nullable=False),
     sa.Column('status', sa.String(length=20), nullable=True),
     sa.Column('feedback', sa.Text(), nullable=True),
     sa.Column('data_solicitacao', sa.DateTime(), nullable=True),
+    sa.Column('metodo_notificacao', sa.String(length=20), nullable=True),
+    sa.Column('contato_notificacao', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('usuarios',

@@ -17,11 +17,17 @@ class NotificationService:
     def enviar_feedback(self, analise, parecer):
         """Método mestre que decide por onde enviar"""
         mensagem = f"Olá {analise.nome_aluno}, seu Barema foi analisado! Parecer: {parecer}"
-        
-        if analise.metodo_notificacao == 'whatsapp':
-            return self._enviar_whatsapp(analise.contato_notificacao, mensagem)
-        elif analise.metodo_notificacao == 'email':
-            return self._enviar_email(analise.contato_notificacao, mensagem)
+
+        '''Envia email também mesmo que o método seja WhatsApp, para garantir que o aluno receba a mensagem de alguma forma.'''
+        if analise.email_aluno:
+            self._enviar_email(analise.email_aluno, mensagem)
+
+        if analise.metodo_preferencial == 'whatsapp':
+            numero = analise.whatsapp_aluno
+            if not numero.startswith('55'):
+                numero = f"55{numero}"
+            return self._enviar_whatsapp(numero, mensagem)
+
 
     def _enviar_whatsapp(self, para, texto):
         try:
