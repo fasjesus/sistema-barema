@@ -9,6 +9,16 @@ class BaremaRepository:
     def __init__(self, base_dir):
         self.base_dir = base_dir
 
+    def _normalizar_horas(self, valor: str, unidade: str) -> Optional[float]:
+        try:
+            numero = float(valor.replace(',', '.'))
+        except (AttributeError, ValueError):
+            return None
+
+        if unidade and unidade.lower().startswith('dia'):
+            return numero * 12
+        return numero
+
     def extract_max_hours(self, carga_maxima_str):
         if not carga_maxima_str: return None
         text_lower = carga_maxima_str.lower()
@@ -26,6 +36,29 @@ class BaremaRepository:
         
         return None
 
+    def extract_min_hours(self, *textos):
+        texto_completo = " ".join(texto for texto in textos if texto)
+        if not texto_completo:
+            return None
+
+        patterns = [
+            r'n[ãa]o\s+(?:(?:seja|sendo|ser)\s+)?inferior\s+a\s*(\d+(?:[,.]\d+)?)\s*(h|horas?|dias?)?',
+            r'no\s+m[íi]nimo\s*(\d+(?:[,.]\d+)?)\s*(h|horas?|dias?)?',
+            r'm[íi]nimo\s+de\s*(\d+(?:[,.]\d+)?)\s*(h|horas?|dias?)?',
+        ]
+
+        horas_minimas = []
+        for pattern in patterns:
+            for valor, unidade in re.findall(pattern, texto_completo, re.IGNORECASE):
+                horas = self._normalizar_horas(valor, unidade)
+                if horas is not None:
+                    horas_minimas.append(horas)
+
+        if horas_minimas:
+            return max(horas_minimas)
+
+        return None
+
     def load_atividades(self, tipo_barema: str) -> List[dict]:
         filename = 'barema_novo.csv' if tipo_barema == 'novo' else 'barema_antigo.csv'
         filepath = os.path.join(self.base_dir, 'core','data', filename)
@@ -41,6 +74,10 @@ class BaremaRepository:
                 
                 for row in reader:
                     row['max_horas_num'] = self.extract_max_hours(row.get('carga_maxima', ''))
+                    row['min_horas_num'] = self.extract_min_hours(
+                        row.get('carga_maxima', ''),
+                        row.get('atividade', '')
+                    )
                     atividades.append(row)
         except Exception as e:
             print(f"Erro ao ler CSV: {e}")
@@ -51,5 +88,6 @@ class BaremaRepository:
             id=data.get('id'),
             descricao=data.get('atividade'),
             carga_maxima=data.get('carga_maxima'),
-            max_horas_num=data.get('max_horas_num')
+            max_horas_num=data.get('max_horas_num'),
+            min_horas_num=data.get('min_horas_num')
         )

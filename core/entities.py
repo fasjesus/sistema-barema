@@ -6,10 +6,13 @@ class Atividade:
     id: str
     descricao: str
     carga_maxima: str
-    max_horas_num: Optional[float] = None # Mudado para float para suportar limites quebrados
+    max_horas_num: Optional[float] = None 
+    min_horas_num: Optional[float] = None
 
     def aplicar_limite(self, horas_solicitadas: float) -> float:
-        
+        if self.min_horas_num is not None and horas_solicitadas < self.min_horas_num:
+            return 0.0
+
         if self.max_horas_num is not None and horas_solicitadas > self.max_horas_num:
             return self.max_horas_num
         return horas_solicitadas
