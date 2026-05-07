@@ -265,14 +265,16 @@
             activities.forEach(atv => {
                 const row = tbody.insertRow();
                 let limiteHoras = atv.max_horas_num; 
+                const minimoHoras = parseFloat(atv.min_horas_num);
                 if (tipoBarema === 'antigo' && atv.id == 1) limiteHoras = 100;
                 let maxAttr = (limiteHoras && limiteHoras > 0) ? `max="${limiteHoras}"` : '';
+                let minDataAttr = (!isNaN(minimoHoras) && minimoHoras > 0) ? `data-min-horas="${minimoHoras}"` : '';
 
                 row.innerHTML = `
                     <td data-label="Atividade:">${atv.id}. ${atv.atividade}</td>
                     <td data-label="C.H. Máxima:">${atv.carga_maxima}</td>
                     <td data-label="C.H. Cumprida:">
-                        <input type="number" name="horas_${atv.id}" min="0" ${maxAttr} class="input-horas" placeholder="0">
+                        <input type="number" name="horas_${atv.id}" min="0" ${maxAttr} ${minDataAttr} class="input-horas" placeholder="0">
                     </td>
                     <td data-label="Comprovante(s):">
                         <div class="input-container" id="input-container-${atv.id}">${createNewFileInputHTML('certificado_' + atv.id)}</div>
@@ -286,6 +288,7 @@
             if (e.target.classList.contains('input-horas')) {
                 const input = e.target;
                 const max = parseFloat(input.getAttribute('max'));
+                const min = parseFloat(input.dataset.minHoras);
                 const valor = parseFloat(input.value);
                 if (max && valor > max) {
                     input.value = max; 
@@ -297,8 +300,12 @@
                         input.style.borderColor = "#ddd";
                         input.style.backgroundColor = "#fff";
                     }, 3000);
+                } else if (!isNaN(min) && valor > 0 && valor < min) {
+                    input.classList.add('input-error');
+                    input.setCustomValidity(`Minimo permitido para esta atividade: ${min}h.`);
                 }else {
                     // Volta ao normal se o valor for válido
+                    input.classList.remove('input-error');
                     input.style.borderColor = "#ddd";
                     input.style.backgroundColor = "#fff";
                     input.setCustomValidity(""); }
@@ -336,8 +343,12 @@
             const rows = document.querySelectorAll('#atividadesTbody tr');
             let errors = [];
             rows.forEach(row => {
-                const h = row.querySelector('.input-horas').value;
+                const horasInput = row.querySelector('.input-horas');
+                const h = horasInput.value;
+                const min = parseFloat(horasInput.dataset.minHoras);
+                const horas = parseFloat(h);
                 const f = Array.from(row.querySelectorAll('input[type="file"]')).some(i => i.files.length > 0);
+                if (!isNaN(min) && horas > 0 && horas < min) errors.push(`Carga horaria minima de ${min}h para: ${row.cells[0].innerText}`);
                 if (f && !h) errors.push(`⚠️ Defina horas para: ${row.cells[0].innerText}`);
                 if (h > 0 && !f) errors.push(`⚠️ Anexe comprovante para: ${row.cells[0].innerText}`);
             });
