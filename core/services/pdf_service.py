@@ -1,4 +1,5 @@
 import os
+from html import escape
 from io import BytesIO
 from pypdf import PdfWriter, PdfReader
 from reportlab.pdfgen import canvas
@@ -103,7 +104,15 @@ class PDFService:
             else:
                 h_str = ""
             
-            p_atv = Paragraph(f"{item.atividade.id}. {item.atividade.descricao}", style_atv)
+            descricao_item = f"{item.atividade.id}. {item.atividade.descricao}"
+            if item.observacoes:
+                observacoes = "<br/>".join(escape(obs) for obs in item.observacoes)
+                descricao_item += (
+                    '<br/><font color="#B00020"><b>Validacao:</b> '
+                    f"{observacoes}</font>"
+                )
+
+            p_atv = Paragraph(descricao_item, style_atv)
             p_max = Paragraph(item.atividade.carga_maxima, style_sub)
             p_fol = Paragraph(item.intervalo_paginas, style_sub)
 

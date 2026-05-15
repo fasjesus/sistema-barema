@@ -31,6 +31,7 @@ class ItemBarema:
     horas_input: str  # String bruta do formulário
     tipo_barema: str
     intervalo_paginas: str = ""
+    observacoes: List[str] = field(default_factory=list)
 
     @property
     def horas_solicitadas(self) -> float:

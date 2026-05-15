@@ -3,6 +3,7 @@ import unittest
 from core.services.validation_processor import (
     ActivityRule,
     CertificateValidationProcessor,
+    QRCodeDetector,
     StudentContext,
 )
 
@@ -88,6 +89,48 @@ class CertificateValidationProcessorTest(unittest.TestCase):
         )
         self.assertEqual(result.erros, [])
 
+    def test_certificate_with_any_date_before_student_admission_reports_irregularity(self):
+        text = """
+        Certificamos que Maria Silva participou do evento.
+        Carga horaria: 16h.
+        Evento realizado em 20/12/2023.
+        Validacao consultada em 10/05/2026.
+        """
+        processor = CertificateValidationProcessor(
+            qr_detector=FakeQRDetector(["https://certificados.uesc.br/validar/abc"]),
+            text_extractor=FakeTextExtractor(text),
+        )
+
+        result = processor.validate(b"pdf-content", self.student, self.activity_rule)
+
+        self.assertTrue(result.valido)
+        self.assertIn(
+            "Certificado emitido antes do ano de ingresso do aluno.",
+            result.irregularidades,
+        )
+        self.assertEqual(result.erros, [])
+
+    def test_certificate_with_year_context_before_student_admission_reports_irregularity(self):
+        student = StudentContext(nome="Maria Silva", ano_ingresso=2025)
+        text = """
+        Certificamos que Maria Silva participou do curso.
+        Carga horaria: 16h.
+        Certificado emitido em 2024.
+        """
+        processor = CertificateValidationProcessor(
+            qr_detector=FakeQRDetector(["https://certificados.uesc.br/validar/abc"]),
+            text_extractor=FakeTextExtractor(text),
+        )
+
+        result = processor.validate(b"pdf-content", student, self.activity_rule)
+
+        self.assertTrue(result.valido)
+        self.assertIn(
+            "Certificado emitido antes do ano de ingresso do aluno.",
+            result.irregularidades,
+        )
+        self.assertEqual(result.erros, [])
+
     def test_certificate_below_minimum_hours_reports_irregularity(self):
         text = """
         Certificamos que Maria Silva participou do evento.
@@ -124,6 +167,24 @@ class CertificateValidationProcessorTest(unittest.TestCase):
             result.irregularidades,
         )
         self.assertEqual(result.erros, [])
+
+
+class QRCodeDetectorTest(unittest.TestCase):
+    def test_falls_back_to_next_decoder_when_pyzbar_native_dependency_fails(self):
+        detector = QRCodeDetector()
+
+        def broken_pyzbar(_content):
+            raise FileNotFoundError("libzbar-64.dll")
+
+        detector._detect_with_pyzbar = broken_pyzbar
+        detector._detect_with_opencv = lambda _content: [
+            "https://certificados.uesc.br/validar/abc"
+        ]
+
+        self.assertEqual(
+            detector.detect(b"pdf-content"),
+            ["https://certificados.uesc.br/validar/abc"],
+        )
 
 
 if __name__ == "__main__":

@@ -111,7 +111,11 @@ class QRCodeDetector:
     def detect(self, content: bytes) -> List[str]:
         decoders = [self._detect_with_pyzbar, self._detect_with_opencv]
         for decoder in decoders:
-            urls = decoder(content)
+            try:
+                urls = decoder(content)
+            except Exception as exc:
+                _debug("QR-Detector", f"{decoder.__name__} falhou durante a leitura: {exc}")
+                continue
             if urls:
                 _debug("QR-Detector", "QR Code encontrado e decodificado com sucesso.")
                 return urls
@@ -123,7 +127,8 @@ class QRCodeDetector:
         try:
             from PIL import Image
             from pyzbar.pyzbar import decode
-        except ImportError:
+        except (ImportError, OSError) as exc:
+            _debug("QR-Detector", f"pyzbar indisponivel: {exc}")
             return []
 
         try:
@@ -172,6 +177,9 @@ class RegexCertificateParser:
         r"(\d{1,2})[/-](\d{1,2})[/-](\d{4})",
         r"(\d{4})[/-](\d{1,2})[/-](\d{1,2})",
     ]
+    YEAR_CONTEXT_PATTERNS = [
+        r"(?:emitid[oa]|emiss[aã]o|expedid[oa]|conclu[ií]d[oa]|realizad[oa]|participou|evento|curso)\D{0,40}((?:19|20)\d{2})",
+    ]
 
     def extract_hours(self, text: str) -> Optional[float]:
         search_text = _normalize_text(text)
@@ -197,6 +205,11 @@ class RegexCertificateParser:
                 parsed = self._parse_date(groups)
                 if parsed:
                     dates.append(parsed)
+
+        if not dates:
+            for pattern in self.YEAR_CONTEXT_PATTERNS:
+                for year in re.findall(pattern, text or "", re.IGNORECASE):
+                    dates.append(date(int(year), 12, 31))
 
         _debug("Regex-Parser", f"{len(dates)} data(s) extraida(s).")
         return dates
@@ -279,10 +292,13 @@ class CertificateValidationProcessor:
         carga_horaria = self.parser.extract_hours(text)
         datas = self.parser.extract_dates(text)
         data_emissao = max(datas) if datas else None
+        datas_anteriores_ao_ingresso = [
+            data for data in datas if data.year < student.ano_ingresso
+        ]
 
-        if data_emissao and data_emissao.year < student.ano_ingresso:
+        if datas_anteriores_ao_ingresso:
             irregularidades.append("Certificado emitido antes do ano de ingresso do aluno.")
-            _debug("Date-Validator", "Data de emissao anterior ao ingresso.")
+            _debug("Date-Validator", "Data anterior ao ingresso encontrada no certificado.")
         else:
             _debug("Date-Validator", "Data de emissao aprovada ou ausente.")
 

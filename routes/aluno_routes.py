@@ -7,7 +7,13 @@ from flask.views import MethodView
 from core.models import db, AnaliseBarema
 from core.entities import Estudante, ProcessoBarema, ItemBarema
 from core.repository import BaremaRepository
-from core.services import PDFService, CertificateProcessor
+from core.services import (
+    ActivityRule,
+    CertificateProcessor,
+    CertificateValidationProcessor,
+    PDFService,
+    StudentContext,
+)
 
 aluno_bp = Blueprint('aluno', __name__)
 
@@ -15,10 +21,69 @@ aluno_bp = Blueprint('aluno', __name__)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 repo = BaremaRepository(BASE_DIR)
 cert_processor = CertificateProcessor()
+validation_processor = CertificateValidationProcessor()
 pdf_service = PDFService(
     logo_uesc=os.path.join(BASE_DIR, 'static', 'images', 'logo_uesc.png'),
     logo_colcic=os.path.join(BASE_DIR, 'static', 'images', 'logo_computacao.png')
 )
+
+def _ano_ingresso_from_matricula(matricula):
+    try:
+        return int(str(matricula or "")[:4])
+    except ValueError:
+        return None
+
+def _activity_rule_from_entity(atividade):
+    return ActivityRule(
+        id=str(atividade.id),
+        descricao=atividade.descricao or "",
+        min_horas=atividade.min_horas_num,
+        max_horas=atividade.max_horas_num,
+    )
+
+def _validar_certificado(file_storage, aluno, atividade):
+    filename = file_storage.filename or "certificado"
+    ano_ingresso = _ano_ingresso_from_matricula(aluno.matricula)
+
+    if ano_ingresso is None:
+        mensagem = f"{filename}: Erro: nao foi possivel identificar o ano de ingresso pela matricula."
+        print(f"VALIDACAO: {mensagem}")
+        return [mensagem]
+
+    try:
+        file_storage.seek(0)
+        conteudo = file_storage.read()
+        file_storage.seek(0)
+
+        resultado = validation_processor.validate(
+            conteudo,
+            StudentContext(nome=aluno.nome or "", ano_ingresso=ano_ingresso),
+            _activity_rule_from_entity(atividade),
+        )
+
+        mensagens = []
+        mensagens.extend(f"{filename}: Erro: {erro}" for erro in resultado.erros)
+        mensagens.extend(
+            f"{filename}: Irregularidade: {irregularidade}"
+            for irregularidade in resultado.irregularidades
+        )
+        mensagens.extend(f"{filename}: Aviso: {aviso}" for aviso in resultado.avisos)
+
+        if mensagens:
+            for mensagem in mensagens:
+                print(f"VALIDACAO: {mensagem}")
+        else:
+            print(f"VALIDACAO: {filename}: certificado sem irregularidades.")
+
+        return mensagens
+    except Exception as exc:
+        try:
+            file_storage.seek(0)
+        except Exception:
+            pass
+        mensagem = f"{filename}: Erro: nao foi possivel validar automaticamente o certificado."
+        print(f"VALIDACAO: {mensagem} Detalhe: {exc}")
+        return [mensagem]
 
 class HomeView(MethodView):
     def get(self):
@@ -40,23 +105,27 @@ class GerarRascunhoView(MethodView):
             certificados, pag_atual = [], 2
 
             for ativ in atividades_base:
+                ativ_objeto = repo.to_entity(ativ)
                 id_at = ativ['id'] 
                 horas_raw = request.form.get(f"horas_{id_at}", "")
                 files = request.files.getlist(f"certificado_{id_at}")
                 intervalos = []
+                observacoes = []
                 
                 for f in files:
                     if f and f.filename != '':
                         prox, inter = cert_processor.get_page_info(pag_atual, f)
                         intervalos.append(inter)
+                        observacoes.extend(_validar_certificado(f, aluno, ativ_objeto))
                         certificados.append(f)
                         pag_atual = prox
 
                 item = ItemBarema(
-                    atividade=repo.to_entity(ativ),
+                    atividade=ativ_objeto,
                     horas_input=str(horas_raw), 
                     tipo_barema=tipo,
-                    intervalo_paginas=", ".join(intervalos)
+                    intervalo_paginas=", ".join(intervalos),
+                    observacoes=observacoes
                 )
                 processo.adicionar_item(item)
 
@@ -88,18 +157,21 @@ class SolicitarAnaliseView(MethodView):
                 if horas and horas.strip():
                     files = request.files.getlist(f'certificado_{id_at}')
                     intervalos = []
+                    observacoes = []
                     for f in files:
                         if f and f.filename != '':
                             prox, inter = cert_processor.get_page_info(pag_atual, f)
                             intervalos.append(inter)
+                            observacoes.extend(_validar_certificado(f, aluno, ativ_objeto))
                             certificados_para_anexar.append(f)
                             pag_atual = prox
-                    
+                     
                     item = ItemBarema(
                         atividade=ativ_objeto, 
                         horas_input=str(horas), 
                         tipo_barema=barema_tipo,
-                        intervalo_paginas=", ".join(intervalos)
+                        intervalo_paginas=", ".join(intervalos),
+                        observacoes=observacoes
                     )
                     processo.adicionar_item(item)
 
