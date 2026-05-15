@@ -41,47 +41,73 @@ def _activity_rule_from_entity(atividade):
         max_horas=atividade.max_horas_num,
     )
 
-def _validar_certificado(file_storage, aluno, atividade):
-    filename = file_storage.filename or "certificado"
+def _mensagens_do_resultado(filename, resultado):
+    mensagens = []
+    mensagens.extend(f"{filename}: Erro: {erro}" for erro in resultado.erros)
+    mensagens.extend(
+        f"{filename}: Irregularidade: {irregularidade}"
+        for irregularidade in resultado.irregularidades
+    )
+    mensagens.extend(f"{filename}: Aviso: {aviso}" for aviso in resultado.avisos)
+    return mensagens
+
+def _validar_certificados_da_atividade(file_storages, aluno, atividade, horas_solicitadas):
     ano_ingresso = _ano_ingresso_from_matricula(aluno.matricula)
 
     if ano_ingresso is None:
-        mensagem = f"{filename}: Erro: nao foi possivel identificar o ano de ingresso pela matricula."
+        mensagem = "Atividade {0}: Erro: nao foi possivel identificar o ano de ingresso pela matricula.".format(atividade.id)
         print(f"VALIDACAO: {mensagem}")
         return [mensagem]
 
+    arquivos = []
+    conteudos = []
     try:
-        file_storage.seek(0)
-        conteudo = file_storage.read()
-        file_storage.seek(0)
+        for file_storage in file_storages:
+            filename = file_storage.filename or "certificado"
+            file_storage.seek(0)
+            conteudo = file_storage.read()
+            file_storage.seek(0)
+            arquivos.append(filename)
+            conteudos.append(conteudo)
 
-        resultado = validation_processor.validate(
-            conteudo,
+        resultado_atividade = validation_processor.validate_activity(
+            conteudos,
             StudentContext(nome=aluno.nome or "", ano_ingresso=ano_ingresso),
             _activity_rule_from_entity(atividade),
+            horas_solicitadas,
         )
 
         mensagens = []
-        mensagens.extend(f"{filename}: Erro: {erro}" for erro in resultado.erros)
+        for filename, resultado_certificado in zip(arquivos, resultado_atividade.certificados):
+            mensagens.extend(_mensagens_do_resultado(filename, resultado_certificado))
+
         mensagens.extend(
-            f"{filename}: Irregularidade: {irregularidade}"
-            for irregularidade in resultado.irregularidades
+            f"Atividade {atividade.id}: Erro: {erro}"
+            for erro in resultado_atividade.erros
         )
-        mensagens.extend(f"{filename}: Aviso: {aviso}" for aviso in resultado.avisos)
+        mensagens.extend(
+            f"Atividade {atividade.id}: Irregularidade: {irregularidade}"
+            for irregularidade in resultado_atividade.irregularidades
+        )
+        mensagens.extend(
+            f"Atividade {atividade.id}: Aviso: {aviso}"
+            for aviso in resultado_atividade.avisos
+        )
 
         if mensagens:
             for mensagem in mensagens:
                 print(f"VALIDACAO: {mensagem}")
         else:
-            print(f"VALIDACAO: {filename}: certificado sem irregularidades.")
+            print(f"VALIDACAO: Atividade {atividade.id}: certificados sem irregularidades.")
 
         return mensagens
     except Exception as exc:
-        try:
-            file_storage.seek(0)
-        except Exception:
-            pass
-        mensagem = f"{filename}: Erro: nao foi possivel validar automaticamente o certificado."
+        for file_storage in file_storages:
+            try:
+                file_storage.seek(0)
+            except Exception:
+                pass
+        mensagem = f"Atividade {atividade.id}: Erro: nao foi possivel validar automaticamente os certificados."
         print(f"VALIDACAO: {mensagem} Detalhe: {exc}")
         return [mensagem]
 
@@ -109,16 +135,25 @@ class GerarRascunhoView(MethodView):
                 id_at = ativ['id'] 
                 horas_raw = request.form.get(f"horas_{id_at}", "")
                 files = request.files.getlist(f"certificado_{id_at}")
+                files_validos = [f for f in files if f and f.filename != '']
                 intervalos = []
                 observacoes = []
                 
-                for f in files:
-                    if f and f.filename != '':
-                        prox, inter = cert_processor.get_page_info(pag_atual, f)
-                        intervalos.append(inter)
-                        observacoes.extend(_validar_certificado(f, aluno, ativ_objeto))
-                        certificados.append(f)
-                        pag_atual = prox
+                for f in files_validos:
+                    prox, inter = cert_processor.get_page_info(pag_atual, f)
+                    intervalos.append(inter)
+                    certificados.append(f)
+                    pag_atual = prox
+
+                if files_validos or (horas_raw and str(horas_raw).strip()):
+                    observacoes.extend(
+                        _validar_certificados_da_atividade(
+                            files_validos,
+                            aluno,
+                            ativ_objeto,
+                            horas_raw,
+                        )
+                    )
 
                 item = ItemBarema(
                     atividade=ativ_objeto,
@@ -156,15 +191,23 @@ class SolicitarAnaliseView(MethodView):
                 
                 if horas and horas.strip():
                     files = request.files.getlist(f'certificado_{id_at}')
+                    files_validos = [f for f in files if f and f.filename != '']
                     intervalos = []
                     observacoes = []
-                    for f in files:
-                        if f and f.filename != '':
-                            prox, inter = cert_processor.get_page_info(pag_atual, f)
-                            intervalos.append(inter)
-                            observacoes.extend(_validar_certificado(f, aluno, ativ_objeto))
-                            certificados_para_anexar.append(f)
-                            pag_atual = prox
+                    for f in files_validos:
+                        prox, inter = cert_processor.get_page_info(pag_atual, f)
+                        intervalos.append(inter)
+                        certificados_para_anexar.append(f)
+                        pag_atual = prox
+
+                    observacoes.extend(
+                        _validar_certificados_da_atividade(
+                            files_validos,
+                            aluno,
+                            ativ_objeto,
+                            horas,
+                        )
+                    )
                      
                     item = ItemBarema(
                         atividade=ativ_objeto, 

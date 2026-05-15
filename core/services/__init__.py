@@ -15,6 +15,9 @@ except ImportError:
 
 from .validation_processor import (
     ActivityRule,
+    ActivityValidationResult,
+    BasicCertificatePreValidator,
+    CertificateDataExtractor,
     CertificateValidationProcessor,
     CertificateValidationResult,
     ExtractedCertificateData,

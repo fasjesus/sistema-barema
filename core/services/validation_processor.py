@@ -4,7 +4,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from datetime import date
 from io import BytesIO
-from typing import Callable, List, Optional, Protocol, Sequence
+from typing import List, Optional, Protocol, Sequence
 
 try:
     import fitz
@@ -28,6 +28,23 @@ def _normalize_text(value: str) -> str:
     normalized = unicodedata.normalize("NFKD", value or "")
     without_accents = "".join(char for char in normalized if not unicodedata.combining(char))
     return re.sub(r"\s+", " ", without_accents).strip().casefold()
+
+
+def _format_hours(value: float) -> str:
+    number = float(value)
+    return str(int(number)) if number.is_integer() else f"{number:g}"
+
+
+def _parse_hours(value) -> Optional[float]:
+    if value is None:
+        return None
+    try:
+        text = str(value).strip()
+        if not text:
+            return None
+        return float(text.replace(",", "."))
+    except (TypeError, ValueError):
+        return None
 
 
 @dataclass
@@ -62,6 +79,15 @@ class CertificateValidationResult:
     avisos: List[str] = field(default_factory=list)
 
 
+@dataclass
+class ActivityValidationResult:
+    valido: bool
+    certificados: List[CertificateValidationResult] = field(default_factory=list)
+    erros: List[str] = field(default_factory=list)
+    irregularidades: List[str] = field(default_factory=list)
+    avisos: List[str] = field(default_factory=list)
+
+
 class QRDetector(Protocol):
     def detect(self, content: bytes) -> List[str]:
         ...
@@ -75,10 +101,9 @@ class TextExtractor(Protocol):
 class ContextValidator(Protocol):
     def validate(
         self,
-        text: str,
+        dados: ExtractedCertificateData,
         student: StudentContext,
         activity_rule: ActivityRule,
-        carga_horaria: Optional[float],
     ) -> List[str]:
         ...
 
@@ -225,47 +250,151 @@ class RegexCertificateParser:
             return None
 
 
-class HeuristicContextValidator:
-    def validate(
+class CertificateDataExtractor:
+    def __init__(
         self,
-        text: str,
+        text_extractor: Optional[TextExtractor] = None,
+        parser: Optional[RegexCertificateParser] = None,
+    ):
+        self.text_extractor = text_extractor or PyMuPDFTextExtractor()
+        self.parser = parser or RegexCertificateParser()
+
+    def extract(self, content: bytes) -> ExtractedCertificateData:
+        _debug("Extractor", "Iniciando extracao de dados do certificado.")
+        text = self.text_extractor.extract(content)
+        carga_horaria = self.parser.extract_hours(text)
+        datas = self.parser.extract_dates(text)
+        data_emissao = max(datas) if datas else None
+
+        return ExtractedCertificateData(
+            text=text,
+            qr_urls=[],
+            carga_horaria=carga_horaria,
+            datas=datas,
+            data_emissao=data_emissao,
+        )
+
+
+class BasicCertificatePreValidator:
+    def validate_certificate(
+        self,
+        dados: ExtractedCertificateData,
         student: StudentContext,
         activity_rule: ActivityRule,
-        carga_horaria: Optional[float],
     ) -> List[str]:
         irregularidades = []
-        normalized_text = _normalize_text(text)
+        normalized_text = _normalize_text(dados.text)
         normalized_name = _normalize_text(student.nome)
 
         if normalized_name and normalized_name in normalized_text:
-            _debug("IA-Validator", "Nome do aluno confirmado.")
+            _debug("Basic-Validator", "Nome do aluno confirmado.")
         else:
             irregularidades.append("Nome do aluno nao confere com o certificado.")
-            _debug("IA-Validator", "Nome do aluno nao confirmado.")
+            _debug("Basic-Validator", "Nome do aluno nao confirmado.")
 
-        if activity_rule.min_horas is not None and (
-            carga_horaria is None or carga_horaria < activity_rule.min_horas
-        ):
-            irregularidades.append(f"Carga horaria inferior ao minimo de {activity_rule.min_horas}h.")
-            _debug("IA-Validator", "Carga horaria minima da atividade nao atendida.")
+        if dados.carga_horaria is None:
+            irregularidades.append("Carga horaria nao encontrada no certificado.")
+            _debug("Basic-Validator", "Carga horaria nao encontrada.")
+        elif activity_rule.min_horas is not None and dados.carga_horaria < activity_rule.min_horas:
+            minimo = _format_hours(activity_rule.min_horas)
+            irregularidades.append(f"Carga horaria inferior ao minimo de {minimo}h.")
+            _debug("Basic-Validator", "Carga horaria minima da atividade nao atendida.")
+
+        datas_anteriores_ao_ingresso = [
+            data for data in dados.datas if data.year < student.ano_ingresso
+        ]
+        if datas_anteriores_ao_ingresso:
+            irregularidades.append("Certificado emitido antes do ano de ingresso do aluno.")
+            _debug("Basic-Validator", "Data anterior ao ingresso encontrada no certificado.")
+        else:
+            _debug("Basic-Validator", "Data de emissao aprovada ou ausente.")
 
         return irregularidades
+
+    def validate_activity_hours(
+        self,
+        horas_solicitadas,
+        certificados_extraidos: Sequence[ExtractedCertificateData],
+    ) -> List[str]:
+        solicitadas = _parse_hours(horas_solicitadas)
+        if solicitadas is None or solicitadas <= 0:
+            return []
+
+        total_comprovado = sum(
+            dados.carga_horaria
+            for dados in certificados_extraidos
+            if dados.carga_horaria is not None
+        )
+        if solicitadas > total_comprovado:
+            return [
+                "Carga horaria solicitada "
+                f"({_format_hours(solicitadas)}h) superior ao total comprovado nos "
+                f"certificados ({_format_hours(total_comprovado)}h)."
+            ]
+
+        _debug("Basic-Validator", "Carga horaria solicitada comprovada pelos certificados.")
+        return []
 
 
 class CertificateValidationProcessor:
     def __init__(
         self,
-        qr_detector: Optional[QRDetector] = None,
+        extractor: Optional[CertificateDataExtractor] = None,
         text_extractor: Optional[TextExtractor] = None,
         parser: Optional[RegexCertificateParser] = None,
+        pre_validator: Optional[BasicCertificatePreValidator] = None,
+        qr_detector: Optional[QRDetector] = None,
         context_validator: Optional[ContextValidator] = None,
-        trust_validator: Optional[Callable[[str], bool]] = None,
+        trust_validator=None,
     ):
-        self.qr_detector = qr_detector or QRCodeDetector()
-        self.text_extractor = text_extractor or PyMuPDFTextExtractor()
-        self.parser = parser or RegexCertificateParser()
-        self.context_validator = context_validator or HeuristicContextValidator()
-        self.trust_validator = trust_validator or self._default_trust_validator
+        self.extractor = extractor or CertificateDataExtractor(
+            text_extractor=text_extractor,
+            parser=parser,
+        )
+        self.pre_validator = pre_validator or BasicCertificatePreValidator()
+
+    def validate_certificate(
+        self,
+        certificate_content: bytes,
+        student: StudentContext,
+        activity_rule: ActivityRule,
+    ) -> CertificateValidationResult:
+        _debug("Processor", "Iniciando pre-validacao basica do certificado.")
+        dados = self.extractor.extract(certificate_content)
+        irregularidades = self.pre_validator.validate_certificate(dados, student, activity_rule)
+
+        return CertificateValidationResult(
+            valido=True,
+            dados=dados,
+            erros=[],
+            irregularidades=irregularidades,
+            avisos=[],
+        )
+
+    def validate_activity(
+        self,
+        certificate_contents: Sequence[bytes],
+        student: StudentContext,
+        activity_rule: ActivityRule,
+        horas_solicitadas,
+    ) -> ActivityValidationResult:
+        certificados = [
+            self.validate_certificate(content, student, activity_rule)
+            for content in certificate_contents
+        ]
+        dados_extraidos = [resultado.dados for resultado in certificados]
+        irregularidades = self.pre_validator.validate_activity_hours(
+            horas_solicitadas,
+            dados_extraidos,
+        )
+
+        return ActivityValidationResult(
+            valido=True,
+            certificados=certificados,
+            erros=[],
+            irregularidades=irregularidades,
+            avisos=[],
+        )
 
     def validate(
         self,
@@ -273,51 +402,4 @@ class CertificateValidationProcessor:
         student: StudentContext,
         activity_rule: ActivityRule,
     ) -> CertificateValidationResult:
-        erros = []
-        irregularidades = []
-        avisos = []
-
-        _debug("Processor", "Iniciando validacao do certificado.")
-        qr_urls = self.qr_detector.detect(certificate_content)
-        if qr_urls:
-            if any(self.trust_validator(url) for url in qr_urls):
-                _debug("Digital-Trust", "URL de autenticidade aprovada.")
-            else:
-                irregularidades.append("QR Code encontrado, mas a URL nao foi considerada confiavel.")
-                _debug("Digital-Trust", "URL de autenticidade reprovada.")
-        else:
-            avisos.append("Certificado sem QR Code detectavel.")
-
-        text = self.text_extractor.extract(certificate_content)
-        carga_horaria = self.parser.extract_hours(text)
-        datas = self.parser.extract_dates(text)
-        data_emissao = max(datas) if datas else None
-        datas_anteriores_ao_ingresso = [
-            data for data in datas if data.year < student.ano_ingresso
-        ]
-
-        if datas_anteriores_ao_ingresso:
-            irregularidades.append("Certificado emitido antes do ano de ingresso do aluno.")
-            _debug("Date-Validator", "Data anterior ao ingresso encontrada no certificado.")
-        else:
-            _debug("Date-Validator", "Data de emissao aprovada ou ausente.")
-
-        irregularidades.extend(self.context_validator.validate(text, student, activity_rule, carga_horaria))
-
-        dados = ExtractedCertificateData(
-            text=text,
-            qr_urls=qr_urls,
-            carga_horaria=carga_horaria,
-            datas=datas,
-            data_emissao=data_emissao,
-        )
-        return CertificateValidationResult(
-            valido=True,
-            dados=dados,
-            erros=erros,
-            irregularidades=irregularidades,
-            avisos=avisos,
-        )
-
-    def _default_trust_validator(self, url: str) -> bool:
-        return bool(re.match(r"^https://", url or "", re.IGNORECASE))
+        return self.validate_certificate(certificate_content, student, activity_rule)
