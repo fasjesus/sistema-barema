@@ -1,29 +1,85 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, current_app, make_response, render_template, request, redirect, session, url_for
 from flask.views import MethodView
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import check_password_hash
 from core.models import Usuario
+from core.security import get_client_ip, login_attempt_limiter
 
 auth_bp = Blueprint('auth', __name__)
 
+def _login_attempt_key(username):
+    normalized_user = (username or "").strip().lower() or "usuario-desconhecido"
+    client_ip = get_client_ip(request, current_app.config.get('TRUST_PROXY_HEADERS', False))
+    return f"{client_ip}:{normalized_user}"
+
+def _blocked_login_response(retry_after, username=""):
+    if username:
+        session['blocked_login_username'] = username
+
+    if retry_after >= 60:
+        tempo = "1 minuto"
+    else:
+        tempo = f"{retry_after} segundos"
+
+    response = make_response(
+        render_template(
+            'login.html',
+            erro=f"Muitas tentativas de login. Aguarde {tempo} para tentar novamente.",
+            login_bloqueado=True,
+            retry_after=retry_after,
+            username=username or "",
+        ),
+        429,
+    )
+    response.headers["Retry-After"] = str(retry_after)
+    return response
+
 class LoginView(MethodView):
     def get(self):
+        blocked_username = session.get('blocked_login_username', '')
+        if blocked_username:
+            blocked = login_attempt_limiter.is_blocked(_login_attempt_key(blocked_username))
+            if blocked.blocked:
+                return render_template(
+                    'login.html',
+                    erro="Muitas tentativas de login. Aguarde para tentar novamente.",
+                    login_bloqueado=True,
+                    retry_after=blocked.retry_after,
+                    username=blocked_username,
+                )
+            session.pop('blocked_login_username', None)
+
         return render_template('login.html')
 
     def post(self):
         user = request.form.get('username')
         pw = request.form.get('password')
+        attempt_key = _login_attempt_key(user)
+        blocked = login_attempt_limiter.is_blocked(attempt_key)
+        if blocked.blocked:
+            return _blocked_login_response(blocked.retry_after, user)
+
         usuario = Usuario.query.filter_by(username=user).first()
 
         if usuario and check_password_hash(usuario.password, pw):
+            login_attempt_limiter.reset(attempt_key)
+            session.pop('blocked_login_username', None)
             login_user(usuario)
             # Roteamento inteligente baseado no cargo (RBAC)
             if getattr(usuario, 'cargo', '') == 'admin':
                 return redirect('/admin') 
             if getattr(usuario, 'cargo', '') == 'coordenador':
                 return redirect(url_for('coordenador.painel')) 
-        
-        return render_template('login.html', erro="Usuário ou senha inválidos.")
+
+        blocked = login_attempt_limiter.register_failure(
+            attempt_key,
+            current_app.config['LOGIN_MAX_ATTEMPTS'],
+            current_app.config['LOGIN_BLOCK_SECONDS'],
+        )
+        if blocked.blocked:
+            return _blocked_login_response(blocked.retry_after, user)
+
+        return render_template('login.html', erro="Usuário ou senha inválidos.", username=user or "")
 
 class LogoutView(MethodView):
     decorators = [login_required] # Protege a rota usando decorador na classe
