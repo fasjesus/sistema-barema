@@ -23,10 +23,46 @@ section[variant] {
     background-color: var(--primary-color);
     display: flex;
     justify-content: center;
+    position: relative;
     /* Padding ajustado para ficar mais "fino" como na página de email */
     padding: 50px 0 100px 0; 
     margin-bottom: -70px; /* Faz o formulário subir e sobrepor a faixa */
     box-sizing: border-box;
+}
+
+.admin-access-link {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 999px;
+    color: #ffffff !important;
+    background: rgba(255,255,255,0.14);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.admin-access-link span,
+.admin-access-link iconify-icon {
+    color: #ffffff !important;
+}
+
+.admin-access-link:visited,
+.admin-access-link:active,
+.admin-access-link:focus {
+    color: #ffffff !important;
+}
+
+.admin-access-link:hover {
+    color: #ffffff !important;
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.7);
 }
 
 .MaxWidthWrapper {
@@ -203,7 +239,8 @@ td input[type="number"] {
 .file-input-wrapper { 
     display: flex; 
     align-items: center; 
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    min-width: 0;
     gap: 8px; /* Espaço entre botão e texto */
 }
 
@@ -235,24 +272,76 @@ td input[type="number"] {
     background-color: #ffd700; /* Amarelo um pouco mais escuro no hover */
 }
 
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.file-input-wrapper.has-file .file-button {
+    display: none;
+}
+
 /* Texto "Nenhum arquivo" */
 .file-name { 
     font-size: 0.85em; 
     color: #666; 
-    max-width: 200px; 
+    max-width: 260px;
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
+    min-width: 0;
+}
+
+.file-summary {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    color: #555;
+}
+
+.file-summary iconify-icon {
+    color: #c43d3d;
+    font-size: 1.1rem;
+    flex: 0 0 auto;
+}
+
+.file-input-wrapper.has-file .file-summary {
+    display: inline-flex;
+}
+
+.file-input-wrapper:not(.has-file) .file-name {
+    display: none;
 }
 
 /* Botão X para remover */
 .delete-file { 
     display: none; 
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #f3b7bd;
+    border-radius: 50%;
+    background: #fff5f5;
     color: #dc3545; 
     cursor: pointer; 
     font-weight: bold;
-    font-size: 1.2em;
-    margin-left: 5px;
+    font-size: 1.1em;
+    line-height: 1;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.file-input-wrapper.has-file .delete-file,
+.input-container .file-input-wrapper:not(:only-child) .delete-file {
+    display: inline-flex;
+}
+
+.delete-file:hover {
+    background: #ffe3e6;
+    border-color: #dc3545;
+    transform: translateY(-1px);
 }
 
 /* Link "+ Adicionar outro" */
@@ -262,13 +351,36 @@ td input[type="number"] {
     color: var(--primary-color); 
     font-weight: 600;
     display: inline-block; 
-    margin-top: 8px;
+    margin-top: 6px;
 }
 /* ========================================= */
 /* === BOTÕES (CTA) ======================== */
 /* ========================================= */
 
 .button-container { text-align: center; margin-top: 30px; }
+
+.processing-feedback {
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+    color: #4f5f89;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.processing-spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #d9e1f7;
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
 
 /* Botão Amarelo do Topo */
 .SecondaryButton {

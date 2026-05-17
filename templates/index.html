@@ -83,6 +83,9 @@
         .SecondaryButton:hover {
             transform: scale(1.05);
         }
+        #processingFeedback {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -91,6 +94,10 @@
 
     <main>
         <section variant>
+            <a href="/login" class="admin-access-link">
+                <iconify-icon icon="ri:admin-line"></iconify-icon>
+                <span>Acesso administrativo</span>
+            </a>
             <div class="MaxWidthWrapper">
                 <div class="mainWrapper">
                     <div class="mainContent">
@@ -101,10 +108,6 @@
                         <p>Digite sua matrícula para carregar o formulário compatível com seu regulamento.</p>
                         <a href="#baremaForm" class="SecondaryButton" style="background-color: #ffe45e; color: #333; padding: 0.5em 1em; border-radius: 10px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 20px;">
                             Monte seu Barema
-                        </a>
-                                
-                        <a href="/login" class="SecondaryButton" style="background-color: #28a745; color: #fff; padding: 0.5em 1em; border-radius: 10px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 20px;">
-                            <iconify-icon icon="ri:admin-line"></iconify-icon> Acesso Administrativo
                         </a>
                     </div>
                     <div class="mainContentPhoto">
@@ -153,6 +156,10 @@
                         </table>
                         <div class="button-container">
                             <button type="submit">Gerar PDF Unificado</button>
+                        </div>
+                        <div id="processingFeedback" class="processing-feedback" aria-live="polite">
+                            <span class="processing-spinner"></span>
+                            <span>Verificando certificados e gerando o documento...</span>
                         </div>
                     </div>
                 </form>
@@ -219,7 +226,15 @@
         }
 
         function createNewFileInputHTML(inputName) { 
-            return `<div class="file-input-wrapper"><label class="file-button"><span>Escolher Arquivo</span><input type="file" name="${inputName}" accept=".pdf" class="file-input"></label><span class="file-name">Nenhum arquivo</span><span class="delete-file" title="Remover">&times;</span></div>`;
+            return `<div class="file-input-wrapper"><label class="file-button"><span>Escolher Arquivo</span><input type="file" name="${inputName}" accept=".pdf" class="file-input"></label><span class="file-summary"><iconify-icon icon="ri:file-pdf-2-line"></iconify-icon><span class="file-name">Nenhum arquivo</span></span><button type="button" class="delete-file" title="Remover arquivo" aria-label="Remover arquivo">&times;</button></div>`;
+        }
+
+        function updateFileInputState(wrapper) {
+            const input = wrapper.querySelector('.file-input');
+            const fileName = wrapper.querySelector('.file-name');
+            const hasFile = input.files && input.files.length > 0;
+            wrapper.classList.toggle('has-file', hasFile);
+            fileName.textContent = hasFile ? input.files[0].name : 'Nenhum arquivo';
         }
 
         async function checkAndLoadBarema(matricula) {
@@ -320,19 +335,21 @@
                 div.innerHTML = createNewFileInputHTML('certificado_' + id);
                 document.getElementById('input-container-' + id).appendChild(div.firstChild);
             }
-            if (e.target.classList.contains('delete-file')) {
-                const wrapper = e.target.closest('.file-input-wrapper');
-                if (wrapper.closest('.input-container').children.length > 1) wrapper.remove();
+            const deleteButton = e.target.closest('.delete-file');
+            if (deleteButton) {
+                const wrapper = deleteButton.closest('.file-input-wrapper');
+                const container = wrapper.closest('.input-container');
+                if (container.children.length > 1) wrapper.remove();
                 else { 
-                    wrapper.querySelector('input').value = ''; 
-                    wrapper.querySelector('.file-name').textContent = 'Nenhum arquivo';
+                    wrapper.querySelector('.file-input').value = '';
+                    updateFileInputState(wrapper);
                 }
             }
         });
 
         document.querySelector('.container').addEventListener('change', function(e) {
-            if (e.target.classList.contains('file-input') && e.target.files.length > 0) {
-                e.target.closest('.file-input-wrapper').querySelector('.file-name').textContent = e.target.files[0].name;
+            if (e.target.classList.contains('file-input')) {
+                updateFileInputState(e.target.closest('.file-input-wrapper'));
             }
         });
 
@@ -355,6 +372,11 @@
             if (errors.length > 0) { alert(errors.join("\n")); return; }
 
             const formData = new FormData(this);
+            const submitButton = baremaForm.querySelector('button[type="submit"]');
+            const processingFeedback = document.getElementById('processingFeedback');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processando...';
+            processingFeedback.style.display = 'flex';
             try {
                 // Chamada usando url_for para segurança
                 const response = await fetch("{{ url_for('aluno.barema_process') }}", { method: 'POST', body: formData });
@@ -388,8 +410,18 @@
                             document.getElementById('msgStatusAnalise').innerText = "✅ Solicitação enviada com sucesso!";
                         }
                     };
+                } else {
+                    alert("Erro ao processar Barema.");
                 }
-            } catch (err) { alert("Erro ao processar Barema."); }
+            } catch (err) {
+                alert("Erro ao processar Barema.");
+            } finally {
+                if (baremaForm.style.display !== 'none') {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Gerar PDF Unificado';
+                    processingFeedback.style.display = 'none';
+                }
+            }
         });
     </script>
 </body>
