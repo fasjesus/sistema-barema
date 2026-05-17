@@ -13,6 +13,16 @@ O foco do estudo não é propor um novo método teórico de avaliação acadêmi
 
 O desenvolvimento foi conduzido por prototipagem evolutiva, em que versões sucessivas do sistema foram refinadas a partir das necessidades identificadas durante o levantamento e a implementação \cite{soares2007}. Essa estratégia foi adotada porque o problema envolve interação com usuário, regras de negócio específicas e tratamento de documentos em formato PDF, aspectos que exigem ajustes progressivos ao longo do desenvolvimento.
 
+A abordagem evolutiva permitiu organizar o trabalho em ciclos de compreensão do problema, modelagem da solução, implementação, testes e refinamento. Em vez de tratar o sistema como um produto definido integralmente desde o início, cada ciclo incorporou novas regras, ajustes de usabilidade e melhorias técnicas observadas durante a construção do protótipo. A Figura~\ref{fig:fluxo-desenvolvimento} sintetiza esse fluxo de desenvolvimento adotado no trabalho.
+
+\begin{figure}[H]
+    \centering
+    \caption{Fluxo do ciclo de desenvolvimento adotado}
+    \label{fig:fluxo-desenvolvimento}
+    \includegraphics[width=0.95\textwidth]{figuras/fluxo_desenvolvimento.png}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
 Inicialmente, foi realizado o levantamento das regras do barema e das informações necessárias para compor a solicitação do discente. Em seguida, definiu-se a estrutura geral do sistema, incluindo a separação entre interface, rotas da aplicação, serviços de processamento, regras de validação e geração do documento final. Na etapa de implementação, foram desenvolvidos os mecanismos de preenchimento do formulário, anexação de certificados, extração de informações dos arquivos, pré-validação e montagem do PDF consolidado.
 
 Durante o desenvolvimento, as funcionalidades foram testadas de forma incremental. A cada novo recurso, foram verificados os efeitos sobre o fluxo completo de uso, evitando que decisões de implementação ficassem desconectadas do objetivo central do sistema.
