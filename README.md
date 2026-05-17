@@ -1,6 +1,6 @@
-# 📑 Gerador de Barema de Atividades Complementares v1.0.0 - UESC
+# 📑 Gerador de Barema de Atividades Complementares v2.2.0 - UESC
 
-Este projeto é uma ferramenta para o **Colegiado de Ciência da Computação (COLCIC/UESC)**, permitindo que discentes gerem automaticamente o PDF do Barema de Atividades Complementares, anexando e numerando os certificados de forma organizada. Esta versão adiciona um feedback da coordenação ao documento gerado pelo aluno.
+Este projeto é uma ferramenta para o **Colegiado de Ciência da Computação (COLCIC/UESC)**, permitindo que discentes gerem automaticamente o PDF do Barema de Atividades Complementares, anexando e numerando os certificados de forma organizada. Esta versão adiciona uma pré-validação do documento unificado com IA.
 
 ## 🚀 Como Executar o Projeto
 
@@ -138,23 +138,23 @@ A extração de dados e a pré-validação são funcionalidades separadas.
 
 ### Extração de dados
 
-O ponto central da extração fica em `core/services/validation_processor.py`.
+O ponto central da extração fica em `core/services/certificate_extraction_service.py`.
 
 * `CertificateDataExtractor.extract(content)` recebe os bytes do PDF.
 * `PyMuPDFTextExtractor.extract(content)` tenta extrair o texto com PyMuPDF.
 * Se o PyMuPDF não conseguir ler o texto, o extrator tenta o fallback com `pypdf`.
 * `RegexCertificateParser` interpreta o texto extraído e procura carga horária e datas.
+* Quando a IA estiver habilitada, `CertificateAIDataExtractor` complementa a extração se carga horária ou datas não forem encontradas localmente.
 * O resultado é um `ExtractedCertificateData`, que mantém `text`, `carga_horaria`, `datas` e `data_emissao`.
-
-Nesta etapa, QR Code não participa da extração. O campo `qr_urls` permanece no objeto por compatibilidade, mas o fluxo atual não preenche nem usa esse dado.
 
 ### Pré-validação básica
 
-A pré-validação básica também fica em `core/services/validation_processor.py`, mas em outra responsabilidade:
+A pré-validação básica fica em `core/services/certificate_pre_validation_service.py`:
 
 * `BasicCertificatePreValidator.validate_certificate(...)` valida um certificado isolado.
 * `BasicCertificatePreValidator.validate_activity_hours(...)` valida a soma de horas dos certificados de uma mesma atividade.
-* `CertificateValidationProcessor` funciona como fachada e coordena extração + pré-validação.
+* `BasicCertificatePreValidator.validate_duplicate_certificates(...)` verifica duplicidade na mesma atividade.
+* `CertificateValidationProcessor` funciona como fachada e coordena extração, pré-validação básica e pré-validação opcional por IA.
 
 As regras por certificado são:
 
@@ -175,7 +175,7 @@ A regra por atividade soma as cargas horárias extraídas de todos os certificad
 6. As mensagens retornadas viram `observacoes` do `ItemBarema`.
 7. `PDFService` escreve essas observações no barema gerado.
 
-QR Code e IA são estratégias futuras de pré-validação e devem ser implementadas como caminhos separados. No fluxo atual, a pré-validação é simples, local e baseada apenas nos dados extraídos do PDF.
+A IA agora é uma estratégia opcional em `core/services/certificate_ai_validation_service.py`, com prompt compacto e configuração genérica OpenAI-compatible. Ela pode complementar a extração de dados e também adicionar avisos/irregularidades na pré-validação. Consulte `documentation/pre_validacao_ia.md` para configurar o modo desejado.
 
 ### Processo TDD
 
@@ -186,4 +186,4 @@ O módulo foi ajustado com TDD:
 3. A implementação foi feita até os testes ficarem verdes.
 4. A suíte foi rodada novamente para confirmar o comportamento.
 
-Os cenários cobertos incluem extração de carga horária e datas, certificado válido sem QR/IA, nome divergente, carga horária ausente, carga abaixo do mínimo, data anterior ao ingresso, soma de múltiplos certificados na mesma atividade e garantia de que o processador atual não chama o detector de QR Code.
+Os cenários cobertos incluem extração de carga horária e datas, certificado válido sem IA, nome divergente, carga horária ausente, carga abaixo do mínimo, data anterior ao ingresso, soma de múltiplos certificados na mesma atividade e pré-validação opcional por IA.
