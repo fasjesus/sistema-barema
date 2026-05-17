@@ -1,0 +1,43 @@
+\chapter{Desafios}
+
+O desenvolvimento deste sistema apresenta desafios que vão além da construção de uma interface web convencional. A aparente simplicidade do produto final — um formulário que recebe certificados e devolve um PDF organizado — mascara uma cadeia de operações que precisam ocorrer de forma coordenada, confiável e em tempo real. É justamente nessa coordenação que reside o principal desafio técnico do projeto.
+
+%degas - Tempo Real? Tu vai ter que definir, com citação, (um parágrafo) e mencionar (explica abaixo, né?) cada operação que  vai ser ecexcutada em tempo real, e porque. Noutro parágrafo (ou talvez um parágrafo pra cada operação. Fazer isso na versão V2
+
+%DEGAS - Talvez um enumerate ou um itemize funcione melhor do que seções aí abaixo. Considere essa alternativa.
+
+\section{Técnicos}
+
+Estes focam na Engenharia de Software, na performance, na experiência do usuário e na integração robusta de tecnologias existentes.
+
+\subsection{Manipulação de Arquivos}
+
+O primeiro desafio é a manipulação de arquivos binários em ambiente web. O sistema precisa receber múltiplos arquivos PDF enviados pelo usuário, processá-los no servidor — extraindo metadados como número de páginas —, reordená-los conforme a categorização definida pelo discente e, ao final, unificá-los em um único documento. Esse fluxo exige controle preciso do estado de cada arquivo ao longo do processo: a ordem de inserção, o número de páginas acumuladas até aquele ponto e a categoria à qual o comprovante pertence são informações interdependentes que precisam ser mantidas com consistência durante toda a sessão do usuário.
+
+%degas - O que é um "estado do arquivo"? Como tu captura ordem de inserção, número de páginas até o ponto e categoria? Vai precisar explodir isso bem direitinho na V2
+
+\subsection{Experiência do Usuário}
+
+Outro desafio é garantir que toda essa complexidade permaneça invisível para o usuário. O sistema deve oferecer uma experiência simples e guiada, com feedback imediato a cada ação — como alertas quando um teto de horas é atingido ou confirmações visuais quando um arquivo é processado com sucesso. Isso impõe requisitos sobre a arquitetura do frontend: os componentes precisam reagir ao estado atual do barema em construção e refletir as validações aplicadas no backend sem que o usuário precise recarregar a página ou interpretar mensagens de erro técnicas.
+
+\section{Científicos}
+
+Estes envolvem a aplicação de conhecimentos de Ciência da Computação para resolver problemas onde não há uma solução única ou trivial, exigindo análise de dados e modelos lógicos.
+
+%degas - quais conhecimentos (de preferência ligando com disciplinas)? Também para a versão V2
+
+\subsection{Extração e Pré-validação Automatizada de Dados}
+
+O terceiro desafio reside na extração e pré-validação automatizada de dados. Ao receber um certificado, o sistema deve ser capaz de realizar uma análise preliminar do documento para verificar sua autenticidade e extrair informações pertinentes, como carga horária e palavras-chave. Isso introduz a complexidade de lidar com documentos não estruturados, exigindo técnicas de processamento de texto ou visão computacional para garantir que o que o discente anexa corresponde, de fato, ao que ele declara no formulário, mitigando erros antes mesmo da submissão.
+
+%degas o  texto está muito conciso. Separe o parágrafo acima em ideias e torne cada ideia um parágrafo por si. Fazer isso na versão V2
+
+\subsection{Regras de Negócio}
+
+O último desafio é a codificação das regras de negócio do COLCIC em lógica computacional. As normas que regem as Atividades Complementares estabelecem tetos de carga horária por categoria, e essas regras precisam ser representadas de forma estruturada no sistema — não como validações superficiais de formulário, mas como restrições aplicadas sobre um modelo de dados que reflete fielmente o regulamento do curso. Qualquer imprecisão na tradução dessas regras para código compromete a confiabilidade do documento gerado, que é, em última instância, um documento com valor regulatório.
+
+%DEGAS - as regras de negócio serão documentadas? Vão haver diagramas? Explique e aponte a seção onde eles aparecerão (\label e \ref). Derfina o que é um teto de carga horária num parágrafo,  mostre que elas se tornarão regras representadas no sistema noutro parágrafo e faça o comentário sobre o problema da imprecisão noutro parágrafo. Tudo para a versão V2
+
+Em conjunto, todos esses desafios configuram o que pode ser descrito como um orquestrador de processo especializado: diferente de uma automação simples e linear, o sistema precisa coordenar múltiplos dados em tempo real — arquivos, regras, estado da sessão e interface — de forma fluida e tolerante a variações na entrada do usuário. A robustez desse orquestrador é o que diferencia a solução proposta de uma simples concatenação de PDFs.
+
+%degas - quando apresentar a definição de orquestrador, faça uma explicação sobre o que ele vai ter como missão. Isso num parágrafo. A consideração sobre o tempo real não está muito clara (veja lá acima). Mas merece um parágrrafo aqui a explicção de cada tarefa que vai ser tratada em tempo real. E um parágrafo explicando o que voc~e chama de robiustez, e como isso é melhor que um concatenador de pdf.
