@@ -1,6 +1,7 @@
 # app.py - Configuração Principal do Flask
 import os
 from flask import Flask, redirect, url_for
+from dotenv import load_dotenv
 from core.models import db, Usuario, AnaliseBarema
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -8,6 +9,8 @@ from flask_login import LoginManager, current_user
 from flask_migrate import Migrate  
 
 # 1. Configurações Iniciais do Flask
+load_dotenv()
+
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'chave-padrao')
 basedir = os.path.abspath(os.path.dirname(__file__))

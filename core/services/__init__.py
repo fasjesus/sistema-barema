@@ -14,12 +14,18 @@ except ImportError:
     CertificateProcessor = None
 
 from .validation_processor import (
+    AIValidationResult,
     ActivityRule,
     ActivityValidationResult,
     BasicCertificatePreValidator,
+    CertificateAIDataExtractor,
+    CertificateAIPreValidator,
+    CertificateAIPromptOptimizer,
     CertificateDataExtractor,
     CertificateValidationProcessor,
     CertificateValidationResult,
     ExtractedCertificateData,
+    OpenAICompatibleAIClient,
     StudentContext,
+    build_ai_client_from_env,
 )
