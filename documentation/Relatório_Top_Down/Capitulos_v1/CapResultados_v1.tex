@@ -1,0 +1,51 @@
+\chapter{Resultados e Discussão}
+\label{cap:resultados}
+
+Este capítulo apresenta os resultados obtidos com o protótipo, os cenários utilizados para sua validação e uma discussão sobre o papel da solução no processo de preparação do barema do COLCIC. Os resultados aqui descritos concentram-se em evidências funcionais observadas em ambiente local.
+
+%DEGAS - Mencione que a validação seguirá o formato que você mesmo previu, e referencie a Seção onde isso está
+
+\section{Resultados Obtidos}
+
+O principal resultado do trabalho foi a implementação de um sistema web funcional para apoiar a organização do barema de atividades complementares. Nos testes realizados, o fluxo permitiu preencher os dados do discente, selecionar o tipo de barema, informar as horas solicitadas por atividade, anexar certificados e gerar um documento PDF consolidado.
+
+%DEGAS - A velha cróitica. Cada característica do sistema merece ser explicada com certo nível de detalhe, e cada uma em um parágrafo, de preferência.
+
+Durante o uso simulado, a interface permitiu anexar, substituir e remover certificados sem interromper o preenchimento do formulário. Esse comportamento indica que a solução reduz a dependência de ajustes manuais posteriores, especialmente em tarefas como organizar anexos, conferir arquivos selecionados e preparar um único documento para submissão.
+
+%DEGAS - De que forma o usuário pode anexar, substituir ou remover? Que módulo usa? Uma pbbreve descrição também.
+
+Outro resultado observado foi a integração entre extração de dados dos certificados e pré-validação. A partir do texto extraído dos PDFs, o sistema identificou informações como carga horária e datas, utilizando esses dados para verificar inconsistências antes da geração do barema. Entre os problemas tratados estão divergência entre o nome informado no formulário e o nome identificado no certificado, carga horária solicitada superior ao total comprovado e certificados duplicados.
+
+%DEGAS - Mencione a utilidade da integração que tu se refere no pa´ragrafo acima
+
+\section{Validação do Protótipo}
+
+A validação foi conduzida por meio de testes funcionais e de conformidade com regras do barema. Foram simulados cenários com certificado válido, certificado com nome divergente, certificado com carga horária insuficiente, solicitação de carga horária acima do total comprovado, anexação de certificado duplicado e geração do PDF final.
+
+%DEGAS - Explique (de novo, eu sei. Mas tenha pena do Leitor) porque é necessário seguir as regras do barema. Mencione que cada cenário é explicado a seguir.
+
+Nos cenários avaliados, o sistema conseguiu identificar inconsistências objetivas antes da submissão oficial. A divergência de nome foi detectada pela comparação entre o nome informado pelo discente e o nome identificado no certificado. A carga horária solicitada foi comparada com o total extraído dos documentos anexados, permitindo apontar quando o valor declarado era superior ao comprovado. A duplicidade foi verificada pela comparação do conteúdo textual dos certificados.
+
+Também foi testado o comportamento da pré-validação quando há indisponibilidade de serviços externos de inteligência artificial. Nesse caso, o sistema retornou para a validação básica, mantendo a análise de regras objetivas sem depender exclusivamente de uma API externa. Esse comportamento é relevante porque preserva a utilidade do sistema mesmo quando recursos adicionais de análise textual não estão disponíveis.
+
+Além das validações individuais, foi verificada a geração do documento final. O PDF consolidado reuniu os dados preenchidos e os certificados anexados em uma estrutura única, adequada para encaminhamento à análise oficial. Esse resultado atende à necessidade de reduzir erros de montagem e de organização dos anexos.
+
+\section{Discussão da Solução}
+
+Os resultados indicam que a solução proposta se diferencia de ferramentas genéricas de manipulação de PDF por incorporar regras específicas do barema do COLCIC. Enquanto ferramentas externas apenas permitem juntar ou reorganizar arquivos, o sistema desenvolvido combina a montagem do documento com verificações relacionadas ao regulamento e ao conteúdo dos certificados.
+
+A arquitetura em camadas contribuiu para essa especialização. A separação entre interface, rotas, serviços, validações e geração de documentos permitiu que regras acadêmicas fossem tratadas no backend de forma explícita. Essa estrutura também favoreceu a criação de testes para partes específicas do sistema, como extração de carga horária, comparação de nomes, verificação de duplicidade e fallback da pré-validação.
+
+%DEGAS O que danado é fallback? Use \textit{} para palavras estrangeiras.
+
+Apesar dos resultados positivos%promissores
+, a solução deve ser compreendida como apoio à conferência preliminar, e não como substituição da análise oficial do colegiado. A pré-validação reduz inconsistências evidentes nos cenários testados, mas a decisão final sobre aproveitamento das atividades permanece institucional. Assim, o sistema tem potencial para diminuir retrabalho e padronizar a preparação dos documentos, desde que usado como etapa auxiliar.
+
+\section{Limitações Observadas}
+
+Algumas limitações foram identificadas. A extração automática depende da qualidade textual dos PDFs; certificados digitalizados como imagem podem exigir tratamento adicional, como reconhecimento óptico de caracteres. Além disso, análises apoiadas por inteligência artificial dependem de configuração adequada e disponibilidade do provedor escolhido, motivo pelo qual a validação básica permanece como alternativa.
+
+%COMECE ELOGIANDO OS PONTOS POSITIVOS PARA DEPOIS FALAR DAS LIMITAÇÕES. E a velha crítica: explique cada uma delas em detalhe. Aqui, talvez, não precise separar em parágrafos. Mas como tu já separou a última... veja aí.
+
+Outra limitação é que os testes realizados ocorreram em ambiente local, com cenários controlados. Uma avaliação posterior com usuários reais e maior variedade de certificados poderá fornecer evidências mais precisas sobre redução de tempo, diminuição de erros e impacto no trabalho de conferência do colegiado.
