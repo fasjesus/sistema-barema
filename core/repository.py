@@ -3,7 +3,7 @@ import os
 import csv
 import re
 from typing import Optional, List
-from core.entities import Atividade
+from core.entities import Atividade, SolicitacaoAnalise
 
 class BaremaRepository:
     def __init__(self, base_dir):
@@ -91,3 +91,59 @@ class BaremaRepository:
             max_horas_num=data.get('max_horas_num'),
             min_horas_num=data.get('min_horas_num')
         )
+
+
+class UsuarioRepository:
+    def buscar_por_id(self, usuario_id):
+        from core.models import Usuario
+        from sqlalchemy.exc import SQLAlchemyError
+
+        try:
+            return Usuario.query.get(int(usuario_id))
+        except SQLAlchemyError:
+            return None
+
+    def buscar_por_username(self, username):
+        from core.models import Usuario
+        from sqlalchemy.exc import SQLAlchemyError
+
+        try:
+            return Usuario.query.filter_by(username=username).first()
+        except SQLAlchemyError:
+            return None
+
+
+class AnaliseBaremaRepository:
+    def listar_ordenadas_por_data(self):
+        from core.models import AnaliseBarema
+
+        return AnaliseBarema.query.order_by(AnaliseBarema.data_solicitacao.desc()).all()
+
+    def buscar_modelo_por_id(self, analise_id):
+        from core.models import AnaliseBarema
+
+        return AnaliseBarema.query.get(analise_id)
+
+    def criar(self, solicitacao: SolicitacaoAnalise):
+        from core.models import AnaliseBarema, db
+
+        analise = AnaliseBarema(
+            matricula=solicitacao.estudante.matricula,
+            nome_aluno=solicitacao.estudante.nome,
+            email_aluno=solicitacao.estudante.email,
+            whatsapp_aluno=solicitacao.whatsapp_aluno,
+            metodo_preferencial=solicitacao.metodo_preferencial,
+            caminho_pdf=solicitacao.caminho_pdf,
+            status=solicitacao.status,
+            feedback=solicitacao.feedback,
+        )
+        db.session.add(analise)
+        db.session.commit()
+        return analise
+
+    def salvar_entidade(self, analise_modelo, solicitacao: SolicitacaoAnalise):
+        from core.models import db
+
+        analise_modelo.atualizar_por_entidade(solicitacao)
+        db.session.commit()
+        return analise_modelo

@@ -2,10 +2,12 @@ from flask import Blueprint, current_app, make_response, render_template, reques
 from flask.views import MethodView
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import check_password_hash
-from core.models import Usuario
+from core.entities import CargoUsuario
+from core.repository import UsuarioRepository
 from core.security import get_client_ip, login_attempt_limiter
 
 auth_bp = Blueprint('auth', __name__)
+usuario_repository = UsuarioRepository()
 
 def _login_attempt_key(username):
     normalized_user = (username or "").strip().lower() or "usuario-desconhecido"
@@ -59,16 +61,16 @@ class LoginView(MethodView):
         if blocked.blocked:
             return _blocked_login_response(blocked.retry_after, user)
 
-        usuario = Usuario.query.filter_by(username=user).first()
+        usuario = usuario_repository.buscar_por_username(user)
 
         if usuario and check_password_hash(usuario.password, pw):
             login_attempt_limiter.reset(attempt_key)
             session.pop('blocked_login_username', None)
             login_user(usuario)
             # Roteamento inteligente baseado no cargo (RBAC)
-            if getattr(usuario, 'cargo', '') == 'admin':
+            if usuario.cargo == CargoUsuario.ADMIN:
                 return redirect('/admin') 
-            if getattr(usuario, 'cargo', '') == 'coordenador':
+            if usuario.cargo == CargoUsuario.COORDENADOR:
                 return redirect(url_for('coordenador.painel')) 
 
         blocked = login_attempt_limiter.register_failure(

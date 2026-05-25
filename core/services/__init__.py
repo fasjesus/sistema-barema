@@ -9,6 +9,11 @@ except ImportError:
     NotificationService = None
 
 try:
+    from .analise_barema_service import AnaliseBaremaService
+except ImportError:
+    AnaliseBaremaService = None
+
+try:
     from .certificate_service import CertificateProcessor
 except ImportError:
     CertificateProcessor = None

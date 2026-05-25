@@ -3,6 +3,7 @@ import os
 from flask import Flask, make_response, redirect, request, url_for
 from dotenv import load_dotenv
 from core.models import db, Usuario, AnaliseBarema
+from core.repository import UsuarioRepository
 from core.security import get_client_ip, request_rate_limiter
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -61,12 +62,12 @@ def limitar_requisicoes_por_ip():
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Usuario.query.get(int(user_id))
+    return UsuarioRepository().buscar_por_id(user_id)
 
 # 4. Flask-Admin (Protegido)
 class ViewProtegida(ModelView):
     def is_accessible(self):
-        return current_user.is_authenticated and getattr(current_user, 'cargo', '') == 'admin'
+        return current_user.is_authenticated and current_user.eh_admin()
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login'))
 

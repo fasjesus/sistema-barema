@@ -4,10 +4,10 @@ import traceback
 from datetime import datetime, date
 from flask import Blueprint, render_template, request, send_file, jsonify, current_app
 from flask.views import MethodView
-from core.models import db, AnaliseBarema
-from core.entities import Estudante, ProcessoBarema, ItemBarema
+from core.entities import Estudante, ProcessoBarema, ItemBarema, SolicitacaoAnalise
 from core.repository import BaremaRepository
 from core.services import (
+    AnaliseBaremaService,
     ActivityRule,
     CertificateProcessor,
     CertificateValidationProcessor,
@@ -22,6 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 repo = BaremaRepository(BASE_DIR)
 cert_processor = CertificateProcessor()
 validation_processor = CertificateValidationProcessor()
+analise_service = AnaliseBaremaService()
 pdf_service = PDFService(
     logo_uesc=os.path.join(BASE_DIR, 'static', 'images', 'logo_uesc.png'),
     logo_colcic=os.path.join(BASE_DIR, 'static', 'images', 'logo_computacao.png')
@@ -231,17 +232,13 @@ class SolicitarAnaliseView(MethodView):
             metodo = request.form.get('metodo_notificacao')  # 'email' ou 'whatsapp'
             contato = request.form.get('contato_notificacao')
 
-            nova_analise = AnaliseBarema(
-                matricula=matricula,
-                nome_aluno=nome,
+            solicitacao = SolicitacaoAnalise(
+                estudante=aluno,
                 caminho_pdf=nome_arquivo,
-                status='Pendente',
-                email_aluno = email, # Pego do campo 'email' do topo
-                whatsapp_aluno = contato if metodo == 'whatsapp' else None,
-                metodo_preferencial = metodo
+                whatsapp_aluno=contato if metodo == 'whatsapp' else None,
+                metodo_preferencial=metodo or 'email',
             )
-            db.session.add(nova_analise)
-            db.session.commit()
+            analise_service.registrar_solicitacao(solicitacao)
 
             return "Solicitação enviada!", 200
         except Exception as e:

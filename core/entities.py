@@ -1,6 +1,12 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+
+class CargoUsuario:
+    ADMIN = "admin"
+    COORDENADOR = "coordenador"
+
+
 @dataclass
 class Atividade:
     id: str
@@ -23,6 +29,19 @@ class Estudante:
     nome: str
     matricula: str
     email: str
+
+
+@dataclass
+class Usuario:
+    username: str
+    cargo: str
+    id: Optional[int] = None
+
+    def eh_admin(self) -> bool:
+        return self.cargo == CargoUsuario.ADMIN
+
+    def eh_coordenador(self) -> bool:
+        return self.cargo == CargoUsuario.COORDENADOR
 
 
 @dataclass
@@ -65,3 +84,18 @@ class ProcessoBarema:
     def total_horas(self) -> float:
         
         return sum(item.horas_validas for item in self.itens)
+
+
+@dataclass
+class SolicitacaoAnalise:
+    estudante: Estudante
+    caminho_pdf: str
+    metodo_preferencial: str = "email"
+    whatsapp_aluno: Optional[str] = None
+    status: str = "Pendente"
+    feedback: Optional[str] = None
+    id: Optional[int] = None
+
+    def registrar_parecer(self, parecer: str) -> None:
+        self.feedback = parecer
+        self.status = "Analisado"
