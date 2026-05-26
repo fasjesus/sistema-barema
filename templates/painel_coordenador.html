@@ -4,57 +4,478 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Coordenador - COLCIC</title>
-    
+
     <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
-    
+
     <style>
-        /* ... SEUS ESTILOS INTACTOS AQUI ... */
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+
         :root {
-            --primary-blue: #003366;
-            --accent-yellow: #ffe45e;
-            --bg-gray: #f8f9fa;
-            --text-dark: #333;
-            --success-green: #28a745;
+            --primary-color: #314ca5;
+            --primary-color-hover: #263b85;
+            --secondary-color: #ffe45e;
+            --secondary-color-hover: #f0d400;
+            --background-color: #e8f1ff;
+            --background-color-2: #d4e1f4;
+            --text-color: #232323;
+            --muted-color: #667085;
+            --border-color: #e2e8f0;
+            --surface-color: #ffffff;
+            --success-color: #237a3b;
+            --warning-color: #a35d00;
+            --danger-color: #d43d3d;
         }
 
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--primary-blue);
-            background-image: linear-gradient(180deg, var(--primary-blue) 0%, #001a33 100%);
-            margin: 0;
-            padding: 40px 20px;
+        * {
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
             min-height: 100vh;
+            margin: 0;
+            padding: 24px;
+            color: var(--text-color);
+            background: linear-gradient(90deg, var(--primary-color), #283a73);
+            overflow: hidden;
         }
 
-        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        header { text-align: center; margin-bottom: 20px; border-bottom: 3px solid var(--accent-yellow); padding-bottom: 15px; }
-        .filter-bar { display: flex; justify-content: space-between; align-items: center; background: #f1f1f1; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; gap: 15px; flex-wrap: wrap; }
-        .filter-group { display: flex; align-items: center; gap: 10px; color: var(--primary-blue); font-weight: bold; }
-        select { padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; outline: none; cursor: pointer; }
-        .stats-badge { background: var(--primary-blue); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85em; }
-        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-        th { color: var(--primary-blue); text-transform: uppercase; font-size: 0.85em; padding: 15px; border-bottom: 2px solid #eee; text-align: left; }
-        td { padding: 20px 15px; background: #fff; border-bottom: 1px solid #eee; }
-        .status-pill { padding: 5px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; display: inline-block; }
-        .status-pendente { background: #fff4e5; color: #ff8c00; }
-        .status-analisado { background: #e8f5e9; color: var(--success-green); }
-        .btn-pdf { background: var(--primary-blue); color: white; padding: 8px 16px; text-decoration: none; border-radius: 8px; font-size: 0.9em; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
-        textarea { width: 100%; box-sizing: border-box; margin-top: 15px; border-radius: 8px; border: 1px solid #ddd; padding: 12px; font-family: inherit; resize: vertical; }
-        .btn-enviar { background: var(--accent-yellow); color: var(--text-dark); border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
-        .aluno-info b { display: block; color: var(--primary-blue); font-size: 1.1em; }
-        .aluno-info span { color: #777; font-size: 0.9em; }
-        .no-results { text-align: center; padding: 40px; color: #999; display: none; }
+        .container {
+            width: min(1180px, 100%);
+            height: calc(100vh - 48px);
+            margin: 0 auto;
+            background: var(--surface-color);
+            border: 1px solid rgba(49, 76, 165, 0.12);
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(49, 76, 165, 0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 24px 28px 18px;
+            border-bottom: 4px solid var(--secondary-color);
+            background: var(--surface-color);
+        }
+
+        .panel-title {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: clamp(1.35rem, 2vw, 1.8rem);
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: 0;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 18px;
+            color: var(--muted-color);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .user-actions b {
+            color: var(--primary-color);
+        }
+
+        .logout-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--danger-color);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .filter-bar {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 28px;
+            background: #f8fbff;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        select {
+            min-width: 210px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background: var(--surface-color);
+            color: var(--text-color);
+            outline: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(49, 76, 165, 0.12);
+        }
+
+        .stats-badge {
+            background: var(--primary-color);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .requests-scroll {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 0 28px 28px;
+            background: #f8fbff;
+        }
+
+        table {
+            width: 100%;
+            flex: 1 1 auto;
+            min-height: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: fixed;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--surface-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        thead {
+            flex: 0 0 auto;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        thead th {
+            background: var(--primary-color);
+            color: #ffffff;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 0;
+            padding: 14px 16px;
+            font-weight: 800;
+        }
+
+        thead th:first-child {
+            border-top-left-radius: 7px;
+        }
+
+        thead th:last-child {
+            border-top-right-radius: 7px;
+        }
+
+        tbody {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: block;
+            overflow: auto;
+        }
+
+        tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 25%;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 25%;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 50%;
+        }
+
+        tbody td {
+            padding: 18px 16px;
+            border-bottom: 1px solid var(--border-color);
+            background: #ffffff;
+            vertical-align: top;
+        }
+
+        tbody tr:nth-child(even) td {
+            background: #f8fbff;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .aluno-info b {
+            display: block;
+            color: var(--primary-color);
+            font-size: 1rem;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .aluno-info span {
+            display: block;
+            margin-top: 6px;
+            color: var(--muted-color);
+            font-size: 0.86rem;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .status-pendente {
+            background: #fff7d6;
+            color: var(--warning-color);
+        }
+
+        .status-analisado {
+            background: #e9f7ee;
+            color: var(--success-color);
+        }
+
+        .feedback-form {
+            display: flex;
+            align-items: stretch;
+            gap: 14px;
+        }
+
+        .feedback-form textarea {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .action-row {
+            flex: 0 0 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+
+        .btn-pdf,
+        .btn-enviar {
+            min-height: 38px;
+            border: none;
+            border-radius: 6px;
+            padding: 9px 14px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background-color 0.2s, transform 0.2s;
+            width: 100%;
+            white-space: nowrap;
+        }
+
+        .btn-pdf {
+            background: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .btn-pdf:hover {
+            background: var(--primary-color-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-enviar {
+            background: var(--secondary-color);
+            color: #333333;
+        }
+
+        .btn-enviar:hover {
+            background: var(--secondary-color-hover);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 88px;
+            margin-top: 4px;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: var(--text-color);
+            resize: vertical;
+            outline: none;
+            line-height: 1.45;
+        }
+
+        form {
+            margin: 0;
+        }
+
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--muted-color);
+        }
+
+        .no-results iconify-icon {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                height: calc(100vh - 24px);
+            }
+
+            .panel-header,
+            .filter-bar,
+            .requests-scroll {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .panel-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .user-actions {
+                width: 100%;
+                justify-content: space-between;
+                white-space: normal;
+            }
+
+            .filter-bar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            select {
+                width: 100%;
+                min-width: 0;
+            }
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            table {
+                border: none;
+                background: transparent;
+                display: block;
+                overflow: visible;
+                flex: 0 0 auto;
+            }
+
+            .requests-scroll {
+                overflow: auto;
+                padding-top: 0;
+            }
+
+            tbody {
+                display: block;
+                overflow: visible;
+            }
+
+            tbody tr {
+                display: block;
+                margin-bottom: 14px;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                overflow: hidden;
+                background: #ffffff;
+            }
+
+            tbody td,
+            tbody tr:nth-child(even) td {
+                display: block;
+                width: auto;
+                padding: 14px;
+                background: #ffffff;
+            }
+
+            .feedback-form {
+                flex-direction: column;
+            }
+
+            .action-row {
+                flex: 0 0 auto;
+                width: 100%;
+            }
+
+            tbody td::before {
+                content: attr(data-label);
+                display: block;
+                margin-bottom: 8px;
+                color: var(--muted-color);
+                font-size: 0.75rem;
+                font-weight: 800;
+                text-transform: uppercase;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--accent-yellow); margin-bottom: 20px; padding-bottom: 10px;">
-            <h1>Solicitações de Análise - COLCIC</h1>
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <span style="color: var(--primary-blue); font-size: 0.9em;">
-                    Olá, <b>{{ current_user.username }}</b>
-                </span>
-                <a href="/logout" style="color: #d9534f; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 5px;">
+        <header class="panel-header">
+            <h1 class="panel-title">Solicitações de Análise - COLCIC</h1>
+            <div class="user-actions">
+                <span>Olá, <b>{{ current_user.username }}</b></span>
+                <a href="/logout" class="logout-link">
                     <iconify-icon icon="ls:logout"></iconify-icon> Sair
                 </a>
             </div>
@@ -73,50 +494,50 @@
             <div id="counter" class="stats-badge">Mostrando todas as solicitações</div>
         </div>
 
-        <table id="analisesTable">
-            <thead>
-                <tr>
-                    <th>Estudante</th>
-                    <th>Status</th>
-                    <th style="width: 50%;">Ações e Feedback</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for analise in analises %}
-                <tr class="analise-row" data-status="{{ analise.status.lower() }}">
-                    <td class="aluno-info">
-                        <b>{{ analise.nome_aluno }}</b>
-                        <span>Matrícula: {{ analise.matricula }}</span>
-                    </td>
-                    <td>
-                        <span class="status-pill status-{{ analise.status.lower() }}">
-                            {{ analise.status }}
-                        </span>
-                    </td>
-                    <td>
-                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-                            <a href="{{ url_for('static', filename='uploads/' + analise.caminho_pdf) }}" target="_blank" class="btn-pdf">
-                                <iconify-icon icon="akar-icons:pdf"></iconify-icon> Abrir Documento
-                            </a>
-
-                           <form action="{{ url_for('coordenador.salvar_feedback') }}" method="POST" style="margin: 0;">
+        <div class="requests-scroll">
+            <table id="analisesTable">
+                <thead>
+                    <tr>
+                        <th>Estudante</th>
+                        <th>Status</th>
+                        <th style="width: 50%;">Ações e Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for analise in analises %}
+                    <tr class="analise-row" data-status="{{ analise.status.lower() }}">
+                        <td class="aluno-info" data-label="Estudante">
+                            <b>{{ analise.nome_aluno }}</b>
+                            <span>Matrícula: {{ analise.matricula }}</span>
+                        </td>
+                        <td data-label="Status">
+                            <span class="status-pill status-{{ analise.status.lower() }}">
+                                {{ analise.status }}
+                            </span>
+                        </td>
+                        <td data-label="Ações e Feedback">
+                            <form action="{{ url_for('coordenador.salvar_feedback') }}" method="POST" class="feedback-form">
                                 <input type="hidden" name="id" value="{{ analise.id }}">
-                                <button type="submit" class="btn-enviar" style="margin-top: 0;">
-                                    <iconify-icon icon="fluent:save-24-filled"></iconify-icon> Salvar Parecer
-                                </button>
-                        </div>
+                                <textarea name="feedback" rows="3" placeholder="Escreva as observações para o aluno...">{{ analise.feedback or '' }}</textarea>
+                                <div class="action-row">
+                                    <a href="{{ url_for('static', filename='uploads/' + analise.caminho_pdf) }}" target="_blank" class="btn-pdf">
+                                        <iconify-icon icon="ri:file-search-line"></iconify-icon> Abrir Documento
+                                    </a>
+                                    <button type="submit" class="btn-enviar">
+                                        <iconify-icon icon="fluent:save-24-filled"></iconify-icon> Salvar Parecer
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-                        <textarea name="feedback" rows="3" placeholder="Escreva as observações para o aluno..." style="width: 100%; box-sizing: border-box;">{{ analise.feedback or '' }}</textarea>
-                        </form> 
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div id="noResults" class="no-results">
-            <iconify-icon icon="tabler:mood-empty" width="48"></iconify-icon>
-            <p>Nenhuma solicitação encontrada para este filtro.</p>
+            <div id="noResults" class="no-results">
+                <iconify-icon icon="tabler:mood-empty" width="48"></iconify-icon>
+                <p>Nenhuma solicitação encontrada para este filtro.</p>
+            </div>
         </div>
     </div>
 
@@ -131,7 +552,7 @@
             rows.forEach(row => {
                 const status = row.getAttribute('data-status');
                 if (filterValue === 'todos' || status === filterValue) {
-                    row.style.display = 'table-row';
+                    row.style.display = '';
                     visibleCount++;
                 } else {
                     row.style.display = 'none';

@@ -43,6 +43,17 @@ Além da interface voltada ao discente, o sistema possui uma tela de autenticaç
     \label{fig:login-administrativo}
 \end{figure}
 
+Após a autenticação, o coordenador acessa o painel de solicitações de análise. Essa interface concentra os registros enviados pelos discentes, permite filtrar solicitações por status, abrir o documento unificado submetido e registrar o parecer que será encaminhado ao aluno.
+
+\begin{figure}[H]
+    \centering
+    \caption{Painel do coordenador para análise das solicitações.}
+    \includegraphics[width=0.9\textwidth]{figuras/telas/04_painel_coordenador.png}
+    
+    \legend{Fonte: elaboração própria.}
+    \label{fig:painel-coordenador}
+\end{figure}
+
 \section{Arquitetura e Fluxo de Funcionamento}
 
 A aplicação foi estruturada em camadas para separar responsabilidades. A interface web concentra a interação com o usuário, incluindo preenchimento do formulário, anexação e remoção de arquivos e \textit{feedbacks} visuais. As rotas da aplicação recebem os dados enviados pelo navegador e acionam os serviços responsáveis pelo processamento. A camada de serviços realiza a extração de informações dos certificados, aplica regras de pré-validação, organiza os dados do barema e encaminha a geração do PDF final.
