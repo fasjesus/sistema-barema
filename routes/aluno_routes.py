@@ -1,8 +1,8 @@
 import os
 import uuid
 import traceback
-from datetime import datetime, date
-from flask import Blueprint, render_template, request, send_file, jsonify, current_app
+from datetime import date
+from flask import Blueprint, render_template, request, send_file, jsonify
 from flask.views import MethodView
 from core.entities import Estudante, ProcessoBarema, ItemBarema, SolicitacaoAnalise
 from core.repository import BaremaRepository
@@ -52,7 +52,13 @@ def _mensagens_do_resultado(filename, resultado):
     mensagens.extend(f"{filename}: Aviso: {aviso}" for aviso in resultado.avisos)
     return mensagens
 
-def _validar_certificados_da_atividade(file_storages, aluno, atividade, horas_solicitadas):
+def _validar_certificados_da_atividade(
+    file_storages,
+    aluno,
+    atividade,
+    horas_solicitadas,
+    fingerprints_certificados=None,
+):
     ano_ingresso = _ano_ingresso_from_matricula(aluno.matricula)
 
     if ano_ingresso is None:
@@ -76,6 +82,7 @@ def _validar_certificados_da_atividade(file_storages, aluno, atividade, horas_so
             StudentContext(nome=aluno.nome or "", ano_ingresso=ano_ingresso),
             _activity_rule_from_entity(atividade),
             horas_solicitadas,
+            duplicate_fingerprints=fingerprints_certificados,
         )
 
         mensagens = []
@@ -130,6 +137,7 @@ class GerarRascunhoView(MethodView):
 
             atividades_base = repo.load_atividades(tipo)
             certificados, pag_atual = [], 2
+            fingerprints_certificados = {}
 
             for ativ in atividades_base:
                 ativ_objeto = repo.to_entity(ativ)
@@ -153,6 +161,7 @@ class GerarRascunhoView(MethodView):
                             aluno,
                             ativ_objeto,
                             horas_raw,
+                            fingerprints_certificados,
                         )
                     )
 
@@ -175,59 +184,28 @@ class SolicitarAnaliseView(MethodView):
     def post(self):
         try:
             nome, matricula, email = request.form.get('nome'), request.form.get('matricula'), request.form.get('email')
-            barema_tipo = request.form.get('barema_tipo', 'antigo')
-            data_hoje = datetime.now().strftime("%d/%m/%Y")
+
+            if request.form.get('download_confirmado') != '1':
+                return "Baixe o documento antes de solicitar analise.", 400
+
+            barema_pdf = request.files.get('barema_pdf')
+            if not barema_pdf:
+                return "Baixe o documento antes de solicitar analise.", 400
+
+            pdf_bytes = barema_pdf.read()
+            if not pdf_bytes:
+                return "Baixe o documento antes de solicitar analise.", 400
 
             aluno = Estudante(nome=nome, matricula=matricula, email=email)
-            processo = ProcessoBarema(estudante=aluno, tipo_barema=barema_tipo, data_envio=data_hoje)
 
-            pag_atual = 2
-            atividades_base = repo.load_atividades(barema_tipo)
-            certificados_para_anexar = [] 
-            
-            for ativ_dict in atividades_base:
-                ativ_objeto = repo.to_entity(ativ_dict)
-                id_at = ativ_objeto.id 
-                horas = request.form.get(f'horas_{id_at}')
-                
-                if horas and horas.strip():
-                    files = request.files.getlist(f'certificado_{id_at}')
-                    files_validos = [f for f in files if f and f.filename != '']
-                    intervalos = []
-                    observacoes = []
-                    for f in files_validos:
-                        prox, inter = cert_processor.get_page_info(pag_atual, f)
-                        intervalos.append(inter)
-                        certificados_para_anexar.append(f)
-                        pag_atual = prox
-
-                    observacoes.extend(
-                        _validar_certificados_da_atividade(
-                            files_validos,
-                            aluno,
-                            ativ_objeto,
-                            horas,
-                        )
-                    )
-                     
-                    item = ItemBarema(
-                        atividade=ativ_objeto, 
-                        horas_input=str(horas), 
-                        tipo_barema=barema_tipo,
-                        intervalo_paginas=", ".join(intervalos),
-                        observacoes=observacoes
-                    )
-                    processo.adicionar_item(item)
-
-            pdf_buffer = pdf_service.gerar_completo(processo, certificados=certificados_para_anexar) 
-
-            nome_arquivo = f"barema_{matricula}_{uuid.uuid4().hex[:6]}.pdf"
+            matricula_arquivo = "".join(ch for ch in str(matricula or "") if ch.isdigit()) or "sem_matricula"
+            nome_arquivo = f"barema_{matricula_arquivo}_{uuid.uuid4().hex[:6]}.pdf"
             upload_folder = os.path.join(BASE_DIR, 'static', 'uploads')
             os.makedirs(upload_folder, exist_ok=True)
             caminho_completo = os.path.join(upload_folder, nome_arquivo)
 
             with open(caminho_completo, 'wb') as f:
-                f.write(pdf_buffer.getbuffer())
+                f.write(pdf_bytes)
 
             metodo = request.form.get('metodo_notificacao')  # 'email' ou 'whatsapp'
             contato = request.form.get('contato_notificacao')

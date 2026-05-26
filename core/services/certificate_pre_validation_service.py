@@ -1,4 +1,4 @@
-from typing import List, Sequence
+from typing import List, MutableMapping, Optional, Sequence
 
 from .certificate_validation_models import (
     ActivityRule,
@@ -71,6 +71,8 @@ class BasicCertificatePreValidator:
     def validate_duplicate_certificates(
         self,
         certificados_extraidos: Sequence[ExtractedCertificateData],
+        fingerprints_anteriores: Optional[MutableMapping[str, str]] = None,
+        atividade_atual: Optional[str] = None,
     ) -> List[str]:
         seen = set()
         for dados in certificados_extraidos:
@@ -79,7 +81,17 @@ class BasicCertificatePreValidator:
                 continue
             if fingerprint in seen:
                 return ["Certificado duplicado identificado na atividade."]
+            if fingerprints_anteriores is not None and fingerprint in fingerprints_anteriores:
+                atividade_origem = fingerprints_anteriores[fingerprint]
+                if atividade_origem and atividade_atual and atividade_origem != atividade_atual:
+                    return [
+                        "Certificado duplicado identificado em outra atividade "
+                        f"(atividade {atividade_origem})."
+                    ]
+                return ["Certificado duplicado identificado em outra atividade."]
             seen.add(fingerprint)
+            if fingerprints_anteriores is not None and atividade_atual:
+                fingerprints_anteriores[fingerprint] = atividade_atual
 
         return []
 

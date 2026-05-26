@@ -581,6 +581,41 @@ class CertificateValidationProcessorTest(unittest.TestCase):
             result.irregularidades,
         )
 
+    def test_duplicate_certificates_across_activities_report_irregularity(self):
+        text = """
+        Certificamos que Maria Silva participou do evento A.
+        Carga horaria: 20h.
+        Emitido em 20/12/2024.
+        """
+        processor = self.build_processor(text, text)
+        fingerprints = {}
+
+        first = processor.validate_activity(
+            [b"first-pdf"],
+            self.student,
+            self.activity_rule,
+            horas_solicitadas="20",
+            duplicate_fingerprints=fingerprints,
+        )
+        second_activity = ActivityRule(
+            id="4",
+            descricao="Publicacao de trabalhos cientificos relacionados a computacao",
+            max_horas=80,
+        )
+        second = processor.validate_activity(
+            [b"second-pdf"],
+            self.student,
+            second_activity,
+            horas_solicitadas="20",
+            duplicate_fingerprints=fingerprints,
+        )
+
+        self.assertEqual(first.irregularidades, [])
+        self.assertIn(
+            "Certificado duplicado identificado em outra atividade (atividade 3).",
+            second.irregularidades,
+        )
+
     def test_processor_merges_enabled_ai_pre_validation_result(self):
         text = """
         Certificamos que Maria Silva participou de curso de culinaria.

@@ -111,6 +111,7 @@ class CertificateValidationProcessor:
         student: StudentContext,
         activity_rule: ActivityRule,
         horas_solicitadas,
+        duplicate_fingerprints=None,
     ) -> ActivityValidationResult:
         certificados = [
             self.validate_certificate(content, student, activity_rule)
@@ -156,8 +157,32 @@ class CertificateValidationProcessor:
                 irregularidades.extend(
                     self.pre_validator.validate_duplicate_certificates(dados_extraidos)
                 )
+                if duplicate_fingerprints is not None:
+                    irregularidades.extend(
+                        message
+                        for message in self.pre_validator.validate_duplicate_certificates(
+                            dados_extraidos,
+                            duplicate_fingerprints,
+                            activity_rule.id,
+                        )
+                        if message not in irregularidades
+                    )
                 avisos = []
                 erros = []
+            elif duplicate_fingerprints is not None:
+                for message in self.pre_validator.validate_duplicate_certificates(
+                    dados_extraidos,
+                    duplicate_fingerprints,
+                    activity_rule.id,
+                ):
+                    message_normalized = message.casefold()
+                    already_reported = any(
+                        message_normalized in irregularidade.casefold()
+                        or irregularidade.casefold() in message_normalized
+                        for irregularidade in irregularidades
+                    )
+                    if not already_reported:
+                        irregularidades.append(message)
         else:
             irregularidades.extend(
                 self.pre_validator.validate_activity_hours(
@@ -166,7 +191,11 @@ class CertificateValidationProcessor:
                 )
             )
             irregularidades.extend(
-                self.pre_validator.validate_duplicate_certificates(dados_extraidos)
+                self.pre_validator.validate_duplicate_certificates(
+                    dados_extraidos,
+                    duplicate_fingerprints,
+                    activity_rule.id,
+                )
             )
             avisos = []
             erros = []
