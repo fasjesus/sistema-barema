@@ -192,10 +192,13 @@
                                 Baixar Documento
                             </a>
                             
-                            <button id="btnConfirmarSolicitacao" class="SecondaryButton" style="background-color: #28a745; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; border: none;">
+                            <button id="btnConfirmarSolicitacao" class="SecondaryButton" style="background-color: #28a745; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; border: none;" disabled title="Baixe o documento antes de solicitar a analise.">
                                 Solicitar Análise da Coordenação
                             </button>
                         </div>
+                        <small id="avisoDownloadAnalise" style="display: block; margin-top: 10px; color: #666;">
+                            Baixe o documento para liberar a solicitação de análise.
+                        </small>
                     </div>
 
                     <div id="feedbackFinal" style="display: none; margin-top: 20px;">
@@ -219,6 +222,34 @@
         const tabelaContainer = document.getElementById('tabela-atividades');
         const baremaForm = document.getElementById('baremaForm');
         const sucessoConteudo = document.getElementById('sucessoConteudo');
+        const btnDownload = document.getElementById('btnDownload');
+        const btnConfirmarSolicitacao = document.getElementById('btnConfirmarSolicitacao');
+        const avisoDownloadAnalise = document.getElementById('avisoDownloadAnalise');
+        let baremaBlob = null;
+        let downloadConfirmado = false;
+
+        function setSolicitacaoHabilitada(habilitada) {
+            btnConfirmarSolicitacao.disabled = !habilitada;
+            btnConfirmarSolicitacao.style.opacity = habilitada ? '1' : '0.55';
+            btnConfirmarSolicitacao.style.cursor = habilitada ? 'pointer' : 'not-allowed';
+            btnConfirmarSolicitacao.title = habilitada
+                ? ''
+                : 'Baixe o documento antes de solicitar a analise.';
+            avisoDownloadAnalise.style.display = habilitada ? 'none' : 'block';
+        }
+
+        setSolicitacaoHabilitada(false);
+
+        btnDownload.addEventListener('click', function(e) {
+            if (!baremaBlob) {
+                e.preventDefault();
+                alert('Gere e baixe o documento antes de solicitar analise.');
+                return;
+            }
+
+            downloadConfirmado = true;
+            setSolicitacaoHabilitada(true);
+        });
 
         // Alterna campo de entrada do WhatsApp
         function toggleWhatsInput(show) {
@@ -382,32 +413,55 @@
                 const response = await fetch("{{ url_for('aluno.barema_process') }}", { method: 'POST', body: formData });
                 if (response.ok) {
                     const blob = await response.blob();
+                    baremaBlob = blob;
+                    downloadConfirmado = false;
+                    setSolicitacaoHabilitada(false);
                     const url = window.URL.createObjectURL(blob);
-                    document.getElementById('btnDownload').href = url;
-                    document.getElementById('btnDownload').download = `Barema_${matriculaInput.value}.pdf`;
+                    btnDownload.href = url;
+                    btnDownload.download = `Barema_${matriculaInput.value}.pdf`;
 
                     baremaForm.style.display = 'none';
                     sucessoConteudo.style.display = 'block';
                     window.scrollTo(0, sucessoConteudo.offsetTop - 100);
 
-                    document.getElementById('btnConfirmarSolicitacao').onclick = async () => {
+                    btnConfirmarSolicitacao.onclick = async () => {
+                        if (!downloadConfirmado || !baremaBlob) {
+                            alert("Baixe o documento antes de solicitar analise.");
+                            return;
+                        }
+
                         const metodo = document.querySelector('input[name="pref_notificacao"]:checked').value;
                         const whatsNum = document.getElementById('whatsapp_input').value;
                         const emailAluno = document.getElementById('email').value;
 
                         if(metodo === 'whatsapp' && whatsNum.length < 10) { alert("Insira um WhatsApp válido."); return; }
 
-                        formData.append('metodo_notificacao', metodo);
-                        formData.append('contato_notificacao', metodo === 'whatsapp' ? whatsNum : emailAluno);
+                        const analiseFormData = new FormData();
+                        analiseFormData.append('nome', document.getElementById('nome').value);
+                        analiseFormData.append('matricula', matriculaInput.value);
+                        analiseFormData.append('email', emailAluno);
+                        analiseFormData.append('metodo_notificacao', metodo);
+                        analiseFormData.append('contato_notificacao', metodo === 'whatsapp' ? whatsNum : emailAluno);
+                        analiseFormData.append('download_confirmado', '1');
+                        analiseFormData.append(
+                            'barema_pdf',
+                            baremaBlob,
+                            `Barema_${matriculaInput.value}.pdf`
+                        );
 
-                        document.getElementById('btnConfirmarSolicitacao').disabled = true;
-                        document.getElementById('btnConfirmarSolicitacao').innerText = "Enviando...";
+                        btnConfirmarSolicitacao.disabled = true;
+                        btnConfirmarSolicitacao.innerText = "Enviando...";
 
-                        const sol = await fetch("{{ url_for('aluno.solicitar_analise') }}", { method: 'POST', body: formData });
+                        const sol = await fetch("{{ url_for('aluno.solicitar_analise') }}", { method: 'POST', body: analiseFormData });
                         if (sol.ok) {
                             document.getElementById('escolhaNotificacao').style.display = 'none';
                             document.getElementById('feedbackFinal').style.display = 'block';
                             document.getElementById('msgStatusAnalise').innerText = "✅ Solicitação enviada com sucesso!";
+                        } else {
+                            const mensagem = await sol.text();
+                            alert(mensagem || "Erro ao solicitar analise.");
+                            btnConfirmarSolicitacao.innerText = "Solicitar Analise da Coordenacao";
+                            setSolicitacaoHabilitada(true);
                         }
                     };
                 } else {
