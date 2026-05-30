@@ -33,7 +33,7 @@ section[variant] {
 .admin-access-link {
     position: absolute;
     top: 18px;
-    right: 24px;
+    right: max(20px, calc((100vw - 1100px) / 2));
     display: inline-flex;
     align-items: center;
     gap: 6px;

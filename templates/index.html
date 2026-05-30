@@ -257,7 +257,7 @@
         }
 
         function createNewFileInputHTML(inputName) { 
-            return `<div class="file-input-wrapper"><label class="file-button"><span>Escolher Arquivo</span><input type="file" name="${inputName}" accept=".pdf" class="file-input"></label><span class="file-summary"><iconify-icon icon="ri:file-pdf-2-line"></iconify-icon><span class="file-name">Nenhum arquivo</span></span><button type="button" class="delete-file" title="Remover arquivo" aria-label="Remover arquivo">&times;</button></div>`;
+            return `<div class="file-input-wrapper"><label class="file-button"><span>Escolher Arquivo</span><input type="file" name="${inputName}" accept=".pdf,.png,.jpg,.jpeg" class="file-input"></label><span class="file-summary"><iconify-icon icon="ri:file-pdf-2-line"></iconify-icon><span class="file-name">Nenhum arquivo</span></span><button type="button" class="delete-file" title="Remover arquivo" aria-label="Remover arquivo">&times;</button></div>`;
         }
 
         function updateFileInputState(wrapper) {
@@ -334,7 +334,6 @@
             if (e.target.classList.contains('input-horas')) {
                 const input = e.target;
                 const max = parseFloat(input.getAttribute('max'));
-                const min = parseFloat(input.dataset.minHoras);
                 const valor = parseFloat(input.value);
                 if (max && valor > max) {
                     input.value = max; 
@@ -346,15 +345,31 @@
                         input.style.borderColor = "#ddd";
                         input.style.backgroundColor = "#fff";
                     }, 3000);
-                } else if (!isNaN(min) && valor > 0 && valor < min) {
+                } else {
+                    input.style.backgroundColor = "#fff";
+                    input.setCustomValidity("");
+                    input.classList.remove('input-error');
+                }
+            }
+        });
+
+        document.querySelector('.container').addEventListener('change', function(e) {
+            if (e.target.classList.contains('input-horas')) {
+                const input = e.target;
+                const min = parseFloat(input.dataset.minHoras);
+                const valor = parseFloat(input.value);
+                if (!isNaN(min) && valor > 0 && valor < min) {
+                    input.value = min;
                     input.classList.add('input-error');
                     input.setCustomValidity(`Minimo permitido para esta atividade: ${min}h.`);
-                }else {
-                    // Volta ao normal se o valor for válido
-                    input.classList.remove('input-error');
-                    input.style.borderColor = "#ddd";
-                    input.style.backgroundColor = "#fff";
-                    input.setCustomValidity(""); }
+                    input.reportValidity();
+                    setTimeout(() => {
+                        input.setCustomValidity("");
+                        input.classList.remove('input-error');
+                        input.style.borderColor = "#ddd";
+                        input.style.backgroundColor = "#fff";
+                    }, 3000);
+                }
             }
         });
 
