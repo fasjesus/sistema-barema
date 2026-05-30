@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2f4f63"/>
+    </marker>
+    <style>
+      .box{fill:#f8fbff;stroke:#2f4f63;stroke-width:2;rx:8}
+      .head{fill:#dcfce7;stroke:#2f4f63;stroke-width:2}
+      .name{font:700 18px Arial,sans-serif;fill:#102a43}
+      .txt{font:15px Arial,sans-serif;fill:#102a43}
+      .small{font:13px Arial,sans-serif;fill:#334e68}
+      .rel{stroke:#2f4f63;stroke-width:2;fill:none;marker-end:url(#arrow)}
+      .lbl{font:14px Arial,sans-serif;fill:#2f4f63;font-weight:700}
+    </style>
+  </defs>
+  <rect width="1500" height="760" fill="#fff"/>
+
+  <g transform="translate(65,70)">
+    <rect class="box" width="290" height="145"/>
+    <rect class="head" width="290" height="38"/>
+    <text class="name" x="145" y="25" text-anchor="middle">BaremaRepository</text>
+    <text class="txt" x="18" y="72">+ load_atividades()</text>
+    <text class="txt" x="18" y="100">+ to_entity()</text>
+    <text class="small" x="18" y="125">CSV para Atividade</text>
+  </g>
+
+  <g transform="translate(455,70)">
+    <rect class="box" width="280" height="145"/>
+    <rect class="head" width="280" height="38"/>
+    <text class="name" x="140" y="25" text-anchor="middle">PDFService</text>
+    <text class="txt" x="18" y="75">+ gerar_completo()</text>
+    <text class="small" x="18" y="105">monta PDF do barema</text>
+    <text class="small" x="18" y="128">anexa certificados</text>
+  </g>
+
+  <g transform="translate(845,80)">
+    <rect class="box" width="300" height="125"/>
+    <rect class="head" width="300" height="38"/>
+    <text class="name" x="150" y="25" text-anchor="middle">CertificateProcessor</text>
+    <text class="txt" x="18" y="80">+ get_page_info()</text>
+  </g>
+
+  <g transform="translate(120,425)">
+    <rect class="box" width="320" height="150"/>
+    <rect class="head" width="320" height="38"/>
+    <text class="name" x="160" y="25" text-anchor="middle">AnaliseBaremaService</text>
+    <text class="txt" x="18" y="72">+ registrar_solicitacao()</text>
+    <text class="txt" x="18" y="100">+ listar_solicitacoes()</text>
+    <text class="txt" x="18" y="128">+ registrar_parecer()</text>
+  </g>
+
+  <g transform="translate(565,425)">
+    <rect class="box" width="340" height="150"/>
+    <rect class="head" width="340" height="38"/>
+    <text class="name" x="170" y="25" text-anchor="middle">AnaliseBaremaRepository</text>
+    <text class="txt" x="18" y="72">+ criar()</text>
+    <text class="txt" x="18" y="100">+ buscar_modelo_por_id()</text>
+    <text class="txt" x="18" y="128">+ salvar_entidade()</text>
+  </g>
+
+  <g transform="translate(1030,440)">
+    <rect class="box" width="285" height="115"/>
+    <rect class="head" width="285" height="38"/>
+    <text class="name" x="142" y="25" text-anchor="middle">NotificationService</text>
+    <text class="txt" x="18" y="78">+ enviar_feedback()</text>
+  </g>
+
+  <path class="rel" d="M355 142 L455 142"/>
+  <text class="lbl" x="380" y="124">fornece dados</text>
+  <path class="rel" d="M845 142 L735 142"/>
+  <text class="lbl" x="758" y="124">calcula paginas</text>
+  <path class="rel" d="M440 500 L565 500"/>
+  <text class="lbl" x="470" y="482">persiste</text>
+  <path class="rel" d="M905 500 L1030 500"/>
+  <text class="lbl" x="940" y="482">notifica</text>
+</svg>

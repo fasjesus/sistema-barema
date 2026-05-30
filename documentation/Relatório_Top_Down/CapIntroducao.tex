@@ -1,1 +1,49 @@
 \chapter{Introdução}
+\label{cap:introducao}
+
+O presente trabalho aborda a concepção e a construção de um sistema \textit{web} de apoio à preparação do Barema de Atividades Complementares do curso de Ciência da Computação da Universidade Estadual de Santa Cruz (UESC). As atividades complementares configuram um requisito obrigatório para a integralização curricular do curso. O reconhecimento dessas horas, contudo, depende da apresentação de um documento unificado que reúna os comprovantes, calcule a carga horária e valide as categorias estritamente segundo o regulamento do Colegiado do Curso (COLCIC).
+
+Atualmente, o processo de elaboração desse Barema é eminentemente manual e impõe uma carga cognitiva e operacional significativa ao discente, que precisa:
+\begin{itemize}
+    \item reunir certificados e comprovantes dispersos em formato PDF;
+    \item ordenar e organizar estruturalmente esses documentos;
+    \item calcular individualmente as cargas horárias de cada certificado;
+    \item aplicar os limites e tetos máximos de horas previstos por categoria;
+    \item preencher uma tabela de indexação de páginas de forma manual para guiar a auditoria.
+\end{itemize}
+
+Esse fluxo braçal gera três ramificações problemáticas principais. Primeiro, eleva a suscetibilidade a erros aritméticos e de extrapolação dos tetos e pisos regulamentares, o que frequentemente invalida a submissão. Segundo, engessa a edição do documento, visto que pequenas alterações na ordem ou no conjunto de arquivos exigem a revisão completa da paginação e do índice. Terceiro, sobrecarrega o escopo administrativo da coordenação, que se vê obrigada a devolver e reavaliar inúmeros processos devido a falhas estritamente formais antes de poder analisar o mérito acadêmico.
+
+Diante desse cenário, a solução proposta não busca substituir a análise de mérito soberana do colegiado, mas atuar como uma camada tecnológica de contingência e apoio. O propósito é oferecer uma ferramenta capaz de mitigar erros formais primários, aumentando a confiabilidade do documento submetido e otimizando o fluxo de trabalho institucional.
+
+\section{Objetivos}
+
+Para guiar o desenvolvimento da solução proposta e garantir que ela atenda às necessidades do domínio acadêmico, o trabalho foi estruturado em torno dos seguintes objetivos.
+
+\subsection{Objetivo Geral}
+
+Desenvolver um protótipo funcional de sistema \textit{web} para a automação, pré-validação e geração padronizada de Baremas de Atividades Complementares voltado aos discentes e à coordenação do COLCIC/UESC.
+
+\subsection{Objetivos Específicos}
+
+Para alcançar o objetivo central, delinearam-se as seguintes metas específicas:
+\begin{enumerate}
+    \item Realizar o levantamento de requisitos funcionais, normativos e operacionais em conjunto com a coordenação do COLCIC e egressos do curso.
+    \item Desenvolver a aplicação \textit{web} com capacidade de orquestrar a extração de dados, aplicar regras de negócio e compilar um arquivo PDF unificado, indexado e paginado.
+    \item Implementar uma arquitetura de banco de dados para a persistência das solicitações, garantindo a rastreabilidade do processo e a automação do envio de \textit{feedbacks}.
+    \item Validar a precisão computacional do protótipo, atestando a conformidade dos cálculos de horas, a detecção de duplicidades e a aplicação dos tetos e pisos regulamentares do curso.
+\end{enumerate}
+
+\section{Contribuições do Trabalho}
+
+Como contribuição para a comunidade acadêmica e para a área de Engenharia de Software aplicada à gestão educacional, este trabalho apresenta:
+\begin{itemize}
+    \item um modelo de orquestração arquitetural otimizado para a manipulação e extração de metadados de arquivos PDF em estado transiente (na memória);
+    \item um mecanismo algorítmico de pré-validação que cruza as informações declaradas pelo usuário com os dados brutos extraídos (inclusive via OCR) dos certificados;
+    \item a modelagem de um motor de regras de negócio escalável, capaz de respeitar tetos numéricos e categorias normativas;
+    \item um ecossistema funcional com interface reativa para o discente e um painel de gerenciamento administrativo com gatilhos de comunicação integrados para a coordenação.
+\end{itemize}
+
+\section{Organização do Documento}
+
+Este documento está estruturado em capítulos organizados da seguinte forma. O Capítulo \ref{cap:problema} apresenta o detalhamento do problema e os desafios do processo atual. O Capítulo \ref{cap:justificativa} expõe a justificativa administrativa, acadêmica e técnica que motiva o projeto. O Capítulo \ref{cap:fundamentacao} apresenta a fundamentação teórica, abordando os conceitos e as tecnologias que embasam o desenvolvimento da ferramenta. O Capítulo \ref{cap:trabalhos-correlatos} discute os trabalhos correlatos, comparando a abordagem deste projeto com outras soluções existentes. O Capítulo \ref{cap:metodologia} descreve a metodologia, o levantamento de requisitos e as estratégias adotadas para a construção do protótipo. O Capítulo \ref{cap:solucao-proposta} detalha a arquitetura e a engenharia da solução técnica implementada. O Capítulo \ref{cap:resultados} apresenta a avaliação dos cenários de teste, discutindo a aplicabilidade e o atendimento aos critérios de sucesso. O capítulo \ref{cap:conclusao} sintetiza as conclusões obtidas e indicam diretrizes para trabalhos futuros. E por fim, as referências bibliográficas complementam o documento, fornecendo o suporte teórico para o desenvolvimento.

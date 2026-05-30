@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1350" viewBox="0 0 1900 1350">
+  <defs>
+    <marker id="seta" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#283845"/>
+    </marker>
+    <style>
+      .fundo { fill: #ffffff; }
+      .classe { fill: #fbfdff; stroke: #283845; stroke-width: 2.2; rx: 10; }
+      .cabecalho { fill: #e8eef6; stroke: #283845; stroke-width: 2.2; }
+      .nome { font: 700 23px Arial, sans-serif; fill: #182631; }
+      .texto { font: 19px Arial, sans-serif; fill: #182631; }
+      .estereo { font: 16px Arial, sans-serif; fill: #3b5263; }
+      .linha { stroke: #b5c2cd; stroke-width: 1.4; }
+      .relacao { stroke: #283845; stroke-width: 2.3; fill: none; marker-end: url(#seta); }
+      .dependencia { stroke: #283845; stroke-width: 2.2; stroke-dasharray: 8 6; fill: none; marker-end: url(#seta); }
+      .rotulo-bg { fill: #ffffff; }
+      .rotulo { font: 18px Arial, sans-serif; fill: #283845; font-weight: 700; }
+      .multiplicidade { font: 18px Arial, sans-serif; fill: #283845; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect class="fundo" width="1900" height="1350"/>
+
+  <!-- CargoUsuario -->
+  <g transform="translate(90,85)">
+    <rect class="classe" width="325" height="175"/>
+    <rect class="cabecalho" width="325" height="62"/>
+    <text class="nome" x="162" y="32" text-anchor="middle">CargoUsuario</text>
+    <text class="estereo" x="162" y="53" text-anchor="middle">&lt;&lt;enumeration&gt;&gt;</text>
+    <text class="texto" x="26" y="106">ADMIN</text>
+    <text class="texto" x="26" y="145">COORDENADOR</text>
+  </g>
+
+  <!-- Usuario -->
+  <g transform="translate(545,70)">
+    <rect class="classe" width="420" height="260"/>
+    <rect class="cabecalho" width="420" height="62"/>
+    <text class="nome" x="210" y="40" text-anchor="middle">Usuario</text>
+    <text class="texto" x="26" y="98">+ id: int</text>
+    <text class="texto" x="26" y="132">+ username: str</text>
+    <text class="texto" x="26" y="166">+ cargo: CargoUsuario</text>
+    <line class="linha" x1="0" y1="192" x2="420" y2="192"/>
+    <text class="texto" x="26" y="224">+ eh_admin() bool</text>
+    <text class="texto" x="26" y="250">+ eh_coordenador() bool</text>
+  </g>
+
+  <!-- Estudante -->
+  <g transform="translate(1300,95)">
+    <rect class="classe" width="410" height="185"/>
+    <rect class="cabecalho" width="410" height="62"/>
+    <text class="nome" x="205" y="40" text-anchor="middle">Estudante</text>
+    <text class="texto" x="26" y="104">+ nome: str</text>
+    <text class="texto" x="26" y="140">+ matricula: str</text>
+    <text class="texto" x="26" y="176">+ email: str</text>
+  </g>
+
+  <!-- ProcessoBarema -->
+  <g transform="translate(135,560)">
+    <rect class="classe" width="500" height="310"/>
+    <rect class="cabecalho" width="500" height="62"/>
+    <text class="nome" x="250" y="40" text-anchor="middle">ProcessoBarema</text>
+    <text class="texto" x="26" y="98">+ estudante: Estudante</text>
+    <text class="texto" x="26" y="132">+ tipo_barema: str</text>
+    <text class="texto" x="26" y="166">+ data_envio: str</text>
+    <text class="texto" x="26" y="200">+ itens: List&lt;ItemBarema&gt;</text>
+    <text class="texto" x="26" y="234">+ total_horas: float</text>
+    <line class="linha" x1="0" y1="258" x2="500" y2="258"/>
+    <text class="texto" x="26" y="292">+ adicionar_item(item: ItemBarema)</text>
+  </g>
+
+  <!-- ItemBarema -->
+  <g transform="translate(740,535)">
+    <rect class="classe" width="520" height="360"/>
+    <rect class="cabecalho" width="520" height="62"/>
+    <text class="nome" x="260" y="40" text-anchor="middle">ItemBarema</text>
+    <text class="texto" x="26" y="98">+ atividade: Atividade</text>
+    <text class="texto" x="26" y="132">+ horas_input: str</text>
+    <text class="texto" x="26" y="166">+ tipo_barema: str</text>
+    <text class="texto" x="26" y="200">+ intervalo_paginas: str</text>
+    <text class="texto" x="26" y="234">+ observacoes: List&lt;str&gt;</text>
+    <line class="linha" x1="0" y1="262" x2="520" y2="262"/>
+    <text class="texto" x="26" y="300">+ horas_solicitadas: float</text>
+    <text class="texto" x="26" y="334">+ horas_validas: float</text>
+  </g>
+
+  <!-- Atividade -->
+  <g transform="translate(1375,520)">
+    <rect class="classe" width="445" height="325"/>
+    <rect class="cabecalho" width="445" height="62"/>
+    <text class="nome" x="222" y="40" text-anchor="middle">Atividade</text>
+    <text class="texto" x="26" y="98">+ id: str</text>
+    <text class="texto" x="26" y="132">+ descricao: str</text>
+    <text class="texto" x="26" y="166">+ carga_maxima: str</text>
+    <text class="texto" x="26" y="200">+ max_horas_num: float</text>
+    <text class="texto" x="26" y="234">+ min_horas_num: float</text>
+    <line class="linha" x1="0" y1="260" x2="445" y2="260"/>
+    <text class="texto" x="26" y="296">+ aplicar_limite(horas_solicitadas: float) float</text>
+  </g>
+
+  <!-- SolicitacaoAnalise -->
+  <g transform="translate(1160,980)">
+    <rect class="classe" width="500" height="380"/>
+    <rect class="cabecalho" width="500" height="62"/>
+    <text class="nome" x="250" y="40" text-anchor="middle">SolicitacaoAnalise</text>
+    <text class="texto" x="26" y="98">+ id: int</text>
+    <text class="texto" x="26" y="132">+ estudante: Estudante</text>
+    <text class="texto" x="26" y="166">+ caminho_pdf: str</text>
+    <text class="texto" x="26" y="200">+ metodo_preferencial: str</text>
+    <text class="texto" x="26" y="234">+ whatsapp_aluno: str</text>
+    <text class="texto" x="26" y="268">+ status: str</text>
+    <text class="texto" x="26" y="302">+ feedback: str</text>
+    <line class="linha" x1="0" y1="326" x2="500" y2="326"/>
+    <text class="texto" x="26" y="364">+ registrar_parecer(parecer: str)</text>
+  </g>
+
+  <!-- Relações -->
+  <path class="dependencia" d="M545 180 L415 180"/>
+  <rect class="rotulo-bg" x="452" y="148" width="62" height="25"/>
+  <text class="rotulo" x="483" y="168" text-anchor="middle">utiliza</text>
+
+  <path class="relacao" d="M385 560 L385 405 L1505 405 L1505 280"/>
+  <rect class="rotulo-bg" x="855" y="376" width="96" height="25"/>
+  <text class="rotulo" x="903" y="396" text-anchor="middle">pertence a</text>
+  <text class="multiplicidade" x="397" y="548">1</text>
+  <text class="multiplicidade" x="1516" y="306">1</text>
+
+  <path class="relacao" d="M635 715 L740 715"/>
+  <rect class="rotulo-bg" x="655" y="683" width="70" height="25"/>
+  <text class="rotulo" x="690" y="703" text-anchor="middle">contém</text>
+  <text class="multiplicidade" x="648" y="744">1</text>
+  <text class="multiplicidade" x="698" y="744">1..*</text>
+
+  <path class="relacao" d="M1260 715 L1375 715"/>
+  <rect class="rotulo-bg" x="1288" y="683" width="90" height="25"/>
+  <text class="rotulo" x="1333" y="703" text-anchor="middle">referencia</text>
+  <text class="multiplicidade" x="1274" y="746">*</text>
+  <text class="multiplicidade" x="1348" y="746">1</text>
+
+  <path class="relacao" d="M1410 980 L1410 925 L1850 925 L1850 185 L1710 185"/>
+  <rect class="rotulo-bg" x="1734" y="895" width="104" height="25"/>
+  <text class="rotulo" x="1786" y="915" text-anchor="middle">solicitante</text>
+  <text class="multiplicidade" x="1423" y="968">1</text>
+  <text class="multiplicidade" x="1724" y="172">1</text>
+</svg>

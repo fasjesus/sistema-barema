@@ -15,10 +15,16 @@ Acesso em: mar. 2026.
 Dispon{\'\i}vel em:
   \url{https://ajpojournals.org/journals/ije/article/view/2510/4100}.}
 
+\bibitem[HOPCROFT, MOTWANI e ULLMAN 2006]{hopcroft2006}
+\abntrefinfo{HOPCROFT, MOTWANI e ULLMAN}{HOPCROFT; MOTWANI; ULLMAN}{2006}
+{HOPCROFT, J.~E.; MOTWANI, R.; ULLMAN, J.~D. \emph{Introduction to Automata
+  Theory, Languages, and Computation}. 3. ed. Boston: Addison-Wesley, 2006.
+ISBN 978-0-321-46225-1.}
+
 \bibitem[{iLovePDF} 2026]{ilovepdf2026}
 \abntrefinfo{{iLovePDF}}{{iLovePDF}}{2026}
 {{iLovePDF}. \emph{Ferramentas de PDF online para amantes de PDF}. 2026.
-Acessado em: 12 mai. 2026.
+Acessado em: 12 abr. 2026.
 Dispon{\'\i}vel em: \url{https://www.ilovepdf.com/pt}.}
 
 \bibitem[Laudon e Laudon 2014]{laudon2014}
@@ -30,7 +36,7 @@ Dispon{\'\i}vel em: \url{https://www.ilovepdf.com/pt}.}
 \abntrefinfo{Nielsen}{NIELSEN}{1993}
 {NIELSEN, J. \emph{Response Times: The 3 Important Limits}. Nielsen Norman
   Group, 1993.
-Acessado em: 13 mai. 2026.
+Acessado em: 04 abr. 2026.
 Dispon{\'\i}vel em:
   \url{https://www.nngroup.com/articles/response-times-3-important-limits/}.}
 
@@ -38,13 +44,20 @@ Dispon{\'\i}vel em:
 \abntrefinfo{Pressman e Maxim}{PRESSMAN; MAXIM}{2016}
 {PRESSMAN, R.~S.; MAXIM, B.~R. \emph{Engenharia de Software: Uma Abordagem
   Profissional}. 8. ed. Porto Alegre: AMGH, 2016. Disponível em: Internet
-  Archive. Acessado em: 12 mai. 2026. Dispon{\'\i}vel em:
+  Archive. Acessado em: 12 mar. 2026. Dispon{\'\i}vel em:
   \url{https://archive.org/details/pressman-engenharia-de-software-uma-abordagem-profissional-8a}.}
+
+\bibitem[Soares e Resende 2007]{soareseresende2007}
+\abntrefinfo{Soares e Resende}{SOARES; RESENDE}{2007}
+{SOARES, B.~C.; RESENDE, R. S.~F. \emph{Requisitos para utilização de
+  prototipagem evolutiva nos processos de desenvolvimento de software para
+  Web}.
+Belo Horizonte, MG, 2007.}
 
 \bibitem[Tanenbaum e Bos 2016]{tanenbaum2016}
 \abntrefinfo{Tanenbaum e Bos}{TANENBAUM; BOS}{2016}
 {TANENBAUM, A.~S.; BOS, H. \emph{Sistemas Operacionais Modernos}. 4. ed. São
-  Paulo: Pearson Education do Brasil, 2016. Acessado em: 13 mai. 2026.
+  Paulo: Pearson Education do Brasil, 2016. Acessado em: 13 mar. 2026.
   Dispon{\'\i}vel em:
   \url{https://archive.org/details/SistemasOperacionaisModernosTanenbaum4Edio/}.}
 

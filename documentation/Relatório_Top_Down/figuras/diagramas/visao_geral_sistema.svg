@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1250" viewBox="0 0 2000 1250">
+  <defs>
+    <marker id="seta" markerWidth="11" markerHeight="11" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L10,3.5 z" fill="#263f52"/>
+    </marker>
+    <marker id="seta-aluno" markerWidth="11" markerHeight="11" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L10,3.5 z" fill="#b7791f"/>
+    </marker>
+    <marker id="seta-coord" markerWidth="11" markerHeight="11" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L10,3.5 z" fill="#2f7d46"/>
+    </marker>
+    <style>
+      .bg { fill: #ffffff; }
+      .titulo { font: 700 34px Arial, sans-serif; fill: #111827; }
+      .ator { fill: #f8fafc; stroke: #334155; stroke-width: 2.2; rx: 18; }
+      .sistema { fill: #f4f8fd; stroke: #415e73; stroke-width: 2.4; rx: 26; }
+      .fluxo-aluno { fill: #fff8df; stroke: #c9a227; stroke-width: 2.2; stroke-dasharray: 7 5; rx: 24; }
+      .fluxo-coord { fill: #eef9ef; stroke: #69a36f; stroke-width: 2.2; rx: 24; }
+      .cabecalho { fill: #e7eef8; stroke: #415e73; stroke-width: 1.7; rx: 8; }
+      .cabecalho-aluno { fill: #fff0b8; stroke: #c9a227; stroke-width: 1.7; rx: 8; }
+      .cabecalho-coord { fill: #dcefdc; stroke: #69a36f; stroke-width: 1.7; rx: 8; }
+      .caixa { fill: #ffffff; stroke: #64748b; stroke-width: 1.8; rx: 10; }
+      .caixa-azul { fill: #dceafe; stroke: #426a9b; stroke-width: 2; rx: 10; }
+      .caixa-amarela { fill: #fff6cf; stroke: #c9a227; stroke-width: 2; rx: 10; }
+      .caixa-verde { fill: #e3f5e5; stroke: #4d9b5d; stroke-width: 2; rx: 10; }
+      .pdf { fill: #ffffff; stroke: #334155; stroke-width: 2.2; rx: 6; }
+      .pdf-canto { fill: #dbeafe; stroke: #334155; stroke-width: 1.8; }
+      .texto { font: 19px Arial, sans-serif; fill: #111827; }
+      .menor { font: 16px Arial, sans-serif; fill: #1f2937; }
+      .micro { font: 14px Arial, sans-serif; fill: #374151; }
+      .negrito { font: 700 20px Arial, sans-serif; fill: #111827; }
+      .negrito2 { font: 700 17px Arial, sans-serif; fill: #111827; }
+      .linha { stroke: #263f52; stroke-width: 2.4; fill: none; marker-end: url(#seta); }
+      .linha-aluno { stroke: #b7791f; stroke-width: 2.4; fill: none; marker-end: url(#seta-aluno); }
+      .linha-coord { stroke: #2f7d46; stroke-width: 2.4; fill: none; marker-end: url(#seta-coord); }
+      .linha-tracejada { stroke: #263f52; stroke-width: 2.2; stroke-dasharray: 8 7; fill: none; marker-end: url(#seta); }
+      .rotulo-bg { fill: #ffffff; }
+      .rotulo { font: 15px Arial, sans-serif; fill: #263f52; font-weight: 700; }
+      .legenda { fill: #f9fafb; stroke: #6b7280; stroke-width: 1.6; rx: 10; }
+      .icon-stroke { stroke: #1f2937; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-blue { fill: #dbeafe; stroke: #1f2937; stroke-width: 3; }
+      .icon-green { fill: #dcfce7; stroke: #1f2937; stroke-width: 3; }
+      .icon-gray { fill: #e5e7eb; stroke: #1f2937; stroke-width: 3; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="2000" height="1250"/>
+  <text class="titulo" x="1000" y="60" text-anchor="middle">Sistema Web de Barema - visão geral</text>
+
+  <!-- Atores -->
+  <g transform="translate(70,145)">
+    <rect class="ator" width="260" height="250"/>
+    <circle cx="130" cy="50" r="22" class="icon-blue"/>
+    <path d="M130 72 L130 137 M85 96 L130 88 L175 96 M130 137 L96 190 M130 137 L164 190" class="icon-stroke"/>
+    <rect x="72" y="164" width="116" height="58" class="icon-gray" rx="6"/>
+    <path d="M84 176 H176 V211 H84 Z M102 223 H158" class="icon-stroke"/>
+    <text class="negrito" x="130" y="235" text-anchor="middle">Aluno</text>
+  </g>
+
+  <g transform="translate(1670,145)">
+    <rect class="ator" width="260" height="250"/>
+    <circle cx="130" cy="50" r="22" class="icon-green"/>
+    <path d="M130 72 L130 137 M85 96 L130 88 L175 96 M130 137 L96 190 M130 137 L164 190" class="icon-stroke"/>
+    <rect x="72" y="164" width="116" height="58" class="icon-gray" rx="6"/>
+    <path d="M84 176 H176 V211 H84 Z M102 223 H158" class="icon-stroke"/>
+    <text class="negrito" x="130" y="235" text-anchor="middle">Coordenador</text>
+  </g>
+
+  <!-- Fluxo superior: geração -->
+  <g transform="translate(390,120)">
+    <rect class="fluxo-aluno" width="1220" height="405"/>
+    <rect class="cabecalho-aluno" x="395" y="28" width="430" height="54"/>
+    <text class="negrito" x="610" y="63" text-anchor="middle">Fluxo 1 - geração do barema pelo aluno</text>
+
+    <g transform="translate(55,135)">
+      <rect class="caixa-amarela" width="220" height="95"/>
+      <text class="negrito2" x="110" y="35" text-anchor="middle">Formulário</text>
+      <text class="micro" x="110" y="62" text-anchor="middle">dados, atividades</text>
+      <text class="micro" x="110" y="82" text-anchor="middle">e horas</text>
+    </g>
+
+    <g transform="translate(330,135)">
+      <rect class="caixa-amarela" width="220" height="95"/>
+      <text class="negrito2" x="110" y="35" text-anchor="middle">Certificados</text>
+      <text class="micro" x="110" y="62" text-anchor="middle">PDF, PNG, JPG</text>
+      <text class="micro" x="110" y="82" text-anchor="middle">ou JPEG</text>
+    </g>
+
+    <g transform="translate(605,125)">
+      <rect class="caixa-azul" width="250" height="115"/>
+      <text class="negrito2" x="125" y="32" text-anchor="middle">Pré-validação</text>
+      <text class="micro" x="125" y="60" text-anchor="middle">extração textual</text>
+      <text class="micro" x="125" y="80" text-anchor="middle">OCR e IA complementar</text>
+      <text class="micro" x="125" y="100" text-anchor="middle">nome, data, horas</text>
+    </g>
+
+    <g transform="translate(930,135)">
+      <rect class="caixa-azul" width="220" height="95"/>
+      <text class="negrito2" x="110" y="35" text-anchor="middle">Montagem</text>
+      <text class="micro" x="110" y="62" text-anchor="middle">barema final</text>
+      <text class="micro" x="110" y="82" text-anchor="middle">com certificados</text>
+    </g>
+
+    <g transform="translate(480,290)">
+      <rect class="pdf" width="260" height="80"/>
+      <path class="pdf-canto" d="M222 0 L260 38 L222 38 Z"/>
+      <text class="negrito2" x="130" y="35" text-anchor="middle">PDF final baixado</text>
+      <text class="micro" x="130" y="60" text-anchor="middle">barema + irregularidades</text>
+    </g>
+
+    <path class="linha-aluno" d="M275 182 L330 182"/>
+    <path class="linha-aluno" d="M550 182 L605 182"/>
+    <path class="linha" d="M855 182 L930 182"/>
+    <path class="linha" d="M1040 230 C1040 300 780 330 740 330"/>
+  </g>
+
+  <!-- Núcleo central -->
+  <g transform="translate(590,575)">
+    <rect class="sistema" width="820" height="350"/>
+    <rect class="cabecalho" x="250" y="28" width="320" height="54"/>
+    <text class="negrito" x="410" y="63" text-anchor="middle">Núcleo do sistema</text>
+
+    <g transform="translate(55,125)">
+      <rect class="caixa-azul" width="210" height="90"/>
+      <text class="negrito2" x="105" y="34" text-anchor="middle">Rotas Flask</text>
+      <text class="micro" x="105" y="62" text-anchor="middle">/barema</text>
+      <text class="micro" x="105" y="82" text-anchor="middle">/solicitar-analise</text>
+    </g>
+
+    <g transform="translate(305,115)">
+      <rect class="caixa" width="210" height="110"/>
+      <text class="negrito2" x="105" y="35" text-anchor="middle">Serviços</text>
+      <text class="micro" x="105" y="63" text-anchor="middle">PDF</text>
+      <text class="micro" x="105" y="83" text-anchor="middle">extração</text>
+      <text class="micro" x="105" y="103" text-anchor="middle">pré-validação</text>
+    </g>
+
+    <g transform="translate(560,125)">
+      <rect class="caixa" width="210" height="90"/>
+      <ellipse cx="105" cy="30" rx="68" ry="18" fill="#dbeafe" stroke="#334155" stroke-width="2"/>
+      <path d="M37 30 V64 C37 82 173 82 173 64 V30" class="icon-stroke"/>
+      <text class="negrito2" x="105" y="78" text-anchor="middle">Banco de Dados</text>
+    </g>
+
+    <path class="linha" d="M265 170 L305 170"/>
+    <path class="linha" d="M515 170 L560 170"/>
+  </g>
+
+  <!-- Fluxo inferior: análise -->
+  <g transform="translate(390,965)">
+    <rect class="fluxo-coord" width="1220" height="210"/>
+    <rect class="cabecalho-coord" x="385" y="25" width="450" height="50"/>
+    <text class="negrito" x="610" y="58" text-anchor="middle">Fluxo 2 - análise da coordenação</text>
+
+    <g transform="translate(60,105)">
+      <rect class="caixa-verde" width="250" height="70"/>
+      <text class="negrito2" x="125" y="30" text-anchor="middle">Solicitar análise</text>
+      <text class="micro" x="125" y="53" text-anchor="middle">somente após download</text>
+    </g>
+
+    <g transform="translate(390,105)">
+      <rect class="caixa-verde" width="250" height="70"/>
+      <text class="negrito2" x="125" y="30" text-anchor="middle">Registrar solicitação</text>
+      <text class="micro" x="125" y="53" text-anchor="middle">mesmo PDF baixado</text>
+    </g>
+
+    <g transform="translate(720,105)">
+      <rect class="caixa-verde" width="250" height="70"/>
+      <text class="negrito2" x="125" y="30" text-anchor="middle">Painel do coordenador</text>
+      <text class="micro" x="125" y="53" text-anchor="middle">abrir documento</text>
+    </g>
+
+    <g transform="translate(1030,105)">
+      <rect class="caixa-verde" width="150" height="70"/>
+      <text class="negrito2" x="75" y="30" text-anchor="middle">Parecer</text>
+      <text class="micro" x="75" y="53" text-anchor="middle">notificação</text>
+    </g>
+
+    <path class="linha-coord" d="M310 140 L390 140"/>
+    <path class="linha-coord" d="M640 140 L720 140"/>
+    <path class="linha-coord" d="M970 140 L1030 140"/>
+  </g>
+
+  <!-- Conexões de atores -->
+  <path class="linha-aluno" d="M330 270 L445 270"/>
+  <text class="micro" x="355" y="250">preenche</text>
+
+  <path class="linha-aluno" d="M330 1015 C370 1015 382 1070 450 1070"/>
+  <text class="micro" x="330" y="990">solicita</text>
+
+  <path class="linha-coord" d="M1670 270 L1550 270"/>
+  <text class="micro" x="1585" y="250">acessa</text>
+
+  <path class="linha-coord" d="M1670 1015 C1635 1015 1585 1105 1570 1105"/>
+  <text class="micro" x="1600" y="990">analisa</text>
+
+  <!-- Conexões entre fluxos e núcleo -->
+  <path class="linha" d="M1000 525 L1000 575"/>
+  <rect class="rotulo-bg" x="888" y="535" width="224" height="25"/>
+  <text class="rotulo" x="1000" y="554" text-anchor="middle">requisição para gerar PDF</text>
+
+  <path class="linha" d="M1000 925 L1000 965"/>
+  <rect class="rotulo-bg" x="880" y="932" width="240" height="25"/>
+  <text class="rotulo" x="1000" y="951" text-anchor="middle">registro e consulta da análise</text>
+
+  <path class="linha-tracejada" d="M1000 830 C750 830 750 885 1000 965"/>
+  <rect class="rotulo-bg" x="710" y="846" width="255" height="25"/>
+  <text class="rotulo" x="837" y="865" text-anchor="middle">PDF baixado é reutilizado</text>
+
+  <!-- Regra de igualdade do PDF -->
+  <g transform="translate(120,705)">
+    <rect class="caixa" width="390" height="120"/>
+    <text class="negrito2" x="195" y="35" text-anchor="middle">Regra do fluxo</text>
+    <text class="micro" x="195" y="65" text-anchor="middle">A análise só pode ser solicitada</text>
+    <text class="micro" x="195" y="87" text-anchor="middle">após o download do PDF.</text>
+    <text class="micro" x="195" y="109" text-anchor="middle">O coordenador recebe o mesmo arquivo.</text>
+  </g>
+  <path class="linha-tracejada" d="M510 765 C670 765 760 765 900 815"/>
+
+  <!-- Legenda -->
+  <g transform="translate(245,1188)">
+    <rect class="legenda" width="1510" height="45"/>
+    <circle cx="35" cy="23" r="8" fill="#b7791f"/>
+    <text class="micro" x="55" y="28">fluxo do aluno</text>
+    <circle cx="230" cy="23" r="8" fill="#263f52"/>
+    <text class="micro" x="250" y="28">processamento no núcleo da aplicação</text>
+    <circle cx="575" cy="23" r="8" fill="#2f7d46"/>
+    <text class="micro" x="595" y="28">fluxo do coordenador e retorno ao aluno</text>
+  </g>
+</svg>

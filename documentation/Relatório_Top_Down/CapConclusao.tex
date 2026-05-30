@@ -1,1 +1,25 @@
 \chapter{Conclusão}
+\label{cap:conclusao}
+
+Este trabalho apresentou a concepção e a implementação de um protótipo de sistema web para apoiar a preparação do Barema de Atividades Complementares do curso de Ciência da Computação da UESC. O sistema proposto busca reduzir a burocracia do processo manual, aplicando automaticamente as regras de negócio do regulamento do COLCIC e consolidando os comprovantes em um único PDF paginado.
+
+A partir da análise do problema, ficou evidente que o processo atual impõe três desafios principais: cálculo manual de horas, indexação de páginas sensível a alterações na ordem dos documentos e retrabalho administrativo causado por erros frequentes. A solução desenvolvida atua diretamente sobre esses pontos, oferecendo:
+\begin{itemize}
+    \item extração automática de metadados de arquivos PDF;
+    \item aplicação de limites de horas por categoria;
+    \item geração de um documento final unificado com indexação e paginação automática;
+    \item pré-validação de inconsistências antes da submissão oficial.
+\end{itemize}
+
+Os resultados indicam que o protótipo tem potencial para melhorar a confiabilidade do Barema e reduzir o trabalho repetitivo do aluno e da coordenação. A escolha de um modelo arquitetural em camadas, com separação de responsabilidades entre interface, orquestração de regras de negócio e persistência, favoreceu a manutenção do código e a escalabilidade da solução.
+
+Por outro lado, foram identificadas limitações que devem ser consideradas em versões futuras:
+\begin{itemize}
+    \item necessidade de validações adicionais de usabilidade junto a discentes e coordenadores;
+    \item inexistência, na versão atual, de uma análise formal de desempenho em ambiente de produção;
+    \item falta de integração completa com o fluxo oficial de envio acadêmico do colegiado.
+\end{itemize}
+
+Como trabalho futuro, sugere-se ampliar a solução com testes de usabilidade reais junto a discentes e coordenação, integrar o fluxo com sistemas institucionais de autenticação e protocolo acadêmico, e evoluir o painel administrativo com relatórios de análise e monitoramento de desempenho, de modo a transformar o protótipo em uma plataforma mais robusta e aderente ao processo oficial do COLCIC.
+
+Em síntese, a plataforma desenvolvida demonstra que é viável automatizar uma etapa relevante do processo de reconhecimento de Atividades Complementares, entregando uma solução com valor prático para alunos e coordenação, ao mesmo tempo em que preserva a condição de apoio à análise oficial do colegiado.

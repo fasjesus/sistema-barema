@@ -3,69 +3,174 @@
 
 Este capítulo apresenta a solução proposta para apoiar os discentes na organização do barema de atividades complementares conforme discutido na Seção \ref{sec:desafios}. A solução consiste em um sistema web que centraliza o preenchimento dos dados do aluno, a anexação dos certificados, a pré-validação das informações e a geração de um documento final em PDF.
 
-\section{Visão Geral da Solução}
+\section{Visão Geral e Casos de Uso}
 
-O sistema foi concebido para atuar antes da submissão oficial do barema (descrita em \ref{sec:definicao}), funcionando como uma camada de apoio à organização e conferência inicial dos documentos. O discente informa seus dados, seleciona o tipo de barema, preenche as cargas horárias solicitadas e anexa os certificados correspondentes a cada atividade. A partir dessas informações, a aplicação verifica inconsistências básicas, organiza os arquivos e gera um PDF consolidado.
+O sistema foi concebido para atuar em uma fase antecedente à submissão oficial do barema (descrita em \ref{sec:definicao}), funcionando como uma camada de apoio à organização e conferência inicial dos documentos. O seu objetivo não é substituir a análise de mérito realizada pelo colegiado, mas sim atuar na mitigação ativa de erros comuns no momento do envio, como o cômputo de carga horária incompatível, a submissão de certificados repetidos e a desorganização da paginação dos anexos (melhor descritos na Seção \ref{sec:desafios}).
 
-Importante observar que esta proposta não substitui a análise institucional realizada pelo colegiado. Seu objetivo é reduzir erros comuns no envio, como carga horária incompatível, certificados repetidos, ausência de informações mínimas e desorganização dos anexos (descritos na Seção \ref{sec:desafios}). Assim, o sistema contribui para que o discente entregue um material mais consistente e para que a etapa posterior de conferência seja menos sujeita a retrabalho.
+Para mapear as interações entre os usuários e o sistema, bem como definir o escopo das funcionalidades, elaborou-se o Diagrama de Casos de Uso (Figura \ref{fig:casos-de-uso}). O diagrama identifica os dois atores principais do sistema — o Discente e o Coordenador — e as ações que cada um pode realizar na plataforma.
 
-\section{Interface do Sistema}
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama de Casos de Uso do sistema Barema.}
+    \includegraphics[width=0.9\textwidth]{figuras/diagramas/dcu.png}
+    \legend{Fonte: Elaboração própria (2026).}
+    \label{fig:casos-de-uso}
+\end{figure}
 
-A interface do sistema foi organizada para conduzir o discente pelo fluxo de preenchimento do barema de forma progressiva. Inicialmente, o usuário acessa uma tela de apresentação com a identificação da finalidade da ferramenta e um formulário para inserção dos dados básicos, como nome, matrícula, e-mail e data de verificação. Essa etapa é importante porque a matrícula permite ao sistema identificar automaticamente o regulamento aplicável ao discente.
+A partir desta modelagem de interações, a arquitetura e a implementação do sistema foram divididas em quatro módulos operacionais lógicos: Montagem do Barema, Extração de Dados, Pré-validação, Geração do Documento e o Painel de Análise dos Baremas.
+
+\section{Requisitos do Sistema}\label{requisitos}
+
+Conforme delineado no capítulo \ref{cap:metodologia}, o levantamento de requisitos que guiou a construção dos módulos operacionais foi formalizado a seguir:
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Requisitos funcionais do sistema}
+\label{tab:requisitos-funcionais}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Código} & \textbf{Descrição} \\
+\midrule
+{RF01} & O sistema deve permitir que o discente anexe, categorize e altere a ordem dos certificados PDF.  \\
+{RF02} & O sistema deve extrair automaticamente a quantidade de páginas dos arquivos PDF enviados.  \\
+{RF03} & O sistema deve comparar a carga horária informada com os tetos máximos permitidos no regulamento.  \\
+{RF04} & O sistema deve emitir alertas visuais ao usuário caso haja divergência entre as regras e os dados inseridos.  \\
+{RF05} & O sistema deve consolidar os arquivos em um único PDF, com indexação e paginação automática.  \\
+{RF06} & O sistema deve calcular e exibir a carga horária total somada dos certificados no documento final.  \\
+{RF07} & O sistema deve verificar se a data de emissão ou realização do certificado está dentro do período ativo de graduação do aluno. \\
+{RF08} & O sistema deve comparar se a carga horária e o nome informados no formulário coincidem com os dados extraídos do PDF. \\
+{RF09} & O sistema deve detectar e alertar sobre a submissão de arquivos PDF duplicados.  \\
+{RF10} & O sistema deve permitir que o discente solicite a análise formal do Barema após a geração do documento. \\
+{RF11} & O sistema deve fornecer um painel administrativo protegido para o coordenador visualizar e gerenciar o histórico de solicitações.  \\
+{RF12} & O sistema deve enviar o \textit{feedback} da análise automaticamente para o e-mail ou WhatsApp do discente.  \\
+\bottomrule
+\end{tabularx}
+\legend{Fonte: Elaborado pelo autor (2026).}
+\end{table}
+
+Também foram detectados os Requisitos Não-Funcionais do Sistema, listados a seguir:
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Requisitos não funcionais do sistema}
+\label{tab:requisitos-nao-funcionais}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Código} & \textbf{Descrição} \\
+\midrule
+{RNF01}  & A interface gráfica deve refletir o reposicionamento e a reordenação de arquivos de forma imediata.  \\
+{RNF02}  & O processamento das regras e aplicação de tetos deve possuir tempo de resposta ágil, sem travamentos na interface.  \\
+{RNF03}  & O painel de gerenciamento administrativo deve ser restrito e protegido por controle de acesso (autenticação).  \\
+\bottomrule
+\end{tabularx}
+\legend{Fonte: Elaborado pelo autor (2026).}
+\end{table} 
+
+
+\section{Arquitetura e Persistência de Dados no Projeto}
+
+A aplicação foi estruturada seguindo o padrão de arquitetura em camadas para isolar estritamente as responsabilidades de interação, controle e persistência. No \textit{backend}, a orquestração das rotas e serviços foi implementada utilizando a linguagem Python\texttrademark{} em conjunto com o \textit{microframework} Flask\texttrademark{}. A escolha por um \textit{microframework} justifica-se pela necessidade do projeto em gerenciar estados voláteis na memória de forma ágil durante o rascunho do barema, sem a sobrecarga de ferramentas monolíticas.
+
+Para refletir essa separação de responsabilidades no código-fonte, a arquitetura foi inspirada no padrão \textit{Model-View-Controller} (MVC) aliado a princípios de isolamento de domínio. A base de código foi dividida em diretórios lógicos estruturais: o núcleo de regras de negócio foi isolado em \texttt{core/entities} (representando as estruturas de dados puras, desacopladas do banco) e \texttt{core/services} (que orquestra a lógica de extração e validação do Barema). Já a persistência e a comunicação HTTP foram delegadas a camadas externas, como os \textit{controllers} de rotas e o \texttt{models.py}. Esse desacoplamento garante que a lógica de aplicação dos limites de horas não dependa do \textit{framework web} ou do banco de dados.
+
+Para guiar a implementação desse núcleo de negócio e documentar as entidades centrais, elaborou-se o Diagrama de Classes (Figura \ref{fig:diagrama-classes}). A modelagem descreve as classes puras do sistema (como a Atividade, o Item do Barema e o Histórico de Solicitações), mapeando seus atributos, métodos de obtenção de dados e as funções responsáveis pela aplicação dos tetos regulamentares.
+
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama de Classes do núcleo de domínio do sistema.}
+    \includegraphics[width=0.9\textwidth]{figuras/diagramas/dominio.png}
+    \legend{Fonte: Elaboração própria (2026).}
+    \label{fig:diagrama-classes}
+\end{figure}
+
+O estado persistente do sistema — isto é, o armazenamento definitivo do histórico de solicitações e do vínculo com os arquivos gerados — foi materializado fisicamente através do banco de dados relacional \textit{SQLite}. A comunicação entre os objetos de domínio em Python e as tabelas do banco de dados é mediada pelo \textit{framework Flask-SQLAlchemy}. A adoção deste mapeador objeto-relacional (ORM) permitiu criar métodos de conversão bidirecional (padrão \textit{Data Mapper}), de modo que as entidades fossem salvas no banco de dados abstraindo a complexidade de consultas SQL literais e assegurando transações atômicas seguras no registro dos protocolos submetidos.
+
+O reflexo físico dessa persistência pode ser visualizado no Modelo Entidade-Relacionamento (MER) do banco de dados (Figura \ref{fig:diagrama-er}), que ilustra as tabelas geradas de forma automatizada pelo SQLAlchemy para suportar as análises dos discentes e as credenciais dos usuários administrativos.
+
+\begin{figure}[H]
+    \centering
+    \caption{Modelo Entidade-Relacionamento (MER) do banco de dados.}
+    \includegraphics[width=0.6\textwidth]{figuras/diagramas/bd.png}
+    \legend{Fonte: Elaboração própria (2026).}
+    \label{fig:diagrama-er}
+\end{figure}
+
+Por fim, ao observar o modelo estrutural do banco de dados, cabe destacar uma decisão importante sobre a arquitetura do projeto: o sistema não exige \textit{login} dos discentes. Essa escolha foi feita para facilitar o uso, permitindo que o aluno gere seu protocolo de forma direta e sem burocracia. Por conta disso, as informações de identificação (nome, matrícula e \textit{e-mail}) não ficam em uma tabela separada de usuários. Em vez disso, são salvas diretamente no registro da tabela de \texttt{analises}. Essa estratégia simplifica a infraestrutura, pois elimina a necessidade de gerenciar o cadastro e a recuperação de senhas dos alunos, restringindo a autenticação de segurança estritamente ao painel da coordenação.
+
+\section{Implementação}
+
+A partir do escopo definido pelos Casos de Uso, a construção do \textit{software} foi segmentada em módulos operacionais. A seguir, detalha-se o funcionamento e as bibliotecas empregadas em cada um destes núcleos.
+
+\subsection{Montagem do Barema}
+
+Este módulo é responsável pela interação primária com o discente, englobando a coleta de dados e a recepção dos arquivos comprobatórios. Inicialmente, o usuário acessa uma tela com um formulário para inserção dos dados básicos de identificação. A matrícula inserida atua como chave de busca para que a lógica de domínio carregue dinamicamente o edital regulamentar adequado (Figura \ref{fig:tela-inicial-barema}).
 
 \begin{figure}[H]
     \centering
     \caption{Tela inicial do sistema Barema.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/01_tela_inicial_barema.png}
-    \legend{Fonte: elaboração própria.}
+    \legend{Fonte: Elaboração própria (2026).}
     \label{fig:tela-inicial-barema}
 \end{figure}
 
-Após o preenchimento da matrícula, o sistema carrega dinamicamente a tabela de atividades correspondente ao barema do aluno. Nessa tela, o discente informa a carga horária cumprida em cada atividade e anexa os comprovantes em formato PDF. A organização em tabela aproxima a interface da estrutura do documento final, facilitando a conferência das informações antes da geração do arquivo consolidado.
+Após o preenchimento, a interface renderiza a tabela de atividades. A construção visual e interativa deste módulo foi realizada utilizando \textit{JavaScript} nativo integrado à \textit{Fetch API}. Essa tecnologia foi fundamental para atender ao requisito de usabilidade (RNF01), pois permite a comunicação assíncrona com o \textit{backend}. Dessa forma, o aluno pode anexar PDFs e visualizar o preenchimento da carga horária sem que ocorra o recarregamento da página (Figura \ref{fig:formulario-barema}).
 
 \begin{figure}[H]
     \centering
     \caption{Formulário do barema com atividades carregadas.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/02_formulario_com_tabela.png}
-    
-    \legend{Fonte: elaboração própria.}
+    \legend{Fonte: Elaboração própria (2026).}
     \label{fig:formulario-barema}
 \end{figure}
 
-Além da interface voltada ao discente, o sistema possui uma tela de autenticação administrativa. Esse acesso é destinado à coordenação ou aos responsáveis pelo acompanhamento das solicitações, separando o fluxo público de preenchimento do barema das funcionalidades restritas de gestão.
+\subsection{Extração de Dados}
+
+Uma vez que o arquivo é recebido pela camada de rotas, o Módulo de Extração é acionado. Este componente foi otimizado para operar diretamente sobre o fluxo de \textit{bytes} (\textit{stream}) na memória volátil do servidor, dispensando a necessidade de gravação prévia em disco. Para garantir a resiliência da aplicação, o motor de extração foi arquitetado para lidar com dois cenários distintos de arquivos comprobatórios: documentos com camada de texto estruturada e imagens rasterizadas.
+
+Para a inspeção de binários e extração nativa de metadados textuais em arquivos PDF padrão, o projeto empregou a biblioteca \textit{PyMuPDF} (através do módulo \texttt{fitz}). O serviço instancia o documento na memória utilizando \texttt{fitz.open()} e percorre as páginas invocando métodos de captura direta de \textit{strings} legíveis, o que garante máxima velocidade de processamento.
+
+Contudo, para cenários em que o discente anexa arquivos de imagem (extensões como PNG ou JPEG) ou documentos PDF originados de \textit{scanners} (sem camada de texto extraível), o sistema aciona um mecanismo de contingência baseado em Reconhecimento Óptico de Caracteres (OCR). Utilizando o motor \textit{Tesseract OCR} (integrado via biblioteca \texttt{pytesseract}), o fluxo visual é processado e os caracteres contidos na imagem são reconhecidos e convertidos em texto estruturado na memória da aplicação.
+
+Independentemente da via de extração acionada (nativa via \textit{PyMuPDF} ou óptica via \textit{OCR}), a \textit{string} resultante é padronizada e submetida ao módulo nativo de Expressões Regulares do Python (\texttt{re}). O algoritmo utiliza a função \texttt{re.findall()} configurada com padrões morfológicos para localizar a carga horária declarada no texto, isolando números que estejam semanticamente adjacentes a termos específicos (como "horas" ou "h").
+
+\subsection{Pré-validação e Geração do Documento}
+
+Com os dados extraídos em memória, a aplicação executa a Pré-validação. A validação básica cruza os metadados do arquivo com as regras institucionais carregadas no edital, verificando discrepâncias na carga horária, titularidade e submissões em duplicidade (comparando o conteúdo bruto dos binários). 
+
+Além das verificações determinísticas, este módulo foi arquitetado para suportar uma camada opcional de contingência e flexibilidade textuais operada por recursos de inteligência artificial. Se a \textit{API} externa estiver configurada e disponível, o sistema aproxima semanticamente o contexto do certificado com a categoria exigida; em caso de falha de conexão, o sistema adota um comportamento de resiliência e retorna à validação básica.
+
+Superadas as validações, o processo culmina na geração do documento. Utilizando novamente os recursos de manipulação do \textit{PyMuPDF}, o \textit{backend} consolida os dados do formulário, cria laudas de indexação separadoras dinamicamente e anexa os comprovantes validados, exportando um único PDF unificado e devidamente paginado para o aluno.
+
+\subsection{Painel de Análise (Coordenação)}
+
+O último componente do escopo lida com a tramitação oficial do documento gerado. Este módulo possui acesso restrito e requer autenticação, separando o fluxo público discente do acesso gerencial da coordenação (Figura \ref{fig:login-administrativo}).
 
 \begin{figure}[H]
     \centering
-    \caption{Tela de login administrativo.}
+    \caption{Tela de \textit{login} administrativo.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/03_login_administrativo.png}
-    
-    \legend{Fonte: elaboração própria.}
+    \legend{Fonte: Elaboração própria (2026).}
     \label{fig:login-administrativo}
 \end{figure}
 
-Após a autenticação, o coordenador acessa o painel de solicitações de análise. Essa interface concentra os registros enviados pelos discentes, permite filtrar solicitações por status, abrir o documento unificado submetido e registrar o parecer que será encaminhado ao aluno.
+Ao confirmar o envio do barema, o Módulo de Análise converte os dados da memória transiente para o estado persistente, criando um registro de protocolo via SQLAlchemy na base SQLite. O coordenador, devidamente autenticado, acessa uma interface gerencial que consome esses registros, permitindo a filtragem de \textit{status} e o acesso direto ao PDF unificado gerado no módulo anterior (Figura \ref{fig:painel-coordenador}). 
 
 \begin{figure}[H]
     \centering
     \caption{Painel do coordenador para análise das solicitações.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/04_painel_coordenador.png}
-    
-    \legend{Fonte: elaboração própria.}
+    \legend{Fonte: Elaboração própria (2026).}
     \label{fig:painel-coordenador}
 \end{figure}
 
-\section{Arquitetura e Fluxo de Funcionamento}
+O ciclo de caso de uso deste módulo encerra-se com o registro do parecer institucional no sistema e a consequente notificação do discente. Para garantir a transparência do processo, o sistema implementa um serviço de mensageria acionado por gatilhos de evento (\textit{event triggers}). Assim que o coordenador submete a avaliação e o \textit{status} do protocolo é atualizado no banco de dados (acionando a função \texttt{registrar\_parecer()}), a aplicação intercepta essa mudança de estado e invoca o módulo de comunicação.
 
-A aplicação foi estruturada em camadas para separar responsabilidades. A interface web concentra a interação com o usuário, incluindo preenchimento do formulário, anexação e remoção de arquivos e \textit{feedbacks} visuais. As rotas da aplicação recebem os dados enviados pelo navegador e acionam os serviços responsáveis pelo processamento. A camada de serviços realiza a extração de informações dos certificados, aplica regras de pré-validação, organiza os dados do barema e encaminha a geração do PDF final.
+Embasado nos dados persistidos, o sistema verifica o \texttt{metodo\_preferencial} escolhido pelo discente durante o preenchimento. Para a orquestração e o disparo automático dessas mensagens, optou-se pela integração com a plataforma de comunicações em nuvem \textit{Twilio}. A escolha dessa ferramenta justifica-se pela sua capacidade de centralizar múltiplos canais de notificação (\textit{omnichannel}) em uma única API segura, escalável e de alta disponibilidade. 
 
-No \textit{backend}, a implementação utiliza Python\texttrademark{} e Flask\texttrademark{}, com serviços especializados para processamento de certificados, validação e geração de documentos. A leitura dos arquivos PDF é feita de forma transiente, evitando que os certificados individuais precisem ser mantidos permanentemente no servidor durante o fluxo de geração. O sistema também conta com uma área administrativa para acompanhamento das solicitações registradas, quando essa etapa for utilizada no fluxo de operação.
-
-Essa organização em camadas facilita a evolução do sistema, pois permite alterar a interface, as regras de validação ou o mecanismo de geração de documentos sem misturar responsabilidades. Também favorece a realização de testes unitários sobre regras específicas, como extração de carga horária, comparação de horas solicitadas e identificação de duplicidade.
-
-\section{Pré-validação e Geração do Barema}
-
-Um dos componentes centrais da solução é a pré-validação dos certificados. A validação básica verifica informações objetivas, como presença do nome do aluno, carga horária extraída, compatibilidade entre horas solicitadas e comprovadas e duplicidade de certificados. Além disso, o sistema foi preparado para utilizar uma camada opcional de inteligência artificial, configurável por provedor externo, para apoiar análises textuais mais flexíveis sobre o conteúdo dos certificados.
-
-Quando a inteligência artificial está habilitada e disponível, ela pode complementar a análise da relação entre o certificado e a atividade declarada. Caso o serviço externo esteja indisponível ou mal configurado, o sistema retorna automaticamente à validação básica, preservando o funcionamento do fluxo. Essa decisão evita que a ferramenta dependa exclusivamente de recursos externos para orientar o discente.
-
-Após a pré-validação, a solução consolida os dados preenchidos e os comprovantes anexados em um único documento PDF. O arquivo gerado organiza as atividades e seus certificados de forma padronizada, permitindo que o aluno tenha uma versão final mais clara, completa e adequada para encaminhamento à análise oficial.
+Caso a escolha do aluno seja por correio eletrônico, o \textit{backend} aciona a \textit{API} de \textit{email} da plataforma (\textit{Twilio SendGrid}) para despachar o \textit{feedback} detalhado. Se a preferência for pelo aplicativo \textit{WhatsApp}, o orquestrador consome a API de mensageria nativa do \textit{Twilio}, entregando a notificação de forma síncrona e formatada diretamente no dispositivo móvel do discente - também é enviado o feedback por \textit{email} -. Essa automatização conclui o fluxo do projeto, eliminando por completo a carga de trabalho operacional da coordenação com o envio manual de retornos e garantindo que o discente seja informado de imediato sobre o encerramento institucional do seu processo.

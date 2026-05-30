@@ -1,0 +1,66 @@
+\changetocdepth {4}
+\babel@toc {brazil}{}\relax 
+\babel@toc {brazil}{}\relax 
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Introdução}}{13}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Objetivos}{13}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Objetivo Geral}{14}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Objetivos Específicos}{14}{subsection.1.1.2}%
+\contentsline {section}{\numberline {1.2}Contribuições do Trabalho}{14}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Organização do Documento}{15}{section.1.3}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{Problema}}{16}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Definição}{16}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Desafios}{17}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Regras de Negócio}{18}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Tempo de Resposta}{18}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Manipulação de Arquivos}{19}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Extração e Pré-validação Automatizada de Dados}{20}{subsection.2.2.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Justificativa}}{22}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Âmbito Administrativo}{22}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Meio Acadêmico}{22}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Justificativa Técnica}{23}{section.3.3}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{Fundamentação Teórica}}{24}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Arquitetura em Camadas e o Padrão MVC}{24}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Mapeamento Objeto-Relacional e Persistência de Dados}{24}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Processamento de Documentos Digitais e Extração de Texto}{25}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Reatividade de Interface e Tempo de Resposta}{25}{section.4.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{Trabalhos Correlatos}}{26}{chapter.5}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{Metodologia}}{27}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Caracterização do Trabalho}{27}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Procedimentos Metodológicos}{27}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Prototipagem Evolutiva}{27}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Levantamento de Requisitos}{28}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Definição da Arquitetura, Ferramentas e Implementação}{29}{subsection.6.2.3}%
+\contentsline {section}{\numberline {6.3}Estratégia de Avaliação}{29}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Critérios de Sucesso do Protótipo}{30}{subsection.6.3.1}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {7}\MakeTextUppercase []{Solução Proposta}}{32}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Visão Geral e Casos de Uso}{32}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Requisitos do Sistema}{33}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Arquitetura e Persistência de Dados no Projeto}{34}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Implementação}{36}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Montagem do Barema}{36}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Extração de Dados}{38}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Pré-validação e Geração do Documento}{38}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.4.4}Painel de Análise (Coordenação)}{39}{subsection.7.4.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {8}\MakeTextUppercase []{Resultados e Discussão}}{41}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Resultados Obtidos}{41}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Validação do Protótipo}{42}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Discussão da Solução}{42}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Limitações Observadas}{43}{section.8.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {9}\MakeTextUppercase []{Conclusão}}{44}{chapter.9}%
+\vspace {\cftbeforechapterskip }
+\vspace {\cftbeforechapterskip }
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{46}{section*.29}%
