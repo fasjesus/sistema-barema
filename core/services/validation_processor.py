@@ -11,6 +11,7 @@ from .certificate_extraction_service import (
     CertificateDataExtractor,
     PyMuPDFTextExtractor,
     RegexCertificateParser,
+    TesseractOCRTextExtractor,
 )
 from .certificate_pre_validation_service import BasicCertificatePreValidator
 from .certificate_validation_models import (
@@ -272,5 +273,6 @@ __all__ = [
     "RegexCertificateParser",
     "StudentContext",
     "TextExtractor",
+    "TesseractOCRTextExtractor",
     "build_ai_client_from_env",
 ]

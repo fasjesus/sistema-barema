@@ -31,6 +31,7 @@ pycparser==3.0
 PyMuPDF==1.26.6
 opencv-python==4.12.0.88
 PyJWT==2.12.1
+pytesseract==0.3.13
 pyzbar==0.1.9
 pypdf==6.2.0
 python-dotenv==1.2.2

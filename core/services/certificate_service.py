@@ -14,10 +14,17 @@ class CertificateProcessor:
     def get_page_info(current_page: int, file_storage) -> tuple:
         """Lógica original para contar páginas dos certificados."""
         try:
+            file_storage.seek(0)
+            header = file_storage.read(5)
+            file_storage.seek(0)
+            if header != b"%PDF-":
+                return current_page + 1, str(current_page)
+
             reader = PdfReader(file_storage)
             count = len(reader.pages)
             file_storage.seek(0)
             intervalo = f"{current_page}-{current_page + count - 1}" if count > 1 else str(current_page)
             return current_page + count, intervalo
         except:
+            file_storage.seek(0)
             return current_page + 1, str(current_page)

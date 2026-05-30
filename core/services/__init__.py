@@ -32,5 +32,6 @@ from .validation_processor import (
     ExtractedCertificateData,
     OpenAICompatibleAIClient,
     StudentContext,
+    TesseractOCRTextExtractor,
     build_ai_client_from_env,
 )

@@ -1,8 +1,14 @@
 import os
 import unittest
 from datetime import date
+from io import BytesIO
 from unittest.mock import patch
 
+from pypdf import PdfReader
+
+from core.entities import Estudante, ProcessoBarema
+from core.services.certificate_service import CertificateProcessor
+from core.services.pdf_service import PDFService
 from core.services.validation_processor import (
     AIValidationResult,
     ActivityRule,
@@ -49,6 +55,11 @@ class SequenceAIClient:
 class FailingAIClient:
     def complete_json(self, prompt):
         raise AssertionError("AI client should not be called")
+
+
+class FailingTextExtractor:
+    def extract(self, content):
+        raise AssertionError("text extractor should not be called")
 
 
 class CertificateExtractionTest(unittest.TestCase):
@@ -131,6 +142,44 @@ class CertificateExtractionTest(unittest.TestCase):
         data = extractor.extract(b"pdf-content")
 
         self.assertIsNone(data.carga_horaria)
+        self.assertEqual(data.datas, [date(2024, 5, 10)])
+
+    def test_ocr_fallback_extracts_data_when_pdf_text_is_empty(self):
+        ocr_text = """
+        Certificamos que Maria Silva participou do evento Semana de Computacao.
+        Carga horaria: 20h.
+        Realizado em 10/05/2024.
+        """
+        ai_extractor = CertificateAIDataExtractor(
+            ai_client=FailingAIClient(),
+            enabled=True,
+        )
+        extractor = CertificateDataExtractor(
+            text_extractor=FakeTextExtractor([""]),
+            ocr_text_extractor=FakeTextExtractor([ocr_text]),
+            ai_extractor=ai_extractor,
+        )
+
+        data = extractor.extract(b"image-only-pdf")
+
+        self.assertEqual(data.carga_horaria, 20)
+        self.assertEqual(data.datas, [date(2024, 5, 10)])
+        self.assertIn("Maria Silva", data.text)
+
+    def test_ocr_is_not_called_when_pdf_text_is_sufficient(self):
+        text = """
+        Certificamos que Maria Silva participou do evento Semana de Computacao.
+        Carga horaria: 20h.
+        Emitido em 10/05/2024.
+        """
+        extractor = CertificateDataExtractor(
+            text_extractor=FakeTextExtractor([text]),
+            ocr_text_extractor=FailingTextExtractor(),
+        )
+
+        data = extractor.extract(b"pdf-content")
+
+        self.assertEqual(data.carga_horaria, 20)
         self.assertEqual(data.datas, [date(2024, 5, 10)])
 
 
@@ -840,6 +889,53 @@ class CertificateValidationProcessorTest(unittest.TestCase):
 
         self.assertIn("Nome do aluno nao confere com o certificado.", result.irregularidades)
         self.assertEqual(result.avisos, [])
+
+
+class PDFServiceCertificateImageTest(unittest.TestCase):
+    def test_complete_pdf_accepts_image_certificate_as_one_page(self):
+        from PIL import Image
+
+        image_buffer = BytesIO()
+        Image.new("RGB", (300, 180), "white").save(image_buffer, format="PNG")
+        image_buffer.seek(0)
+        processo = ProcessoBarema(
+            estudante=Estudante(
+                nome="Maria Silva",
+                matricula="202412345",
+                email="maria@example.com",
+            ),
+            tipo_barema="antigo",
+            data_envio="30/05/2026",
+        )
+        service = PDFService(logo_uesc="missing.png", logo_colcic="missing.png")
+
+        pdf = service.gerar_completo(processo, [image_buffer])
+
+        reader = PdfReader(pdf)
+        self.assertEqual(len(reader.pages), 2)
+        image_page = reader.pages[1]
+        self.assertGreater(float(image_page.mediabox.width), float(image_page.mediabox.height))
+
+
+class CertificateProcessorImageTest(unittest.TestCase):
+    def test_image_certificate_counts_as_one_page_and_keeps_stream_rewinded(self):
+        from PIL import Image
+        from werkzeug.datastructures import FileStorage
+
+        image_buffer = BytesIO()
+        Image.new("RGB", (300, 180), "white").save(image_buffer, format="PNG")
+        content = image_buffer.getvalue()
+        file_storage = FileStorage(
+            stream=BytesIO(content),
+            filename="certificado.png",
+            content_type="image/png",
+        )
+
+        next_page, interval = CertificateProcessor.get_page_info(2, file_storage)
+
+        self.assertEqual((next_page, interval), (3, "2"))
+        self.assertEqual(file_storage.stream.tell(), 0)
+        self.assertEqual(file_storage.read(), content)
 
 if __name__ == "__main__":
     unittest.main()

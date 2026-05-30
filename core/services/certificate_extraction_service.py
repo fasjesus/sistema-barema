@@ -1,7 +1,8 @@
 import re
+import os
 from datetime import date
 from io import BytesIO
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 from .certificate_validation_models import AIClient, ExtractedCertificateData, TextExtractor
 from .certificate_validation_utils import debug, normalize_text
@@ -16,9 +17,37 @@ try:
 except ImportError:
     PdfReader = None
 
+try:
+    from PIL import Image
+except ImportError:
+    Image = None
+
+try:
+    import pytesseract
+except ImportError:
+    pytesseract = None
+
+
+def _env_flag(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _env_int(name: str, default: int) -> int:
+    try:
+        return int(os.getenv(name, str(default)) or default)
+    except ValueError:
+        return default
+
 
 class PyMuPDFTextExtractor:
     def extract(self, content: bytes) -> str:
+        if not content.lstrip().startswith(b"%PDF"):
+            debug("Text-Extractor", "Arquivo nao e PDF; extracao textual direta pulada.")
+            return ""
+
         if fitz is not None:
             try:
                 with fitz.open(stream=content, filetype="pdf") as document:
@@ -39,6 +68,104 @@ class PyMuPDFTextExtractor:
 
         debug("Text-Extractor", "Nenhuma biblioteca de extracao disponivel ou arquivo sem texto.")
         return ""
+
+
+class TesseractOCRTextExtractor:
+    def __init__(
+        self,
+        enabled: bool = True,
+        language: str = "por+eng",
+        dpi: int = 220,
+        max_pages: int = 5,
+        tesseract_cmd: Optional[str] = None,
+    ):
+        self.enabled = enabled
+        self.language = language
+        self.dpi = dpi
+        self.max_pages = max_pages
+        self.tesseract_cmd = tesseract_cmd
+
+    @classmethod
+    def from_env(cls):
+        return cls(
+            enabled=_env_flag("CERTIFICATE_OCR_ENABLED", True),
+            language=os.getenv("CERTIFICATE_OCR_LANG", "por+eng"),
+            dpi=_env_int("CERTIFICATE_OCR_DPI", 220),
+            max_pages=_env_int("CERTIFICATE_OCR_MAX_PAGES", 5),
+            tesseract_cmd=os.getenv("TESSERACT_CMD") or None,
+        )
+
+    def extract(self, content: bytes) -> str:
+        if not self.enabled:
+            debug("OCR-Extractor", "OCR desabilitado por CERTIFICATE_OCR_ENABLED.")
+            return ""
+        if pytesseract is None:
+            debug("OCR-Extractor", "pytesseract nao instalado; OCR indisponivel.")
+            return ""
+        if Image is None:
+            debug("OCR-Extractor", "Pillow nao instalado; OCR indisponivel.")
+            return ""
+        if self.tesseract_cmd:
+            pytesseract.pytesseract.tesseract_cmd = self.tesseract_cmd
+
+        texts = []
+        for image in self._images_from_content(content):
+            text = self._image_to_text(image)
+            if text.strip():
+                texts.append(text)
+
+        if texts:
+            debug("OCR-Extractor", f"OCR extraiu texto de {len(texts)} pagina(s)/imagem(ns).")
+        else:
+            debug("OCR-Extractor", "OCR nao encontrou texto no certificado.")
+        return "\n".join(texts)
+
+    def _images_from_content(self, content: bytes) -> Iterable:
+        if content.lstrip().startswith(b"%PDF"):
+            yield from self._images_from_pdf(content)
+            return
+        image = self._image_from_bytes(content)
+        if image is not None:
+            yield image
+
+    def _images_from_pdf(self, content: bytes) -> Iterable:
+        if fitz is None:
+            debug("OCR-Extractor", "PyMuPDF nao instalado; nao foi possivel rasterizar PDF para OCR.")
+            return
+        try:
+            with fitz.open(stream=content, filetype="pdf") as document:
+                scale = self.dpi / 72
+                matrix = fitz.Matrix(scale, scale)
+                for index in range(min(len(document), self.max_pages)):
+                    page = document[index]
+                    pixmap = page.get_pixmap(matrix=matrix, alpha=False)
+                    if Image is None:
+                        return
+                    yield Image.frombytes("RGB", [pixmap.width, pixmap.height], pixmap.samples)
+        except Exception as exc:
+            debug("OCR-Extractor", f"Falha ao preparar PDF para OCR: {exc}")
+
+    def _image_from_bytes(self, content: bytes):
+        try:
+            image = Image.open(BytesIO(content))
+            return image.convert("RGB")
+        except Exception as exc:
+            debug("OCR-Extractor", f"Arquivo nao pode ser lido como imagem para OCR: {exc}")
+            return None
+
+    def _image_to_text(self, image) -> str:
+        try:
+            return pytesseract.image_to_string(image, lang=self.language)
+        except Exception as exc:
+            if self.language != "eng":
+                debug("OCR-Extractor", f"OCR com idioma '{self.language}' falhou: {exc}. Tentando eng.")
+                try:
+                    return pytesseract.image_to_string(image, lang="eng")
+                except Exception as fallback_exc:
+                    debug("OCR-Extractor", f"OCR com idioma 'eng' tambem falhou: {fallback_exc}")
+                    return ""
+            debug("OCR-Extractor", f"OCR falhou: {exc}")
+            return ""
 
 
 class RegexCertificateParser:
@@ -228,10 +355,12 @@ class CertificateDataExtractor:
     def __init__(
         self,
         text_extractor: Optional[TextExtractor] = None,
+        ocr_text_extractor: Optional[TextExtractor] = None,
         parser: Optional[RegexCertificateParser] = None,
         ai_extractor: Optional[CertificateAIDataExtractor] = None,
     ):
         self.text_extractor = text_extractor or PyMuPDFTextExtractor()
+        self.ocr_text_extractor = ocr_text_extractor or TesseractOCRTextExtractor.from_env()
         self.parser = parser or RegexCertificateParser()
         self.ai_extractor = ai_extractor or CertificateAIDataExtractor.from_env()
 
@@ -240,6 +369,17 @@ class CertificateDataExtractor:
         text = self.text_extractor.extract(content)
         carga_horaria = self.parser.extract_hours(text)
         datas = self.parser.extract_dates(text)
+
+        if self._needs_ocr(text):
+            debug("Extractor", "Texto extraido insuficiente; acionando OCR.")
+            ocr_text = self.ocr_text_extractor.extract(content)
+            if ocr_text.strip():
+                text = self._merge_text(text, ocr_text)
+                carga_horaria = self.parser.extract_hours(text)
+                datas = self.parser.extract_dates(text)
+            else:
+                debug("Extractor", "OCR nao retornou texto aproveitavel.")
+
         if carga_horaria is None or not datas:
             debug(
                 "Extractor",
@@ -263,3 +403,11 @@ class CertificateDataExtractor:
             datas=datas,
             data_emissao=data_emissao,
         )
+
+    def _needs_ocr(self, text: str) -> bool:
+        return len(normalize_text(text)) < 30
+
+    def _merge_text(self, original: str, ocr_text: str) -> str:
+        if not original.strip():
+            return ocr_text
+        return f"{original}\n{ocr_text}"

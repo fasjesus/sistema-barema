@@ -20,13 +20,50 @@ class PDFService:
         merger = PdfWriter()
         merger.append(capa_buffer)
         for cert in certificados:
-            cert.seek(0)
-            merger.append(cert)
+            self._append_certificado(merger, cert)
         
         output = BytesIO()
         merger.write(output)
         output.seek(0)
         return self._adicionar_numeracao(output)
+
+    def _append_certificado(self, merger, cert):
+        cert.seek(0)
+        content = cert.read()
+        cert.seek(0)
+        if content.lstrip().startswith(b"%PDF"):
+            merger.append(BytesIO(content))
+            return
+
+        merger.append(self._image_to_pdf(content))
+
+    def _image_to_pdf(self, content):
+        packet = BytesIO()
+        image = ImageReader(BytesIO(content))
+        img_width, img_height = image.getSize()
+        page_width, page_height = landscape(A4)
+        margin = 1.2 * cm
+        available_width = page_width - (2 * margin)
+        available_height = page_height - (2 * margin)
+        scale = min(available_width / img_width, available_height / img_height)
+        draw_width = img_width * scale
+        draw_height = img_height * scale
+        x = (page_width - draw_width) / 2
+        y = (page_height - draw_height) / 2
+
+        c = canvas.Canvas(packet, pagesize=landscape(A4))
+        c.drawImage(
+            image,
+            x,
+            y,
+            width=draw_width,
+            height=draw_height,
+            preserveAspectRatio=True,
+            mask='auto',
+        )
+        c.save()
+        packet.seek(0)
+        return packet
 
     def _desenhar_capa(self, processo):
         packet = BytesIO()
