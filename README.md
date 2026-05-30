@@ -29,6 +29,18 @@ TWILIO_AUTH_TOKEN=seu-token
 TWILIO_WHATSAPP_NUMBER=whatsapp:+5500000000000
 ```
 
+O OCR para certificados digitalizados tambem e opcional. Para usar essa etapa,
+instale o Tesseract OCR no sistema operacional e, se necessario, informe o
+caminho do executavel:
+
+```env
+CERTIFICATE_OCR_ENABLED=1
+CERTIFICATE_OCR_LANG=por+eng
+CERTIFICATE_OCR_DPI=220
+CERTIFICATE_OCR_MAX_PAGES=5
+TESSERACT_CMD=C:\Program Files\Tesseract-OCR\tesseract.exe
+```
+
 ### 3. Ambiente virtual e dependencias
 
 ```bash
