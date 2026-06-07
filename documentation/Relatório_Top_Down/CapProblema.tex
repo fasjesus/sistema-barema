@@ -1,10 +1,9 @@
 \chapter{Problema}
 \label{cap:problema}
-
 Este capítulo aborda a conceituação do problema para a solução proposta, bem como seus desafios.
 
-\section{Definição}
-As Atividades Complementares (AC) constituem um requisito obrigatório para a integralização curricular no curso de Ciência da Computação da UESC. Seu cumprimento envolve a participação do discente em eventos científicos, estágios, projetos de extensão, monitorias e outras vivências formativas. Para que essas horas sejam reconhecidas oficialmente pelo Colegiado do Curso (COLCIC), o aluno deve organizar e submeter o Barema: um documento unificado que reúne os comprovantes das atividades realizadas, categoriza-os segundo as normas vigentes e totaliza a carga horária acumulada por categoria.
+\section{Definição}\label{sec:definicao}
+As Atividades Complementares (AC) constituem um requisito obrigatório para a integralização curricular no curso de Ciência da Computação da UESC. Seu cumprimento envolve a participação do discente em eventos científicos, estágios, projetos de extensão, monitorias e outras vivências formativas. Para que essas horas sejam reconhecidas oficialmente pelo Colegiado do Curso (COLCIC), o aluno deve organizar e submeter o Barema: um documento unificado que reúne os comprovantes das atividades realizadas, categoriza-os segundo as normas vigentes e totaliza a carga horária acumulada por categoria. A submissão oficial deste documento é feita via Peticionamento Eletrônico, para que a coordenação do curso avalie o barema e dê um parecer sobre o aproveitamento das horas solicitadas pelo discente. 
 
 O processo de elaboração desse documento, contudo, é inteiramente manual e descentralizado. Não existe ferramenta oficial fornecida pela instituição para auxiliar nessa tarefa. O discente precisa reunir individualmente cada certificado em formato PDF, organizá-los em um único arquivo, preencher manualmente uma tabela de indexação — indicando em qual página do documento unificado cada comprovante se encontra — e calcular as cargas horárias respeitando os tetos máximos permitidos por categoria, conforme as regras específicas do curso de bacharelado em Ciência da Computação da UESC. Cada uma dessas etapas é executada de forma independente, sem qualquer validação automatizada, e qualquer alteração na ordem ou no conjunto de documentos pode gerar um efeito cascata de erros que inviabiliza o aproveitamento da indexação previamente realizada.
 
@@ -12,11 +11,7 @@ Esse cenário resulta em três problemas concretos e recorrentes. O primeiro é 
 
 É importante destacar que as soluções genéricas de manipulação de PDF disponíveis no mercado, como o \cite{ilovepdf2026}, não resolvem esse problema. De acordo com sua documentação oficial, essa ferramenta opera sobre a estrutura do arquivo, permitindo unir, dividir ou comprimir documentos. Embora atualmente ela ofereça recursos para resumir ou comparar textos, sua lógica é de propósito geral, desconhecendo as regras específicas para a montagem do Barema de AC, ou outro contexto específico. Essa limitação evidencia que tais ferramentas funcionam apenas como camadas tecnológicas isoladas, falhando em atuar como um Sistema de Informação eficaz que, segundo \cite{laudon2014}, deve compreender a organização e as regras que o cercam para atingir seus objetivos. No caso do COLCIC, essas ferramentas permitem unir arquivos PDF, mas não calculam cargas horárias, não aplicam tetos regulamentares e não geram a tabela de indexação automaticamente. A responsabilidade sobre toda a lógica de negócio permanece, portanto, integralmente com o aluno. O problema não é a ausência de uma ferramenta de junção de arquivos — é a ausência de um sistema que compreenda as regras do processo e as aplique de forma integrada à manipulação dos documentos.
 
-\section{Desafios}
-
-%O desenvolvimento deste sistema apresenta desafios que vão além da construção de uma interface web convencional. A aparente simplicidade do produto final — um formulário que recebe certificados e devolve um PDF organizado — mascara uma cadeia de operações que precisam ocorrer de forma coordenada, confiável e em tempo real. É justamente nessa coordenação que reside o principal desafio técnico do projeto.
-
-%degas - Tempo Real? Tu vai ter que definir, com citação, (um parágrafo) e mencionar (explica abaixo, né?) cada operação que  vai ser ecexcutada em tempo real, e porque. Noutro parágrafo (ou talvez um parágrafo pra cada operação. Fazer isso na versão V2
+\section{Desafios}\label{sec:desafios}
 
 O desenvolvimento do sistema de apoio ao Barema do COLCIC é fundamentado na criação de uma solução que integra a manipulação de documentos digitais com a aplicação rigorosa de normas acadêmicas. Para que a ferramenta cumpra sua função, ela deve operar como um ambiente de processamento inteligente, capaz de coordenar dados binários e regras de negócio sem a necessidade de uma infraestrutura de autenticação persistente para o discente. Esta arquitetura é sustentada por um orquestrador de processos, cuja missão é gerenciar fluxos simultâneos de dados, garantindo que arquivos desestruturados sejam convertidos em um documento técnico validado e em conformidade com a regulamentação do curso.
 
@@ -25,10 +20,6 @@ A complexidade deste orquestrador reside na necessidade de manter a integridade 
 Dessa forma, o sistema se diferencia de um concatenador comum de arquivos por realizar uma fusão assistida. Enquanto ferramentas simples apenas unem documentos, o orquestrador proposto executa uma pré-validação automatizada, confrontando as declarações do estudante com os dados detectados nos certificados e aplicando restrições de carga horária em tempo de resposta imediato. Este fluxo lógico, que assegura a confiabilidade regulatória do produto final, é detalhado a seguir por meio dos quatro desafios principais enfrentados na implementação da ferramenta.
 
 \subsection{Regras de Negócio}
-
-%O último desafio é a codificação das regras de negócio do COLCIC em lógica computacional. As normas que regem as Atividades Complementares estabelecem tetos de carga horária por categoria, e essas regras precisam ser representadas de forma estruturada no sistema — não como validações superficiais de formulário, mas como restrições aplicadas sobre um modelo de dados que reflete fielmente o regulamento do curso. Qualquer imprecisão na tradução dessas regras para código compromete a confiabilidade do documento gerado, que é, em última instância, um documento com valor regulatório.
-
-%DEGAS - as regras de negócio serão documentadas? Vão haver diagramas? Explique e aponte a seção onde eles aparecerão (\label e \ref). Derfina o que é um teto de carga horária num parágrafo,  mostre que elas se tornarão regras representadas no sistema noutro parágrafo e faça o comentário sobre o problema da imprecisão noutro parágrafo. Tudo para a versão V2
 
 Um dos desafios é a codificação das regras de negócio do COLCIC em lógica computacional, especificamente no que tange aos pisos e tetos de carga horária. Um teto de carga horária é definido como o limite máximo de horas que uma determinada categoria de atividade (como pesquisa, extensão ou monitoria) pode integralizar no currículo do discente. Mesmo que o aluno possua certificados que somem, por exemplo, 200 horas em eventos, se o regulamento estabelece um teto de 60 horas para essa categoria, o sistema deve ser capaz de reconhecer esse limite e considerar apenas o valor permitido para o cálculo final, evitando que o discente ultrapasse as metas estabelecidas pelo curso. De maneira contrária, o piso refere-se ao limite mínimo de horas que uma determinada categoria de atividade exige para ser computada.
 
@@ -41,22 +32,11 @@ A importância dessa precisão é crítica, pois qualquer imprecisão na traduç
 
 O sistema baseia-se em um modelo de computação reativa, onde a coordenação de operações deve ocorrer em tempo de resposta crítico. Diferente de sistemas de tempo real crítico, onde o atraso implica em falha catastrófica \cite{tanenbaum2016}, este projeto foca na manutenção da fluidez da experiência do usuário, buscando respeitar os limites de interatividade estabelecidos por Nielsen (1993), onde respostas em até 0,1 segundo sustentam a percepção de instantaneidade, até 1,0 segundo mantêm o fluxo de pensamento do usuário sem interrupções e 10 segundos é o limite para manter a atenção do usuário focada no diálogo \cite{nielsen1993}. Essa necessidade manifesta-se no processamento imediato de arquivos: ao anexar um documento, o backend deve extrair metadados e recalcular as regras de teto de horas instantaneamente, assegurando que o estado visual da interface reflita fielmente o estado lógico da aplicação.
 
-%DEGAS - Talvez um enumerate ou um itemize funcione melhor do que seções aí abaixo. Considere essa alternativa.
-
 É necessário distinguir as operações de interface das operações de processamento profundo. Enquanto validações de regras de negócio simples — como o respeito aos limites mínimos e máximos de carga horária — devem ocorrer no limite da percepção de instantaneidade (0,1s), a pré-validação automatizada de certificados (envolvendo OCR e IA) demanda um tempo de resposta superior. O desafio técnico reside em garantir que essa latência estendida não resulte em incerteza para o discente, utilizando padrões de comunicação assíncrona para fornecer estados intermediários de processamento enquanto a extração é concluída no backend.
 
 Para mitigar o impacto da latência no processamento de arquivos binários, o sistema utiliza padrões de comunicação assíncrona. Operações que demandam processamento intensivo de visão computacional e IA - como a pré-validação de certificados - são desacopladas da requisição principal, permitindo que o usuário continue a montagem do Barema enquanto as tarefas são executadas em segundo plano. O uso de técnicas como Polling assegura que a interface reativa receba atualizações assim que a extração de metadados é concluída, respeitando as diretrizes de feedback visual para processos de longa duração.
 
-%\section{Técnicos}
-
-%Estes focam na Engenharia de Software, na performance, na experiência do usuário e na integração robusta de tecnologias existentes.
-
-%\subsection{Manipulação de Arquivos}
-
-%O primeiro desafio é a manipulação de arquivos binários em ambiente web. O sistema precisa receber múltiplos arquivos PDF enviados pelo usuário, processá-los no servidor — extraindo metadados como número de páginas —, reordená-los conforme a categorização definida pelo discente e, ao final, unificá-los em um único documento. Esse fluxo exige controle preciso do estado de cada arquivo ao longo do processo: a ordem de inserção, o número de páginas acumuladas até aquele ponto e a categoria à qual o comprovante pertence são informações interdependentes que precisam ser mantidas com consistência durante toda a sessão do usuário.
-
-%degas - O que é um "estado do arquivo"? Como tu captura ordem de inserção, número de páginas até o ponto e categoria? Vai precisar explodir isso bem direitinho na V2
-\subsection{Manipulação de Arquivos}
+\subsection{Manipulação de Arquivos}\label{subsec:manipulacao_arquivos}
 
 O primeiro desafio técnico reside na manipulação de arquivos PDF em ambiente web sem a necessidade de contas de usuário. Como o sistema não exige login, ele opera através de um fluxo de processamento temporário. O estado do arquivo - estrutura de dados temporária que reside na memória da aplicação durante a sessão de uso - não é salvo permanentemente no banco de dados assim que o aluno faz o upload; em vez disso, ele existe apenas na memória da aplicação enquanto o aluno organiza seu Barema. Nesse estágio, o sistema captura metadados fundamentais:
 
@@ -70,21 +50,7 @@ O primeiro desafio técnico reside na manipulação de arquivos PDF em ambiente 
 
 É importante destacar que o banco de dados (tabela analises) só é acionado se o usuário decidir converter esse rascunho em uma solicitação formal de análise. Somente após essa escolha o sistema unifica os arquivos em um documento final, gera o link de acesso e persiste as informações de matrícula e status no SQLite. Essa abordagem garante que o servidor não fique sobrecarregado com arquivos de tentativas incompletas, respeitando a natureza imediata e utilitária da ferramenta.
 
-%\subsection{Experiência do Usuário}
-
-%Outro desafio é garantir que toda essa complexidade permaneça invisível para o usuário. O sistema deve oferecer uma experiência simples e guiada, com feedback imediato a cada ação — como alertas quando um teto de horas é atingido ou confirmações visuais quando um arquivo é processado com sucesso. Isso impõe requisitos sobre a arquitetura do frontend: os componentes precisam reagir ao estado atual do barema em construção e refletir as validações aplicadas no backend sem que o usuário precise recarregar a página ou interpretar mensagens de erro técnicas.
-
-%\section{Científicos}
-
-%Estes envolvem a aplicação de conhecimentos de Ciência da Computação para resolver problemas onde não há uma solução única ou trivial, exigindo análise de dados e modelos lógicos.
-
-%degas - quais conhecimentos (de preferência ligando com disciplinas)? Também para a versão V2
-
 \subsection{Extração e Pré-validação Automatizada de Dados}
-
-%O terceiro desafio reside na extração e pré-validação automatizada de dados. Ao receber um certificado, o sistema deve ser capaz de realizar uma análise preliminar do documento para verificar sua autenticidade e extrair informações pertinentes, como carga horária e palavras-chave. Isso introduz a complexidade de lidar com documentos não estruturados, exigindo técnicas de processamento de texto ou visão computacional para garantir que o que o discente anexa corresponde, de fato, ao que ele declara no formulário, mitigando erros antes mesmo da submissão.
-
-%degas o  texto está muito conciso. Separe o parágrafo acima em ideias e torne cada ideia um parágrafo por si. Fazer isso na versão V2
 
 O terceiro desafio reside na extração e pré-validação automatizada de dados, um processo que visa transformar documentos PDF brutos em informações estruturadas. Ao receber um certificado, o sistema realiza uma análise preliminar para verificar a autenticidade e extrair dados críticos, como a carga horária e a data de emissão. 
 

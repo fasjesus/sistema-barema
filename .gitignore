@@ -21,7 +21,20 @@ static/uploads/*
 !static/uploads/.gitkeep
 
 # --- IDEs e Sistema ---
-.vscode/
+.vscode/*
+!.vscode/
+!.vscode/settings.json
 .idea/
 .DS_Store
 Thumbs.db
+
+# --- LaTeX local build noise ---
+documentation/Relatório_Top_Down/build/*.bbl
+documentation/Relatório_Top_Down/build/*.blg
+documentation/Relatório_Top_Down/build/*.fdb_latexmk
+documentation/Relatório_Top_Down/build/*.fls
+documentation/Relatório_Top_Down/build/*.ilg
+documentation/Relatório_Top_Down/build/*.ind
+documentation/Relatório_Top_Down/build/*.synctex.gz
+documentation/Relatório_Top_Down/tools/.watch-tcc.*
+documentation/Relatório_Top_Down/tools/.guard-tcc.*

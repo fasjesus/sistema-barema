@@ -1,0 +1,46 @@
+{
+  "latex-workshop.latex.autoBuild.run": "onFileChange",
+  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/documentation/Relatório_Top_Down",
+  "latex-workshop.latex.rootFile.useSubFile": false,
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "TCC Barema: latexmk via project script",
+      "tools": [
+        "tcc-barema-compile"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "tcc-barema-compile",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "%WORKSPACE_FOLDER%/documentation/Relatório_Top_Down/tools/compile-tcc.ps1"
+      ],
+      "env": {}
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "TCC Barema: latexmk via project script",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.watch.files.ignore": [
+    "**/build/**",
+    "**/*.aux",
+    "**/*.bbl",
+    "**/*.bcf",
+    "**/*.blg",
+    "**/*.fdb_latexmk",
+    "**/*.fls",
+    "**/*.idx",
+    "**/*.ilg",
+    "**/*.ind",
+    "**/*.lof",
+    "**/*.log",
+    "**/*.out",
+    "**/*.synctex.gz",
+    "**/*.toc"
+  ]
+}

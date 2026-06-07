@@ -3,46 +3,70 @@
 
 Este capítulo apresenta a base conceitual que sustenta o desenvolvimento e a arquitetura do sistema de apoio ao Barema do COLCIC. São abordados os princípios de arquitetura de sistemas para a Web, os conceitos de processamento de documentos binários e mineração de texto, além dos fundamentos de \textit{interfaces} reativas e persistência de dados.
 
-%\section{Conceitos Fundamentais}
+\section{Conceitos Fundamentais}
 
 
-\section{Arquitetura em Camadas e o Padrão MVC}
+\subsection{Arquitetura em Camadas e o Padrão MVC}
 
 O desenvolvimento de aplicações web modernas exige a adoção de modelos arquiteturais que favoreçam a modularidade e o isolamento de responsabilidades. Tradicionalmente, o padrão arquitetural em camadas organiza o sistema em níveis distintos — apresentação, negócio e persistência —, de forma que alterações em uma camada não comprometam as demais. Dentro desse modelo,  o padrão \textit{Model-View-Controller} (MVC) é amplamente empregado para separar a lógica de apresentação da lógica de negócio e de acesso a dados \cite{pressman2016}.
 
-Fowler descreve o MVC como um dos padrões arquiteturais mais relevantes para aplicações web, destacando que a separação entre o modelo de dados, a camada de visualização e o controlador de fluxo é o que permite a 
-evolução independente de cada componente sem ruptura do sistema como um todo \cite{fowler2002}. No contexto deste trabalho, essa separação é crítica: as regras de negócio do COLCIC precisam estar isoladas da 
+\citeonline{fowler2002} descreve o MVC como um dos padrões arquiteturais mais relevantes para aplicações web, destacando que a separação entre o modelo de dados, a camada de visualização e o controlador de fluxo é o que permite a 
+evolução independente de cada componente sem ruptura do sistema como um todo. No contexto deste trabalho, essa separação é crítica: as regras de negócio do COLCIC precisam estar isoladas da 
 interface e da camada de geração de documentos, de modo que alterações no regulamento possam ser incorporadas sem reescrever o sistema inteiro.
 
 
-\section{Mapeamento Objeto-Relacional e Persistência de Dados}
+\subsection{Mapeamento Objeto-Relacional e Persistência de Dados}
 
 A camada de persistência de dados em sistemas orientados a objetos frequentemente enfrenta o problema da incompatibilidade de impedância, caracterizado pela diferença entre o modelo conceitual de objetos na memória e o modelo relacional das tabelas em um banco de dados SQL. Para mitigar esse problema, utiliza-se o Mapeamento Objeto-Relacional (\textit{Object-Relational Mapping} — ORM).
 
-O ORM atua como uma camada de abstração que traduz de forma transparente as operações sobre objetos computacionais em comandos de manipulação de dados em bancos relacionais \cite{fowler2002}. Essa abstração permite que a aplicação opere sobre estruturas nativas da linguagem — como dicionários e listas de objetos em Python — e delegue ao ORM a responsabilidade de sincronizar essas estruturas com o banco de dados, 
-minimizando o acoplamento direto com o motor de persistência escolhido.
+O ORM atua como uma camada de abstração que traduz de forma transparente as operações sobre objetos computacionais em comandos de manipulação de dados em bancos relacionais \cite{fowler2002}. Essa abstração permite que a aplicação opere sobre estruturas nativas da linguagem — como dicionários e listas de objetos em Python — e delegue ao ORM a responsabilidade de sincronizar essas estruturas com o banco de dados, minimizando o acoplamento direto com o motor de persistência escolhido.
 
 
-\section{Processamento de Documentos Digitais e Extração de Texto}
+\subsection{Processamento de Documentos Digitais e Extração de Texto}
 
 A manipulação de arquivos no formato PDF (\textit{Portable Document Format}) introduz desafios relacionados à natureza não estruturada das informações. Diferente de linguagens de marcação estruturadas (como XML ou JSON), o PDF foca na fidelidade de renderização visual e na disposição física de caracteres em coordenadas bidimensionais, omitindo frequentemente tags de estrutura semântica ou separadores lógicos de parágrafos.
 
-Para transformar esses fluxos de bytes brutos em dados inteligíveis pela lógica de negócio, utilizam-se bibliotecas especializadas na decodificação da estrutura interna do arquivo. A partir do conteúdo textual extraído, aplicam-se técnicas de processamento baseadas em Expressões Regulares (\textit{Regular Expressions} — Regex). As expressões regulares operam como autômatos finitos determinísticos que realizam o casamento de padrões textuais \cite{hopcroft2006}, permitindo varrer o conteúdo do documento em busca de tokens numéricos adjacentes a qualificadores de carga horária — como "horas", "h" e "carga horária" — para identificar automaticamente os metadados operacionais dos certificados
+Para transformar esses fluxos de bytes brutos em dados inteligíveis pela lógica de negócio, utilizam-se bibliotecas especializadas na decodificação da estrutura interna do arquivo. A partir do conteúdo textual extraído, aplicam-se técnicas de processamento baseadas em Expressões Regulares (\textit{Regular Expressions} — Regex). As expressões regulares operam como autômatos finitos determinísticos que realizam o casamento de padrões textuais \cite{hopcroft2006}, permitindo varrer o conteúdo do documento em busca de tokens numéricos adjacentes a qualificadores de carga horária — como "horas", "h" e "carga horária" — para identificar automaticamente os metadados operacionais dos certificados.
 
 
-\section{Reatividade de Interface e Tempo de Resposta}
+\subsection{Reatividade de Interface e Tempo de Resposta}
 
 A experiência do usuário em plataformas utilitárias é diretamente influenciada pela latência observada nas atualizações da interface. Nielsen estabelece três limiares fundamentais de tempo de resposta que permanecem 
 relevantes desde suas formulações originais: respostas em até 0,1 segundo sustentam a percepção de instantaneidade; respostas em até 1,0 segundo mantêm o fluxo de pensamento do usuário sem interrupções perceptíveis; e respostas que ultrapassam 10 segundos comprometem a atenção do usuário e exigem \textit{feedback} visual explícito de progresso \cite{nielsen1993}.
 
 Para alcançar esse patamar de reatividade em operações de manipulação de arquivos, adota-se o modelo de computação assíncrona na camada de apresentação. Utilizando \textit{APIs} nativas dos navegadores modernos, como a \textit{Fetch API}, a interface web envia dados e arquivos binários em segundo plano para as rotas do servidor. O servidor processa as informações e devolve respostas leves em formato JSON, permitindo que o estado visual do navegador seja modificado dinamicamente via JavaScript sem a necessidade de recarregamento completo da página e sem interromper o fluxo de pensamento do usuário.
 
-%\section{Tecnologias e Ferramentas}
+\section{Tecnologias e Ferramentas}
+\label{sec:tecnologias_ferramentas}
 
-%\subsection{Microframeworks Web: Flask}
+Para materializar os conceitos arquiteturais e de processamento descritos nas seções anteriores, foi selecionado um conjunto de tecnologias voltadas à eficiência e à modularidade. A seguir, detalham-se as ferramentas adotadas, suas finalidades e a forma como são aplicadas na arquitetura do sistema proposto.
 
-%Em sistemas que operam com processamento transiente de dados, a sobrecarga de frameworks monolíticos pode comprometer a eficiência do servidor. Nesse cenário, destacam-se os microframeworks, que fornecem apenas o  núcleo essencial para o roteamento HTTP e o gerenciamento de requisições, delegando funcionalidades adicionais a extensões acopladas sob demanda. O Flask é um microframework Python que segue esse princípio, oferecendo ao desenvolvedor controle direto sobre a estrutura da aplicação sem impor convenções rígidas \cite{grinberg2018}. Essa flexibilidade permite estruturar um orquestrador baseado em serviços na memória da aplicação, viabilizando o gerenciamento de estados voláteis sem dependências rígidas de componentes globais.
+\subsection{Linguagem Python e Microframework Flask}
 
-%\subsection{Biblioteca de Processamento de PDF: PyMuPDF}
+Em sistemas que operam com processamento transiente de dados, a sobrecarga de \textit{frameworks} monolíticos pode comprometer a eficiência do servidor. Nesse cenário, destacam-se os \textit{microframeworks}, que fornecem apenas o núcleo essencial para o roteamento HTTP, delegando funcionalidades adicionais a extensões acopladas sob demanda. O Flask é um \textit{microframework} desenvolvido na linguagem Python que segue esse princípio, oferecendo flexibilidade sem impor convenções rígidas \cite{grinberg2018}. 
 
-%O PyMuPDF é uma biblioteca Python que fornece \textit{bindings} para a engine MuPDF, permitindo o acesso programático à estrutura interna de documentos PDF \cite{pymupdf2026}. A biblioteca possibilita a extração do número de páginas, do conteúdo textual e de metadados do documento diretamente a partir do fluxo de bytes do arquivo em memória, sem necessidade de escrita temporária em disco. Essa característica é especialmente relevante para o contexto deste trabalho, onde os certificados precisam ser inspecionados de forma imediata no momento do upload, antes mesmo de serem persistidos permanentemente no servidor.
+\textbf{Aplicação no trabalho:} O Python atua como a linguagem base para a codificação das regras de negócio e algoritmos de validação. O Flask é utilizado para construir a camada de controle (\textit{Controller} do MVC), orquestrando as requisições HTTP, gerenciando os \textit{uploads} de arquivos na memória e servindo como a ponte de comunicação assíncrona entre a \textit{interface} do discente e os serviços de extração.
+
+\subsection{Processamento PDF e OCR: PyMuPDF e Tesseract}
+
+Para lidar com a extração de dados binários, ferramentas de alto desempenho e resiliência são exigidas. O PyMuPDF é uma biblioteca Python que fornece acesso programático à estrutura interna de documentos PDF de forma nativa e veloz. Em paralelo, o \textit{Tesseract} atua como um motor de Reconhecimento Óptico de Caracteres (OCR) de código aberto, capaz de identificar texto em imagens rasterizadas.
+
+\textbf{Aplicação no trabalho:} O PyMuPDF é utilizado para interceptar o fluxo de \textit{bytes} dos certificados na memória RAM, extraindo o conteúdo textual nativo e realizando a consolidação final das páginas em um único arquivo PDF. O Tesseract (\textit{via} biblioteca \texttt{pytesseract}) é empregado como um mecanismo de contingência: caso o discente faça o \textit{upload} de um certificado em formato de imagem (JPEG/PNG) ou de um PDF escaneado sem camada de texto, o OCR é acionado para digitalizar o conteúdo e garantir que o motor de validação por Regex continue operando perfeitamente.
+
+\subsection{Persistência e ORM: SQLite e Flask-SQLAlchemy}
+
+Para a persistência de dados, o SQLite destaca-se como um banco de dados relacional transacional e embutido, que não requer um processo de servidor separado. O SQLAlchemy, por sua vez, é um dos mais robustos \textit{frameworks} de mapeamento objeto-relacional (ORM) do ecossistema Python.
+
+\textbf{Aplicação no trabalho:} O SQLite é utilizado para armazenar fisicamente o histórico de protocolos submetidos pelos alunos e os dados de acesso da coordenação, simplificando a infraestrutura de hospedagem. O Flask-SQLAlchemy é aplicado para mapear as entidades do domínio (como \texttt{SolicitacaoAnalise} e \texttt{Usuario}) em tabelas do banco, permitindo que a aplicação registre o \textit{status} dos baremas através de transações atômicas de forma puramente orientada a objetos.
+
+\subsection{Mensageria Omnichannel: Twilio}
+
+O Twilio é uma plataforma de comunicações em nuvem (CPaaS - \textit{Communications Platform as a Service}) que fornece APIs programáveis para integrar múltiplos canais de comunicação, como correio eletrônico, SMS e mensageria instantânea, em uma única arquitetura.
+
+\textbf{Aplicação no trabalho:} Esta ferramenta é utilizada para implementar a arquitetura orientada a eventos no painel da coordenação. Assim que o colegiado registra o parecer sobre o barema, o sistema consome a API do Twilio (via \textit{SendGrid} para \textit{e-mail} ou via integração nativa para \textit{WhatsApp}) para disparar notificações automáticas ao discente, eliminando o retrabalho administrativo manual.
+
+\subsection{Reatividade Web: JavaScript e Fetch API}
+
+Para garantir o tempo de resposta e a fluidez discutidos nos conceitos de interface, a \textit{Fetch API} surge como uma interface moderna nativa dos navegadores para a realização de requisições HTTP e HTTPS de forma assíncrona baseada em \textit{Promises}.
+
+\textbf{Aplicação no trabalho:} O JavaScript em conjunto com a \textit{Fetch API} é aplicado no \textit{frontend} para criar uma experiência de \textit{Single Page Application} (SPA) leve. Eles são responsáveis por capturar as ações do discente (como arrastar um certificado para a tela), enviar o arquivo em segundo plano para o Flask e atualizar a interface com alertas de carga horária e contadores, tudo isso sem a necessidade de recarregar a página web do sistema.

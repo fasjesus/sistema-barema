@@ -1,6 +1,6 @@
-PWD c:\Users\fdpc0\OneDrive\Documentos\sistema-barema\documentation\Relatório_Top_Down
+PWD C:\Users\fdpc0\OneDrive\Documentos\sistema-barema\documentation\Relatório_Top_Down
 INPUT C:\Users\fdpc0\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\Users\fdpc0\OneDrive\Documentos\sistema-barema\documentation\Relatório_Top_Down\PRINCIPAL.tex
+INPUT PRINCIPAL.tex
 OUTPUT PRINCIPAL.log
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex\latex\abntex2\abntex2.cls
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex\latex\abntex2\abntex2.cls
@@ -517,6 +517,10 @@ INPUT CapJustificativa.tex
 INPUT .\CapFundamentacao.tex
 INPUT .\CapFundamentacao.tex
 INPUT CapFundamentacao.tex
+INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt12.tfm
 INPUT .\CapTrabalhosCorrelatos.tex
 INPUT .\CapTrabalhosCorrelatos.tex
 INPUT CapTrabalhosCorrelatos.tex
@@ -557,10 +561,6 @@ INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\sym
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm5.tfm
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx10.tfm
-INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt12.tfm
 INPUT .\figuras\diagramas\dominio.png
 INPUT .\figuras\diagramas\dominio.png
 INPUT .\figuras\diagramas\dominio.png

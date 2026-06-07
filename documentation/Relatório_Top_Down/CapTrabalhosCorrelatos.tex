@@ -1,2 +1,112 @@
 \chapter{Trabalhos Correlatos}
 \label{cap:trabalhos-correlatos}
+
+Este capítulo apresenta trabalhos relacionados ao sistema proposto, 
+organizados em torno dos três eixos temáticos que fundamentam esta 
+pesquisa: a automação de processos acadêmico-administrativos em 
+instituições de ensino superior, o desenvolvimento de sistemas web 
+voltados ao gerenciamento de atividades complementares, e a extração 
+automatizada de dados a partir de documentos em formato PDF.
+
+\section{Automação de Processos Acadêmico-Administrativos}
+
+Fernandes (2021) apresentou, no âmbito da Universidade Federal de 
+Santa Catarina, a aplicação de Automação Robótica de Processos (RPA) 
+para o Planejamento e Acompanhamento de Atividades Docentes (PAAD). 
+O trabalho parte da premissa de que processos repetitivos e de baixo 
+cunho intelectual são os melhores candidatos à automação, pois a 
+intervenção humana nessas tarefas representa uma fonte recorrente de 
+erros operacionais e ineficiência \cite{fernandes2021}. A validação 
+da solução foi conduzida por comparação entre execuções robóticas e 
+humanas, demonstrando ganhos de eficiência com a substituição do 
+processo manual.
+
+O presente trabalho compartilha dessa premissa: a montagem manual do 
+barema é exatamente o tipo de tarefa repetitiva e determinística que 
+se beneficia de automação. A diferença reside na abordagem técnica 
+adotada — enquanto Fernandes automatiza a interação com sistemas 
+legados existentes via RPA, este trabalho desenvolve um sistema 
+original que codifica as regras de negócio do COLCIC diretamente em 
+sua lógica, integrando manipulação de documentos, validação de dados 
+e geração do arquivo final em um único fluxo.
+
+\section{Sistemas Web para Gerenciamento de Atividades Complementares}
+
+Barbosa (2020) desenvolveu, no Instituto de Ciências Exatas e 
+Tecnologia da Universidade Federal do Amazonas, o SCAC — Sistema de 
+Cadastramento das Atividades Complementares — para o curso de Sistemas 
+de Informação. O trabalho parte do diagnóstico de que a comissão de 
+avaliação do curso utilizava uma planilha para controle das horas 
+complementares dos discentes, o que limitava a efetividade do processo 
+\cite{barbosa2020}. O sistema desenvolvido gerencia as solicitações 
+de atividades complementares e foi avaliado positivamente em testes de 
+usabilidade e funcionalidade junto aos usuários do curso.
+
+Em perspectiva complementar, Alcântara et al. (2021) propuseram, em 
+artigo publicado na Revista de Gestão e Avaliação Educacional, a criação 
+de um sistema de processo eletrônico para o aproveitamento de atividades 
+complementares em uma IES brasileira \cite{alcantara2021}. O estudo, 
+conduzido por meio de observação participante e análise documental, 
+identificou que a transição do processo físico para o eletrônico produz 
+melhora significativa na gestão institucional, reduzindo o retrabalho 
+administrativo e acelerando o fluxo de aproveitamento das horas pelos 
+discentes.
+
+Ambos os trabalhos evidenciam que o problema da gestão manual de 
+atividades complementares é recorrente em diferentes instituições 
+brasileiras e que a automação desse processo gera impacto positivo 
+tanto para discentes quanto para a coordenação. O sistema proposto 
+neste TCC avança em relação a essas soluções ao incorporar dois 
+elementos ausentes nos trabalhos citados: a geração automatizada do 
+documento final unificado com indexação de páginas — o barema — e a 
+pré-validação dos comprovantes submetidos, confrontando as declarações 
+do discente com os dados extraídos dos certificados antes da submissão 
+oficial ao colegiado.
+
+\section{Extração Automatizada de Dados em Documentos PDF}
+
+Wiechork (2021) investigou, em dissertação de mestrado pela Universidade 
+Federal de Santa Maria, abordagens para a extração automatizada de dados 
+de documentos PDF nativamente digitais, aplicando-as a 343 provas do 
+ENADE entre 2004 e 2019 \cite{wiechork2021}. O trabalho avalia 
+ferramentas de extração em três categorias — dados tabulares, conteúdo 
+textual e regiões de interesse — e aponta limitações relevantes 
+relacionadas à diversidade de layouts dos documentos, especialmente 
+quando o conteúdo está disposto em múltiplas colunas ou quando há 
+variações estruturais entre edições do mesmo documento.
+
+Essa limitação é diretamente aplicável ao contexto deste trabalho. 
+Os certificados de atividades complementares submetidos pelos discentes 
+são emitidos por instituições diversas, sem padronização de layout, o 
+que impõe ao sistema de extração o desafio de identificar informações 
+relevantes — como carga horária, nome do beneficiário e data de 
+realização — em documentos estruturalmente heterogêneos. Diferentemente 
+do trabalho de Wiechork, que avalia ferramentas existentes sobre 
+documentos com estrutura relativamente previsível, o sistema proposto 
+neste TCC opera sobre documentos completamente variáveis e integra os 
+dados extraídos a um fluxo de pré-validação com regras de negócio 
+específicas do COLCIC, constituindo uma contribuição técnica distinta.
+
+\section{Síntese Comparativa}
+
+Os trabalhos correlatos apresentados confirmam a relevância do problema 
+abordado e demonstram que iniciativas similares têm sido conduzidas em 
+diferentes contextos institucionais brasileiros. \cite{barbosa2020} e 
+\cite{alcantara2021} evidenciam que a substituição do controle manual 
+de atividades complementares por sistemas digitais produz ganhos 
+administrativos concretos, enquanto \cite{fernandes2021} reforça que a 
+automação de tarefas repetitivas em universidades reduz erros e aumenta 
+a eficiência operacional. \cite{wiechork2021}, por sua vez, demonstra que a 
+extração automatizada de dados em documentos PDF é tecnicamente viável, 
+mas impõe desafios relevantes quando os documentos apresentam layouts 
+heterogêneos.
+
+O sistema proposto neste TCC se diferencia dos correlatos identificados 
+por reunir, em uma única plataforma, funcionalidades que nos trabalhos 
+relacionados aparecem de forma isolada ou parcial: a codificação das 
+regras regulatórias do curso como lógica computacional, a extração e 
+pré-validação automatizada dos dados dos certificados submetidos — 
+confrontando as declarações do discente com o conteúdo detectado nos 
+arquivos — e a geração do documento final unificado com indexação 
+automática de páginas. Essa integração é o que caracteriza a contribuição 
+central deste trabalho.
