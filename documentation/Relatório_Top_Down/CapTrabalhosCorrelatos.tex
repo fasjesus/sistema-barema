@@ -10,14 +10,14 @@ automatizada de dados a partir de documentos em formato PDF.
 
 \section{Automação de Processos Acadêmico-Administrativos}
 
-Fernandes (2021) apresentou, no âmbito da Universidade Federal de 
+\citeonline{fernandes2021} apresentou, no âmbito da Universidade Federal de 
 Santa Catarina, a aplicação de Automação Robótica de Processos (RPA) 
 para o Planejamento e Acompanhamento de Atividades Docentes (PAAD). 
 O trabalho parte da premissa de que processos repetitivos e de baixo 
 cunho intelectual são os melhores candidatos à automação, pois a 
 intervenção humana nessas tarefas representa uma fonte recorrente de 
-erros operacionais e ineficiência \cite{fernandes2021}. A validação 
-da solução foi conduzida por comparação entre execuções robóticas e 
+erros operacionais e ineficiência. A validação da solução foi conduzida 
+por comparação entre execuções robóticas e 
 humanas, demonstrando ganhos de eficiência com a substituição do 
 processo manual.
 
@@ -32,21 +32,21 @@ e geração do arquivo final em um único fluxo.
 
 \section{Sistemas Web para Gerenciamento de Atividades Complementares}
 
-Barbosa (2020) desenvolveu, no Instituto de Ciências Exatas e 
+\citeonline{barbosa2020} desenvolveu, no Instituto de Ciências Exatas e 
 Tecnologia da Universidade Federal do Amazonas, o SCAC — Sistema de 
 Cadastramento das Atividades Complementares — para o curso de Sistemas 
 de Informação. O trabalho parte do diagnóstico de que a comissão de 
 avaliação do curso utilizava uma planilha para controle das horas 
 complementares dos discentes, o que limitava a efetividade do processo 
-\cite{barbosa2020}. O sistema desenvolvido gerencia as solicitações 
-de atividades complementares e foi avaliado positivamente em testes de 
-usabilidade e funcionalidade junto aos usuários do curso.
+. O sistema desenvolvido gerencia as solicitações de atividades 
+complementares e foi avaliado positivamente em testes de usabilidade e 
+funcionalidade junto aos usuários do curso.
 
-Em perspectiva complementar, Alcântara et al. (2021) propuseram, em 
+\citeonline{alcantara2021}, em perspectiva complementar, propuseram, em 
 artigo publicado na Revista de Gestão e Avaliação Educacional, a criação 
 de um sistema de processo eletrônico para o aproveitamento de atividades 
-complementares em uma IES brasileira \cite{alcantara2021}. O estudo, 
-conduzido por meio de observação participante e análise documental, 
+complementares em uma IES brasileira. O estudo, conduzido por meio de 
+observação participante e análise documental, 
 identificou que a transição do processo físico para o eletrônico produz 
 melhora significativa na gestão institucional, reduzindo o retrabalho 
 administrativo e acelerando o fluxo de aproveitamento das horas pelos 
@@ -56,8 +56,8 @@ Ambos os trabalhos evidenciam que o problema da gestão manual de
 atividades complementares é recorrente em diferentes instituições 
 brasileiras e que a automação desse processo gera impacto positivo 
 tanto para discentes quanto para a coordenação. O sistema proposto 
-neste TCC avança em relação a essas soluções ao incorporar dois 
-elementos ausentes nos trabalhos citados: a geração automatizada do 
+neste TCC diferencia-se dessas soluções ao incorporar dois elementos 
+não enfatizados nos trabalhos citados: a geração automatizada do 
 documento final unificado com indexação de páginas — o barema — e a 
 pré-validação dos comprovantes submetidos, confrontando as declarações 
 do discente com os dados extraídos dos certificados antes da submissão 
@@ -65,12 +65,12 @@ oficial ao colegiado.
 
 \section{Extração Automatizada de Dados em Documentos PDF}
 
-Wiechork (2021) investigou, em dissertação de mestrado pela Universidade 
+\citeonline{wiechork2021} investigou, em dissertação de mestrado pela Universidade 
 Federal de Santa Maria, abordagens para a extração automatizada de dados 
 de documentos PDF nativamente digitais, aplicando-as a 343 provas do 
-ENADE entre 2004 e 2019 \cite{wiechork2021}. O trabalho avalia 
-ferramentas de extração em três categorias — dados tabulares, conteúdo 
-textual e regiões de interesse — e aponta limitações relevantes 
+ENADE entre 2004 e 2019. O trabalho avalia ferramentas de extração em 
+três categorias — dados tabulares, conteúdo textual e regiões de interesse — 
+e aponta limitações relevantes 
 relacionadas à diversidade de layouts dos documentos, especialmente 
 quando o conteúdo está disposto em múltiplas colunas ou quando há 
 variações estruturais entre edições do mesmo documento.
@@ -83,30 +83,50 @@ relevantes — como carga horária, nome do beneficiário e data de
 realização — em documentos estruturalmente heterogêneos. Diferentemente 
 do trabalho de Wiechork, que avalia ferramentas existentes sobre 
 documentos com estrutura relativamente previsível, o sistema proposto 
-neste TCC opera sobre documentos completamente variáveis e integra os 
-dados extraídos a um fluxo de pré-validação com regras de negócio 
-específicas do COLCIC, constituindo uma contribuição técnica distinta.
+neste TCC opera sobre documentos heterogêneos e pouco padronizados, 
+integrando os dados extraídos a um fluxo de pré-validação com regras de 
+negócio específicas do COLCIC.
 
 \section{Síntese Comparativa}
 
-Os trabalhos correlatos apresentados confirmam a relevância do problema 
-abordado e demonstram que iniciativas similares têm sido conduzidas em 
-diferentes contextos institucionais brasileiros. \cite{barbosa2020} e 
-\cite{alcantara2021} evidenciam que a substituição do controle manual 
-de atividades complementares por sistemas digitais produz ganhos 
-administrativos concretos, enquanto \cite{fernandes2021} reforça que a 
-automação de tarefas repetitivas em universidades reduz erros e aumenta 
-a eficiência operacional. \cite{wiechork2021}, por sua vez, demonstra que a 
-extração automatizada de dados em documentos PDF é tecnicamente viável, 
-mas impõe desafios relevantes quando os documentos apresentam layouts 
-heterogêneos.
+A Tabela \ref{tab:comparacao-correlatos} sintetiza os principais pontos 
+de aproximação e diferenciação entre os trabalhos analisados e o sistema 
+proposto neste TCC.
 
-O sistema proposto neste TCC se diferencia dos correlatos identificados 
-por reunir, em uma única plataforma, funcionalidades que nos trabalhos 
-relacionados aparecem de forma isolada ou parcial: a codificação das 
-regras regulatórias do curso como lógica computacional, a extração e 
-pré-validação automatizada dos dados dos certificados submetidos — 
-confrontando as declarações do discente com o conteúdo detectado nos 
-arquivos — e a geração do documento final unificado com indexação 
-automática de páginas. Essa integração é o que caracteriza a contribuição 
-central deste trabalho.
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Comparação entre trabalhos correlatos e o sistema proposto}
+\label{tab:comparacao-correlatos}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Trabalho} & \textbf{Foco principal} & \textbf{Relação com este TCC} \\
+\midrule
+\citeonline{fernandes2021} & Automação de processos administrativos universitários por meio de RPA. & Aproxima-se pela automação de tarefas repetitivas, mas difere por automatizar sistemas legados, enquanto este trabalho desenvolve uma aplicação própria para o fluxo do Barema. \\
+
+\citeonline{barbosa2020} & Sistema para cadastramento e gerenciamento de atividades complementares. & Aproxima-se pelo domínio das atividades complementares, mas não enfatiza a geração de um PDF final indexado nem a pré-validação automática dos comprovantes. \\
+
+\citeonline{alcantara2021} & Processo eletrônico para aproveitamento de atividades complementares em uma instituição de ensino superior. & Aproxima-se pela digitalização do fluxo institucional, mas trata o processo em nível administrativo mais amplo, sem foco específico na montagem automatizada do Barema do COLCIC. \\
+
+\citeonline{wiechork2021} & Extração automatizada de dados em documentos PDF. & Aproxima-se pela extração de informações em PDFs, mas este TCC aplica essa extração a certificados heterogêneos e a integra a regras de negócio acadêmicas. \\
+\bottomrule
+\end{tabularx}
+\legend{Fonte: Elaborado pela autora (2026).}
+\end{table}
+
+A comparação evidencia que os trabalhos correlatos abordam dimensões 
+relevantes do problema, como automação administrativa, gestão de atividades 
+complementares e extração de dados em documentos PDF. Entretanto, essas 
+dimensões aparecem de forma separada nos estudos analisados. O sistema 
+proposto neste TCC diferencia-se por integrá-las em um único fluxo voltado 
+ao contexto específico do COLCIC/UESC, reunindo a organização dos 
+comprovantes, a aplicação de regras regulamentares, a pré-validação dos 
+dados declarados e a geração de um documento final unificado e indexado.
+
+Dessa forma, a contribuição do trabalho não está na criação de um novo 
+método geral de avaliação acadêmica, mas na aplicação integrada de técnicas 
+de Engenharia de Software a um problema institucional concreto, com regras 
+próprias, documentos heterogêneos e impacto direto sobre discentes e 
+coordenação.

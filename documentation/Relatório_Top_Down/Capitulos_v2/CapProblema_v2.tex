@@ -23,7 +23,7 @@ Por exemplo, quando o discente possui certificados que excedem o limite permitid
 
 As regras de negócio e o fluxo de validação serão representados em diagramas próprios da solução, permitindo visualizar como as categorias, os limites e as verificações são articulados no processo de geração do barema. O mapeamento dessas regras será apresentado na Seção \ref{sec:diagramas}, que reunirá os diagramas utilizados para documentar a lógica de funcionamento da ferramenta.
 
-\subsection{Organização e Indexação dos Documentos}\label{subsec:manipulacao_arquivos}
+\subsection{Organização e Indexação dos Documentos}
 
 Outro desafio relevante está relacionado à organização dos documentos comprobatórios. No processo manual, o discente precisa reunir certificados de diferentes origens, ordenar os arquivos, consolidá-los em um único PDF e informar corretamente a página em que cada comprovante se encontra. Qualquer alteração posterior na ordem dos documentos pode comprometer a indexação já preenchida, exigindo a revisão de toda a tabela.
 
@@ -34,8 +34,6 @@ Essa organização também precisa considerar que o sistema opera sem exigir uma
 \subsection{Extração e Pré-validação de Dados dos Certificados}
 
 A extração de informações dos certificados representa outro ponto de complexidade. Os documentos enviados pelos alunos podem possuir formatos, layouts e padrões textuais diferentes, o que dificulta a identificação automática de dados como nome do participante, carga horária e data da atividade. Mesmo quando os certificados possuem camada textual acessível, a forma como essas informações aparecem pode variar entre instituições emissoras.
-
-Essa dificuldade torna-se ainda mais evidente quando o arquivo, embora esteja no formato PDF, não possui texto pesquisável em sua estrutura interna. Em muitos casos, o certificado é composto por uma imagem digitalizada ou por uma captura inserida dentro de um PDF, o que impede a leitura direta das informações por mecanismos tradicionais de extração textual. Nesses cenários, a identificação automática de dados depende de recursos complementares, como o Reconhecimento Óptico de Caracteres (OCR), e pode sofrer variações de acordo com a resolução da imagem, a qualidade da digitalização e a disposição visual dos elementos no certificado.
 
 Diante disso, a pré-validação automatizada deve ser compreendida como um mecanismo de apoio, e não como substituição da análise institucional. O sistema pode confrontar informações declaradas pelo discente com dados identificados no arquivo anexado, sinalizando possíveis divergências, como diferença de carga horária, inconsistência de nome ou duplicidade de documentos. Essas sinalizações contribuem para que erros formais sejam percebidos antes da submissão oficial.
 

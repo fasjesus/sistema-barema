@@ -36,37 +36,37 @@ relevantes desde suas formulações originais: respostas em até 0,1 segundo sus
 
 Para alcançar esse patamar de reatividade em operações de manipulação de arquivos, adota-se o modelo de computação assíncrona na camada de apresentação. Utilizando \textit{APIs} nativas dos navegadores modernos, como a \textit{Fetch API}, a interface web envia dados e arquivos binários em segundo plano para as rotas do servidor. O servidor processa as informações e devolve respostas leves em formato JSON, permitindo que o estado visual do navegador seja modificado dinamicamente via JavaScript sem a necessidade de recarregamento completo da página e sem interromper o fluxo de pensamento do usuário.
 
-\section{Tecnologias e Ferramentas}
+\section{Tecnologias de Apoio à Implementação}
 \label{sec:tecnologias_ferramentas}
 
-Para materializar os conceitos arquiteturais e de processamento descritos nas seções anteriores, foi selecionado um conjunto de tecnologias voltadas à eficiência e à modularidade. A seguir, detalham-se as ferramentas adotadas, suas finalidades e a forma como são aplicadas na arquitetura do sistema proposto.
+A implementação do sistema exigiu a combinação de tecnologias voltadas à construção de aplicações web, ao processamento de documentos digitais, à persistência de dados e à comunicação assíncrona entre interface e servidor. A escolha dessas tecnologias foi orientada pelas necessidades do domínio: manipular arquivos enviados pelo discente, aplicar regras de negócio, gerar documentos consolidados e registrar solicitações de análise.
 
 \subsection{Linguagem Python e Microframework Flask}
 
-Em sistemas que operam com processamento transiente de dados, a sobrecarga de \textit{frameworks} monolíticos pode comprometer a eficiência do servidor. Nesse cenário, destacam-se os \textit{microframeworks}, que fornecem apenas o núcleo essencial para o roteamento HTTP, delegando funcionalidades adicionais a extensões acopladas sob demanda. O Flask é um \textit{microframework} desenvolvido na linguagem Python que segue esse princípio, oferecendo flexibilidade sem impor convenções rígidas \cite{grinberg2018}. 
+Em sistemas web que concentram regras de negócio específicas e operações de processamento sob demanda, a escolha da linguagem e do \textit{framework} influencia diretamente a organização da aplicação. O Python foi adotado por oferecer um ecossistema amplo para manipulação de arquivos, processamento textual e integração com bibliotecas externas. O Flask, por sua vez, caracteriza-se como um \textit{microframework} que fornece recursos essenciais para roteamento HTTP sem impor uma estrutura rígida de projeto \cite{grinberg2018}.
 
-\textbf{Aplicação no trabalho:} O Python atua como a linguagem base para a codificação das regras de negócio e algoritmos de validação. O Flask é utilizado para construir a camada de controle (\textit{Controller} do MVC), orquestrando as requisições HTTP, gerenciando os \textit{uploads} de arquivos na memória e servindo como a ponte de comunicação assíncrona entre a \textit{interface} do discente e os serviços de extração.
+No contexto deste trabalho, o Flask atua como camada de controle da aplicação, recebendo as requisições do discente, coordenando o envio de certificados, acionando os serviços de extração e validação e encaminhando os dados necessários para a geração do documento final. Essa organização favorece a separação entre interface, regras de negócio e persistência, mantendo coerência com a arquitetura em camadas discutida anteriormente.
 
-\subsection{Processamento PDF e OCR: PyMuPDF e Tesseract}
+\subsection{Processamento de PDF e Reconhecimento Óptico de Caracteres}
 
-Para lidar com a extração de dados binários, ferramentas de alto desempenho e resiliência são exigidas. O PyMuPDF é uma biblioteca Python que fornece acesso programático à estrutura interna de documentos PDF de forma nativa e veloz. Em paralelo, o \textit{Tesseract} atua como um motor de Reconhecimento Óptico de Caracteres (OCR) de código aberto, capaz de identificar texto em imagens rasterizadas.
+O processamento de certificados em formato digital exige ferramentas capazes de acessar o conteúdo interno de documentos PDF e, quando necessário, lidar com arquivos sem camada textual. O PyMuPDF fornece acesso programático a documentos PDF, permitindo extrair texto, inspecionar páginas e manipular arquivos de forma automatizada \cite{pymupdf2026}. Para documentos digitalizados como imagem, o Tesseract oferece recursos de Reconhecimento Óptico de Caracteres (OCR), convertendo conteúdo visual em texto processável \cite{tesseract}.
 
-\textbf{Aplicação no trabalho:} O PyMuPDF é utilizado para interceptar o fluxo de \textit{bytes} dos certificados na memória RAM, extraindo o conteúdo textual nativo e realizando a consolidação final das páginas em um único arquivo PDF. O Tesseract (\textit{via} biblioteca \texttt{pytesseract}) é empregado como um mecanismo de contingência: caso o discente faça o \textit{upload} de um certificado em formato de imagem (JPEG/PNG) ou de um PDF escaneado sem camada de texto, o OCR é acionado para digitalizar o conteúdo e garantir que o motor de validação por Regex continue operando perfeitamente.
+Neste trabalho, essas tecnologias apoiam a extração de informações relevantes dos certificados, como carga horária, datas e dados textuais associados ao discente. O PyMuPDF é utilizado como via principal quando o documento possui texto nativo, enquanto o OCR funciona como alternativa para certificados digitalizados ou imagens. Essa combinação amplia a capacidade do sistema de lidar com documentos heterogêneos, embora a qualidade da extração continue dependente da legibilidade e da estrutura dos arquivos enviados.
 
-\subsection{Persistência e ORM: SQLite e Flask-SQLAlchemy}
+\subsection{Persistência de Dados com SQLite e SQLAlchemy}
 
-Para a persistência de dados, o SQLite destaca-se como um banco de dados relacional transacional e embutido, que não requer um processo de servidor separado. O SQLAlchemy, por sua vez, é um dos mais robustos \textit{frameworks} de mapeamento objeto-relacional (ORM) do ecossistema Python.
+A persistência de dados é necessária para registrar solicitações de análise, usuários administrativos e informações relacionadas ao acompanhamento dos baremas submetidos. O SQLite foi adotado por ser um banco relacional embutido, adequado a protótipos e aplicações de menor complexidade operacional. O SQLAlchemy, por sua vez, oferece uma camada de mapeamento objeto-relacional que permite representar entidades da aplicação como objetos, reduzindo o acoplamento direto com comandos SQL \cite{sqlalchemy}.
 
-\textbf{Aplicação no trabalho:} O SQLite é utilizado para armazenar fisicamente o histórico de protocolos submetidos pelos alunos e os dados de acesso da coordenação, simplificando a infraestrutura de hospedagem. O Flask-SQLAlchemy é aplicado para mapear as entidades do domínio (como \texttt{SolicitacaoAnalise} e \texttt{Usuario}) em tabelas do banco, permitindo que a aplicação registre o \textit{status} dos baremas através de transações atômicas de forma puramente orientada a objetos.
+No sistema desenvolvido, essa combinação permite registrar o histórico de solicitações e o estado de análise dos baremas, preservando a separação entre o modelo de domínio e a infraestrutura de banco de dados. Assim, entidades como solicitações, usuários e dados de contato podem ser manipuladas pela aplicação sem que a lógica de negócio dependa diretamente da estrutura física das tabelas.
 
-\subsection{Mensageria Omnichannel: Twilio}
+\subsection{Comunicação Assíncrona e Reatividade da Interface}
 
-O Twilio é uma plataforma de comunicações em nuvem (CPaaS - \textit{Communications Platform as a Service}) que fornece APIs programáveis para integrar múltiplos canais de comunicação, como correio eletrônico, SMS e mensageria instantânea, em uma única arquitetura.
+A interação do discente com o sistema envolve o envio de arquivos, atualização de cargas horárias e exibição de mensagens de validação. Para evitar recarregamentos completos da página a cada operação, utiliza-se JavaScript em conjunto com a \textit{Fetch API}, que permite a realização de requisições HTTP assíncronas a partir do navegador.
 
-\textbf{Aplicação no trabalho:} Esta ferramenta é utilizada para implementar a arquitetura orientada a eventos no painel da coordenação. Assim que o colegiado registra o parecer sobre o barema, o sistema consome a API do Twilio (via \textit{SendGrid} para \textit{e-mail} ou via integração nativa para \textit{WhatsApp}) para disparar notificações automáticas ao discente, eliminando o retrabalho administrativo manual.
+Essa estratégia contribui para uma experiência mais fluida, pois a interface pode enviar certificados ao servidor, receber respostas em formato estruturado e atualizar apenas os elementos necessários da página. No contexto do Barema, isso é especialmente importante porque o discente precisa perceber rapidamente os efeitos de suas ações, como anexação de comprovantes, alertas de divergência e atualização dos totais de carga horária.
 
-\subsection{Reatividade Web: JavaScript e Fetch API}
+\subsection{Serviços de Notificação}
 
-Para garantir o tempo de resposta e a fluidez discutidos nos conceitos de interface, a \textit{Fetch API} surge como uma interface moderna nativa dos navegadores para a realização de requisições HTTP e HTTPS de forma assíncrona baseada em \textit{Promises}.
+Além da montagem e submissão do Barema, o sistema prevê apoio ao retorno da análise realizada pela coordenação. Para esse fim, serviços externos de comunicação podem ser utilizados para envio de mensagens ao discente. A plataforma Twilio oferece APIs para integração com diferentes canais de comunicação, incluindo mensageria e serviços associados a envio de mensagens eletrônicas \cite{twilio}.
 
-\textbf{Aplicação no trabalho:} O JavaScript em conjunto com a \textit{Fetch API} é aplicado no \textit{frontend} para criar uma experiência de \textit{Single Page Application} (SPA) leve. Eles são responsáveis por capturar as ações do discente (como arrastar um certificado para a tela), enviar o arquivo em segundo plano para o Flask e atualizar a interface com alertas de carga horária e contadores, tudo isso sem a necessidade de recarregar a página web do sistema.
+Neste trabalho, esse recurso é tratado como apoio ao fluxo administrativo de retorno ao discente. Sua adoção permite automatizar parte da comunicação após o registro do parecer, mas não substitui a responsabilidade institucional da coordenação sobre a análise e a decisão final.

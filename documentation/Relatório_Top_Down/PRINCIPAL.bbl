@@ -15,23 +15,46 @@ Acesso em: mar. 2026.
 Dispon{\'\i}vel em:
   \url{https://ajpojournals.org/journals/ije/article/view/2510/4100}.}
 
-\bibitem[ALCÂNTARA et al. 2021]{alcantara2021}
-\abntrefinfo{ALCÂNTARA et al.}{ALCÂNTARA et al.}{2021}
-{ALCÂNTARA, E. S.~d. et al. Processo eletrônico de aproveitamento de
+\bibitem[Alcântara et al. 2021]{alcantara2021}
+\abntrefinfo{Alcântara et al.}{ALCâNTARA et al.}{2021}
+{ALCâNTARA, E. S.~d. et al. Processo eletrônico de aproveitamento de
   atividades complementares: proposta de criação numa {IES}.
 \emph{Regae: Revista de Gestão e Avaliação Educacional}, v.~9, n.~18, p.
   1--16, 2021.}
 
-\bibitem[BARBOSA 2020]{barbosa2020}
-\abntrefinfo{BARBOSA}{BARBOSA}{2020}
+\bibitem[{Artifex Software, Inc.} 2026]{pymupdf2026}
+\abntrefinfo{{Artifex Software, Inc.}}{{Artifex Software, Inc.}}{2026}
+{{Artifex Software, Inc.} \emph{{PyMuPDF}: Python Bindings for {MuPDF}}. 2026.
+Dispon{\'\i}vel em: \url{https://pymupdf.readthedocs.io}. Acesso em: 12 abr.
+  2026.}
+
+\bibitem[Barbosa 2020]{barbosa2020}
+\abntrefinfo{Barbosa}{BARBOSA}{2020}
 {BARBOSA, R.~R.
 \emph{{SCAC}: Sistema de Cadastramento das Atividades Complementares}.
 Disserta\c{c}\~{a}o (Trabalho de Conclusão de Curso (Bacharelado em Engenharia
   de Software)) --- Universidade Federal do Amazonas, Itacoatiara, AM, 2020.
 Dispon{\'\i}vel em: \url{http://riu.ufam.edu.br/handle/prefix/5834}.}
 
-\bibitem[FERNANDES 2021]{fernandes2021}
-\abntrefinfo{FERNANDES}{FERNANDES}{2021}
+\bibitem[Brasil 2007]{brasil2007resolucao}
+\abntrefinfo{Brasil}{BRASIL}{2007}
+{BRASIL. \emph{{RESOLUÇÃO CNE Nº 2, DE 18 DE JUNHO DE 2007}. {D}ispõe sobre
+  carga horária mínima e procedimentos relativos à integralização e
+  duração dos cursos de graduação, bacharelados, na modalidade presencial}.
+  Brasília, DF: Ministério da Educação, 2007.
+  \url{https://www.gov.br/mec/pt-br/media/acesso_informacacao/pdf-arq/rces002_07.pdf}.
+Acesso em: mar. 2026.}
+
+\bibitem[Brasil 2016]{brasil2016resolucao}
+\abntrefinfo{Brasil}{BRASIL}{2016}
+{BRASIL. \emph{{RESOLUÇÃO Nº 5, DE 16 DE NOVEMBRO DE 2016}. {I}nstitui as
+  {D}iretrizes {C}urriculares {N}acionais para os cursos de graduação na
+  área da {C}omputação}. Brasília, DF: Ministério da Educação, 2016.
+  \url{https://www.gov.br/mec/pt-br/cne/pdf/normas-classificadas-por-assunto/diretrizes-curriculares-cursos-de-graduacao/rces005_16.pdf}.
+Acesso em: mar. 2026.}
+
+\bibitem[Fernandes 2021]{fernandes2021}
+\abntrefinfo{Fernandes}{FERNANDES}{2021}
 {FERNANDES, L.~M.
 \emph{Aplicação da automação robótica de processos em atividades
   administrativas da Universidade Federal de Santa Catarina}.
@@ -43,6 +66,12 @@ Dispon{\'\i}vel em: \url{https://repositorio.ufsc.br/handle/123456789/229377}.}
 \abntrefinfo{Fowler}{FOWLER}{2006}
 {FOWLER, M. \emph{Padr{\~o}es de Arquitetura de Aplica{\c{c}}{\~o}es
   Corporativas}. [S.l.]: Bookman Editora, 2006.}
+
+\bibitem[{Google} 2026]{tesseract}
+\abntrefinfo{{Google}}{{Google}}{2026}
+{{Google}. \emph{Tesseract Open Source OCR Engine}. 2026.
+Dispon{\'\i}vel em: \url{https://github.com/tesseract-ocr/tesseract}. Acesso
+  em: 12 mar. 2026.}
 
 \bibitem[Grinberg 2018]{grinberg2018}
 \abntrefinfo{Grinberg}{GRINBERG}{2018}
@@ -88,15 +117,20 @@ Dispon{\'\i}vel em:
   Web}.
 Belo Horizonte, MG, 2007.}
 
-\bibitem[Tanenbaum e Bos 2016]{tanenbaum2016}
-\abntrefinfo{Tanenbaum e Bos}{TANENBAUM; BOS}{2016}
-{TANENBAUM, A.~S.; BOS, H. \emph{Sistemas Operacionais Modernos}. 4. ed. São
-  Paulo: Pearson Education do Brasil, 2016. Acessado em: 13 mar. 2026.
-  Dispon{\'\i}vel em:
-  \url{https://archive.org/details/SistemasOperacionaisModernosTanenbaum4Edio/}.}
+\bibitem[{SQLAlchemy Authors} 2026]{sqlalchemy}
+\abntrefinfo{{SQLAlchemy Authors}}{{SQLAlchemy Authors}}{2026}
+{{SQLAlchemy Authors}. \emph{SQLAlchemy Documentation}. 2026.
+Dispon{\'\i}vel em: \url{https://docs.sqlalchemy.org/}. Acesso em: 12 abr.
+  2026.}
 
-\bibitem[WIECHORK 2021]{wiechork2021}
-\abntrefinfo{WIECHORK}{WIECHORK}{2021}
+\bibitem[{Twilio Inc.} 2026]{twilio}
+\abntrefinfo{{Twilio Inc.}}{{Twilio Inc.}}{2026}
+{{Twilio Inc.} \emph{Twilio Documentation and APIs}. 2026.
+Dispon{\'\i}vel em: \url{https://www.twilio.com/docs}. Acesso em: 10 abr.
+  2026.}
+
+\bibitem[Wiechork 2021]{wiechork2021}
+\abntrefinfo{Wiechork}{WIECHORK}{2021}
 {WIECHORK, K.
 \emph{Extração automatizada de dados de documentos em formato {PDF}:
   aplicação a grandes conjuntos de exames educacionais}.
