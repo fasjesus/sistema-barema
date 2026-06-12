@@ -5,7 +5,6 @@ FROM python:3.10-slim
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-por \
-    libgl1-mesa-glx \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. Define a pasta de trabalho no servidor
