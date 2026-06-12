@@ -21,52 +21,32 @@ A integração entre a extração e a pré-validação de dados demonstrou utili
 
 %DEGAS - Mencione a utilidade da integração que tu se refere no pa´ragrafo acima //ok
 
-Também foi obtido como resultado o PDF consolidado do barema. O documento gerado reúne uma folha inicial com os dados do discente, a tabela de atividades, a carga horária computada em cada categoria, os intervalos de páginas correspondentes aos comprovantes e eventuais observações de pré-validação. Em seguida, os certificados anexados são incorporados ao mesmo arquivo, com numeração de páginas aplicada ao conjunto final. Esse resultado é relevante porque transforma um processo originalmente fragmentado em um artefato único, mais adequado para conferência acadêmica.
-
 \section{Validação do Protótipo}
 
-A validação do protótipo foi conduzida por meio de testes de conformidade normativa, simulando cenários reais enfrentados pela coordenação do curso. A aderência às regras do Barema é necessária porque o documento final subsidia o deferimento das Atividades Complementares pelo Colegiado; erros de cálculo, categorização ou organização podem gerar indeferimento, retrabalho e atraso no cronograma acadêmico do discente. Para cobrir essas variáveis, foram projetados cenários funcionais alinhados aos critérios de sucesso definidos na Seção \ref{subsec:criterios_sucesso}.
+A validação do protótipo foi conduzida por meio de testes de conformidade normativa, simulando cenários reais enfrentados pela coordenação do curso. A estrita aderência às regras do Barema é mandatória, visto que o documento final possui valor regulatório e subsidia o deferimento da colação de grau pelo Colegiado; qualquer erro de cálculo ou categorização inadequada resulta no indeferimento do processo e em prejuízos ao cronograma acadêmico do discente. Para cobrir essas variáveis, foram projetados cenários de testes funcionais, explicados a seguir.
 
-Os cenários avaliados são sintetizados na Tabela \ref{tab:cenarios-validacao}. Cada cenário foi construído com entradas controladas para verificar se a saída do sistema correspondia ao comportamento esperado para a funcionalidade analisada.
+%DEGAS - Explique (de novo, eu sei. Mas tenha pena do Leitor) porque é necessário seguir as regras do barema. Mencione que cada cenário é explicado a seguir. //ok
 
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.15}
-\caption{Cenários funcionais utilizados na validação do protótipo}
-\label{tab:cenarios-validacao}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.3cm}}
-\toprule
-\textbf{Cenário} & \textbf{Entrada simulada} & \textbf{Resultado observado} & \textbf{Critério relacionado} \\
-\midrule
-Anexação e organização de certificados & Envio de múltiplos comprovantes em categorias distintas do barema. & Os arquivos foram associados às categorias correspondentes, mantidos no fluxo de montagem e incorporados ao PDF final. & Eficiência da \textit{Interface}; Integridade da Unificação. \\
-Extração de metadados & Certificados PDF com camada textual acessível contendo carga horária e data. & O sistema extraiu informações textuais utilizadas na pré-validação e no apoio ao preenchimento da carga horária. & Precisão na Extração de Metadados. \\
-Aplicação de tetos e pisos por categoria & Declaração de horas em quantidade superior ou inferior ao limite permitido/exigido para uma categoria. & A carga horária computável foi limitada conforme o regulamento, evitando que o total aproveitável ultrapassasse o teto e exigindo também o piso definido. & Conformidade com o Regulamento. \\
-Divergência entre declaração e certificado & Informação declarada pelo discente incompatível com os dados identificados no comprovante. & A inconsistência foi sinalizada como observação de pré-validação para conferência posterior. & Conformidade com o Regulamento; Precisão na Extração de Metadados. \\
-Duplicidade de certificados & Envio de comprovantes com conteúdo textual repetido. & O sistema apontou possível duplicidade, permitindo que o discente ou a coordenação verificasse o caso antes do deferimento. & Conformidade com o Regulamento. \\
-Indisponibilidade de serviço externo & Execução da pré-validação sem disponibilidade de recurso externo de inteligência artificial. & A aplicação preservou as verificações básicas baseadas em regras objetivas, mantendo o fluxo funcional. & Conformidade com o Regulamento. \\
-Geração do PDF final & Montagem completa do barema com dados do discente, atividades e anexos. & O sistema gerou um arquivo único contendo tabela inicial, páginas numeradas e comprovantes anexados. & Integridade da Unificação. \\
-\bottomrule
-\end{tabularx}
-\legend{Fonte: Elaborado pelo autor (2026).}
-\end{table}
+Nos cenários avaliados, o sistema conseguiu identificar inconsistências objetivas antes da submissão oficial. A divergência de nome foi detectada pela comparação entre o nome informado pelo discente e o nome identificado no certificado. A carga horária solicitada foi comparada com o total extraído dos documentos anexados, permitindo apontar quando o valor declarado era superior ao comprovado. A duplicidade foi verificada pela comparação do conteúdo textual dos certificados.
 
-A partir desses cenários, observou-se que o protótipo atende aos critérios de sucesso de forma funcional no ambiente de testes local. A eficiência da interface foi verificada pela possibilidade de organizar arquivos sem recarregamento completo da página. A precisão da extração foi observada principalmente em certificados com camada textual acessível. A conformidade com o regulamento foi evidenciada pela aplicação de pisos e tetos e pela sinalização de inconsistências. Por fim, a integridade da unificação foi verificada pela geração do PDF consolidado com dados, tabela, paginação e anexos em um único arquivo.
+Também foi testado o comportamento da pré-validação quando há indisponibilidade de serviços externos de inteligência artificial. Nesse caso, o sistema retornou para a validação básica, mantendo a análise de regras objetivas sem depender exclusivamente de uma \textit{API} externa. Esse comportamento é relevante porque preserva a utilidade do sistema mesmo quando recursos adicionais de análise textual não estão disponíveis.
+
+Além das validações individuais, foi verificada a geração do documento final. O PDF consolidado reuniu os dados preenchidos e os certificados anexados em uma estrutura única, adequada para encaminhamento à análise oficial. Esse resultado atende à necessidade de reduzir erros de montagem e de organização dos anexos.
 
 \section{Discussão da Solução}
 
 Os resultados indicam que a solução proposta se diferencia de ferramentas genéricas de manipulação de PDF por incorporar regras específicas do barema do COLCIC. Enquanto ferramentas externas apenas permitem juntar ou reorganizar arquivos, o sistema desenvolvido combina a montagem do documento com verificações relacionadas ao regulamento e ao conteúdo dos certificados.
 
-Antes da ferramenta, o discente precisava calcular manualmente a carga horária aproveitável, conferir os tetos por categoria, reorganizar a indexação sempre que um comprovante era alterado e reunir os anexos em um arquivo único por conta própria. Com o protótipo, parte desse fluxo passa a ser assistida: os limites são aplicados durante o preenchimento, a paginação é derivada da montagem do documento, os anexos são consolidados automaticamente e inconsistências objetivas são sinalizadas antes da análise institucional. Essa mudança não elimina a responsabilidade do colegiado, mas melhora a qualidade do material encaminhado para conferência.
-
 A arquitetura em camadas adotada conferiu flexibilidade e isolamento de escopo ao projeto. A separação clara entre a camada de \textit{interface}, as rotas do Flask\texttrademark{}, as funções de serviço do orquestrador e os \textit{drivers} de geração de documentos permitiu que os limites normativos fossem codificados diretamente no \textit{backend} através de um dicionário de restrições explícito. Essa organização facilitou a escrita de rotinas de testes unitários automatizados, validando isoladamente os módulos como cálculo dos pisos e tetos das atividades, extração de carga horária e pré-validação.
 
+%DEGAS O que danado é fallback? Use \textit{} para palavras estrangeiras. //ok
 
-Apesar dos resultados promissores, a plataforma deve ser interpretada como um instrumento de apoio à decisão e conferência preliminar, não substituindo o papel avaliador da coordenação do curso. O sistema reduz os erros formais e inconsistências matemáticas evidentes antes do envio, mas a prerrogativa pedagógica de deferimento das atividades e análise de mérito dos certificados permanece estritamente institucional.
+Apesar dos resultados promissores %promissores //ok
+, a plataforma deve ser interpretada como um instrumento de apoio à decisão e conferência preliminar, não substituindo o papel avaliador da coordenação do curso. O sistema reduz os erros formais e inconsistências matemáticas evidentes antes do envio, mas a prerrogativa pedagógica de deferimento das atividades e análise de mérito dos certificados permanece estritamente institucional.
 
 \section{Limitações Observadas}
 
+%COMECE ELOGIANDO OS PONTOS POSITIVOS PARA DEPOIS FALAR DAS LIMITAÇÕES. E a velha crítica: explique cada uma delas em detalhe. Aqui, talvez, não precise separar em parágrafos. Mas como tu já separou a última... veja aí. //ok
 
 Antes de delimitar as restrições do cenário atual, cabe destacar a robustez técnica demonstrada pelo protótipo no processamento estável de fluxos assíncronos e na fidelidade do documento consolidado gerado. Contudo, foram mapeadas limitações operacionais inerentes à tecnologia empregada que devem ser documentadas.
 

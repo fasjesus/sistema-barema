@@ -17,9 +17,7 @@ Para mapear as interações entre os usuários e o sistema, bem como definir o e
     \label{fig:casos-de-uso}
 \end{figure}
 
-A partir desta modelagem de interações, a arquitetura e a implementação do sistema foram divididas em cinco módulos operacionais lógicos: Montagem do Barema, Extração de Dados, Pré-validação, Geração do Documento e Painel de Análise dos Baremas.
-
-Em termos operacionais, o fluxo inicia-se quando o discente informa seus dados de identificação e matrícula. A partir da matrícula, o sistema seleciona o barema aplicável e apresenta as categorias de atividades correspondentes. Em seguida, o aluno anexa os certificados em cada categoria, informa as cargas horárias declaradas e pode revisar a organização dos arquivos antes da geração final. Durante esse processo, a aplicação extrai informações dos documentos, aplica regras de carga horária, sinaliza possíveis inconsistências e, ao final, consolida os dados e anexos em um PDF único. Caso deseje uma conferência preliminar, o discente pode solicitar análise pela coordenação, que acessa o painel administrativo, registra o parecer e aciona o envio de retorno ao aluno pelo canal informado.
+A partir desta modelagem de interações, a arquitetura e a implementação do sistema foram divididas em quatro módulos operacionais lógicos: Montagem do Barema, Extração de Dados, Pré-validação, Geração do Documento e o Painel de Análise dos Baremas.
 
 \section{Requisitos do Sistema}\label{requisitos}
 
@@ -131,19 +129,15 @@ Após o preenchimento, a interface renderiza a tabela de atividades. A construç
     \label{fig:formulario-barema}
 \end{figure}
 
-Com isso, o módulo de montagem atende principalmente aos requisitos RF01, RF02 e RNF01, pois permite anexar, categorizar, reordenar e inspecionar os documentos de forma integrada à interface.
-
 \subsection{Extração de Dados}
 
 Uma vez que o arquivo é recebido pela camada de rotas, o Módulo de Extração é acionado. Este componente foi otimizado para operar diretamente sobre o fluxo de \textit{bytes} (\textit{stream}) na memória volátil do servidor, dispensando a necessidade de gravação prévia em disco. Para garantir a resiliência da aplicação, o motor de extração foi arquitetado para lidar com dois cenários distintos de arquivos comprobatórios: documentos com camada de texto estruturada e imagens rasterizadas.
 
-Para a inspeção de binários e extração nativa de metadados textuais em arquivos PDF padrão, o projeto empregou a biblioteca \textit{PyMuPDF} (através do módulo \texttt{fitz}). O serviço instancia o documento na memória utilizando \texttt{fitz.open()} e percorre as páginas invocando métodos de captura direta de \textit{strings} legíveis, priorizando o processamento direto da camada textual do arquivo.
+Para a inspeção de binários e extração nativa de metadados textuais em arquivos PDF padrão, o projeto empregou a biblioteca \textit{PyMuPDF} (através do módulo \texttt{fitz}). O serviço instancia o documento na memória utilizando \texttt{fitz.open()} e percorre as páginas invocando métodos de captura direta de \textit{strings} legíveis, o que garante máxima velocidade de processamento.
 
-Contudo, para cenários em que o discente anexa arquivos de imagem (extensões como PNG ou JPEG) ou documentos PDF originados de \textit{scanners} (sem camada de texto extraível), o sistema aciona um mecanismo de contingência baseado em Reconhecimento Óptico de Caracteres (OCR). Esse acionamento ocorre quando a extração textual direta retorna conteúdo insuficiente para análise. Utilizando o motor \textit{Tesseract OCR} (integrado via biblioteca \texttt{pytesseract}), o fluxo visual é processado e os caracteres contidos na imagem são reconhecidos e convertidos em texto estruturado na memória da aplicação.
+Contudo, para cenários em que o discente anexa arquivos de imagem (extensões como PNG ou JPEG) ou documentos PDF originados de \textit{scanners} (sem camada de texto extraível), o sistema aciona um mecanismo de contingência baseado em Reconhecimento Óptico de Caracteres (OCR). Utilizando o motor \textit{Tesseract OCR} (integrado via biblioteca \texttt{pytesseract}), o fluxo visual é processado e os caracteres contidos na imagem são reconhecidos e convertidos em texto estruturado na memória da aplicação.
 
 Independentemente da via de extração acionada (nativa via \textit{PyMuPDF} ou óptica via \textit{OCR}), a \textit{string} resultante é padronizada e submetida ao módulo nativo de Expressões Regulares do Python (\texttt{re}). O algoritmo utiliza a função \texttt{re.findall()} configurada com padrões morfológicos para localizar a carga horária declarada no texto, isolando números que estejam semanticamente adjacentes a termos específicos (como "horas" ou "h").
-
-Esse módulo atende principalmente aos requisitos RF02, RF07 e RF08, pois fornece os dados extraídos que subsidiam a contagem de páginas, a identificação de datas, a comparação de nomes e a conferência preliminar de carga horária.
 
 \subsection{Pré-validação e Geração do Documento}
 
@@ -151,9 +145,7 @@ Com os dados extraídos em memória, a aplicação executa a Pré-validação. A
 
 Além das verificações determinísticas, este módulo foi arquitetado para suportar uma camada opcional de contingência e flexibilidade textuais operada por recursos de inteligência artificial. Se a \textit{API} externa estiver configurada e disponível, o sistema aproxima semanticamente o contexto do certificado com a categoria exigida; em caso de falha de conexão, o sistema adota um comportamento de resiliência e retorna à validação básica.
 
-Superadas as validações, o processo culmina na geração do documento. Para essa etapa, o \textit{backend} utiliza recursos de montagem e escrita de PDF baseados nas bibliotecas \textit{pypdf} e \textit{ReportLab}. O serviço cria uma capa em formato de tabela com os dados do discente, as categorias do barema, as cargas horárias computadas e os intervalos de páginas dos comprovantes. Em seguida, anexa os certificados enviados, converte imagens para páginas PDF quando necessário e adiciona numeração ao documento consolidado.
-
-Esse conjunto de verificações e geração atende principalmente aos requisitos RF03, RF04, RF05, RF06 e RF09, pois aplica os tetos regulamentares, registra alertas de pré-validação, consolida os anexos e produz um documento organizado para análise.
+Superadas as validações, o processo culmina na geração do documento. Utilizando novamente os recursos de manipulação do \textit{PyMuPDF}, o \textit{backend} consolida os dados do formulário, cria laudas de indexação separadoras dinamicamente e anexa os comprovantes validados, exportando um único PDF unificado e devidamente paginado para o aluno.
 
 \subsection{Painel de Análise (Coordenação)}
 
@@ -177,10 +169,8 @@ Ao confirmar o envio do barema, o Módulo de Análise converte os dados da memó
     \label{fig:painel-coordenador}
 \end{figure}
 
-O ciclo de caso de uso deste módulo encerra-se com o registro do parecer institucional no sistema e a consequente tentativa de notificação do discente. Assim que o coordenador submete a avaliação, o serviço de análise registra o parecer, atualiza o \textit{status} do protocolo no banco de dados e invoca o módulo de comunicação responsável por enviar o retorno ao aluno.
+O ciclo de caso de uso deste módulo encerra-se com o registro do parecer institucional no sistema e a consequente notificação do discente. Para garantir a transparência do processo, o sistema implementa um serviço de mensageria acionado por gatilhos de evento (\textit{event triggers}). Assim que o coordenador submete a avaliação e o \textit{status} do protocolo é atualizado no banco de dados (acionando a função \texttt{registrar\_parecer()}), a aplicação intercepta essa mudança de estado e invoca o módulo de comunicação.
 
-Embasado nos dados persistidos, o sistema verifica o \texttt{metodo\_preferencial} escolhido pelo discente durante o preenchimento. Para a orquestração e o disparo automático dessas mensagens, optou-se pela integração com a plataforma de comunicações em nuvem \textit{Twilio}. A escolha dessa ferramenta justifica-se pela possibilidade de centralizar múltiplos canais de notificação (\textit{omnichannel}) em uma única API.
+Embasado nos dados persistidos, o sistema verifica o \texttt{metodo\_preferencial} escolhido pelo discente durante o preenchimento. Para a orquestração e o disparo automático dessas mensagens, optou-se pela integração com a plataforma de comunicações em nuvem \textit{Twilio}. A escolha dessa ferramenta justifica-se pela sua capacidade de centralizar múltiplos canais de notificação (\textit{omnichannel}) em uma única API segura, escalável e de alta disponibilidade. 
 
-Caso a escolha do aluno seja por correio eletrônico, o \textit{backend} aciona a \textit{API} de \textit{email} da plataforma (\textit{Twilio SendGrid}) para despachar o \textit{feedback} detalhado. Se a preferência for pelo aplicativo \textit{WhatsApp}, o orquestrador consome a API de mensageria nativa do \textit{Twilio}, enviando a notificação para o número informado e mantendo também o envio por \textit{email} quando esse dado está disponível. Essa automatização reduz a carga operacional da coordenação no envio manual de retornos e contribui para que o discente receba a informação sobre o encerramento institucional do processo.
-
-O painel administrativo atende aos requisitos RF10, RF11, RF12 e RNF03, pois permite solicitar análise, consultar os protocolos registrados, registrar pareceres em área autenticada e acionar o serviço de notificação ao discente.
+Caso a escolha do aluno seja por correio eletrônico, o \textit{backend} aciona a \textit{API} de \textit{email} da plataforma (\textit{Twilio SendGrid}) para despachar o \textit{feedback} detalhado. Se a preferência for pelo aplicativo \textit{WhatsApp}, o orquestrador consome a API de mensageria nativa do \textit{Twilio}, entregando a notificação de forma síncrona e formatada diretamente no dispositivo móvel do discente - também é enviado o feedback por \textit{email} -. Essa automatização conclui o fluxo do projeto, eliminando por completo a carga de trabalho operacional da coordenação com o envio manual de retornos e garantindo que o discente seja informado de imediato sobre o encerramento institucional do seu processo.
