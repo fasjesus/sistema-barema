@@ -123,16 +123,36 @@ class NotificationService:
     def _enviar_email(self, para, texto):
         try:
             conteudo_html = f"""
-            <div style="font-family: sans-serif; max-width: 600px; border: 1px solid #ddd; border-radius: 10px; padding: 20px;">
-                <h2 style="color: #28a745;">Feedback do seu Barema</h2>
-                <p>Seu processo de Atividades Complementares foi analisado pelo coordenador.</p>
-                <div style="background-color: #f9f9f9; padding: 15px; border-left: 5px solid #ffe45e; margin: 20px 0;">
-                    <strong>Acompanhe:</strong><br>
-                    {texto}
+            <div style="width: 100%; margin: 0; padding: 32px 0; background-color: #e8f1ff; text-align: center;">
+                <div style="width: 100%; max-width: 620px; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; color: #232323; text-align: left;">
+                    <div style="background-color: #314ca5; border-radius: 10px 10px 0 0; padding: 24px 28px; border-bottom: 5px solid #ffe45e;">
+                        <p style="margin: 0 0 8px 0; color: #ffe45e; font-size: 13px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;">
+                            Sistema de Barema - COLCIC/UESC
+                        </p>
+                        <h2 style="margin: 0; color: #ffffff; font-size: 24px; line-height: 1.3;">
+                            Feedback do seu Barema
+                        </h2>
+                    </div>
+
+                    <div style="background-color: #ffffff; border: 1px solid #d4e1f4; border-top: 0; border-radius: 0 0 10px 10px; padding: 28px; box-shadow: 0 10px 24px rgba(49, 76, 165, 0.12);">
+                        <p style="margin: 0; color: #333333; font-size: 16px; line-height: 1.6;">
+                            Seu processo de Atividades Complementares foi analisado pelo coordenador.
+                        </p>
+
+                        <div style="background-color: #f4f7ff; border-left: 6px solid #ffe45e; border-radius: 6px; margin: 24px 0; padding: 18px 20px;">
+                            <strong style="display: block; margin-bottom: 8px; color: #283a73; font-size: 16px;">
+                                Acompanhe:
+                            </strong>
+                            <div style="color: #333333; font-size: 15px; line-height: 1.6;">
+                                {texto}
+                            </div>
+                        </div>
+
+                        <p style="margin: 0; padding-top: 18px; border-top: 1px solid #d4e1f4; color: #666666; font-size: 13px; line-height: 1.5;">
+                            Este é um e-mail automático enviado pelo Sistema de Barema - COLCIC/UESC.
+                        </p>
+                    </div>
                 </div>
-                <p style="font-size: 0.8em; color: #666;">
-                    Este é um e-mail automático enviado pelo Sistema de Barema - COLCIC/UESC.
-                </p>
             </div>
             """
 
