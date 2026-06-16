@@ -66,11 +66,11 @@
 \contentsline {chapter}{\chapternumberline {8}\MakeTextUppercase []{Resultados e Discussão}}{44}{chapter.8}%
 \contentsline {section}{\numberline {8.1}Resultados Obtidos}{44}{section.8.1}%
 \contentsline {section}{\numberline {8.2}Validação do Protótipo}{45}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Discussão da Solução}{46}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Limitações Observadas}{47}{section.8.4}%
+\contentsline {section}{\numberline {8.3}Discussão da Solução}{49}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Limitações Observadas}{49}{section.8.4}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {9}\MakeTextUppercase []{Conclusão}}{49}{chapter.9}%
+\contentsline {chapter}{\chapternumberline {9}\MakeTextUppercase []{Conclusão}}{51}{chapter.9}%
 \vspace {\cftbeforechapterskip }
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{51}{section*.31}%
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{53}{section*.35}%

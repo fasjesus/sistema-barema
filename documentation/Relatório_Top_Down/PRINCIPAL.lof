@@ -6,5 +6,9 @@
 \contentsline {figure}{\numberline {4}{\ignorespaces Modelo Entidade-Relacionamento (MER) do banco de dados.}}{38}{figure.caption.21}%
 \contentsline {figure}{\numberline {5}{\ignorespaces Tela inicial do sistema Barema.}}{39}{figure.caption.22}%
 \contentsline {figure}{\numberline {6}{\ignorespaces Formulário do barema com atividades carregadas.}}{39}{figure.caption.23}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Tela de \textit {login} administrativo.}}{41}{figure.caption.24}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Painel do coordenador para análise das solicitações.}}{42}{figure.caption.25}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Confirmação de geração do barema após o envio do formulário.}}{41}{figure.caption.24}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Tela de \textit {login} administrativo.}}{42}{figure.caption.25}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Painel do coordenador para análise das solicitações.}}{42}{figure.caption.26}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Cenário integrado de pré-validação com certificado reutilizado em duas atividades.}}{47}{figure.caption.28}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Certificado anexado como evidência no cenário integrado de pré-validação.}}{47}{figure.caption.29}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Observações de pré-validação registradas no PDF final.}}{48}{figure.caption.30}%

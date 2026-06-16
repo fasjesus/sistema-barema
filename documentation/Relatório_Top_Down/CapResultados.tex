@@ -46,7 +46,35 @@ Geração do PDF final & Montagem completa do barema com dados do discente, ativ
 \legend{Fonte: Elaborado pelo autor (2026).}
 \end{table}
 
-A partir desses cenários, observou-se que o protótipo atende aos critérios de sucesso de forma funcional no ambiente de testes local. A eficiência da interface foi verificada pela possibilidade de organizar arquivos sem recarregamento completo da página. A precisão da extração foi observada principalmente em certificados com camada textual acessível. A conformidade com o regulamento foi evidenciada pela aplicação de pisos e tetos e pela sinalização de inconsistências. Por fim, a integridade da unificação foi verificada pela geração do PDF consolidado com dados, tabela, paginação e anexos em um único arquivo.
+Para tornar a avaliação mais verificável, também foi construído um cenário integrado de pré-validação. Nesse cenário, o formulário foi preenchido com o nome \textit{Teste Nome}, matrícula \textit{202521158} e e-mail. O mesmo certificado, emitido em 2023 em nome de outra pessoa e com carga horária de 5 horas, foi anexado em duas atividades distintas, enquanto o discente declarou 10 horas em cada uma delas. A Figura \ref{fig:cenario-pre-validacao-multiplas-inconsistencias} apresenta o cenário de preenchimento, a Figura \ref{fig:certificado-anexado-multiverso2023} mostra o certificado utilizado como evidência no teste, e a Figura \ref{fig:pdf-pre-validacao-multiplas-inconsistencias} mostra a materialização das observações no PDF final.
+
+\begin{figure}[H]
+    \centering
+    \caption{Cenário integrado de pré-validação com certificado reutilizado em duas atividades.}
+    \includegraphics[width=0.95\textwidth]{figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png}
+    \legend{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:cenario-pre-validacao-multiplas-inconsistencias}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Certificado anexado como evidência no cenário integrado de pré-validação.}
+    \includegraphics[width=0.95\textwidth]{figuras/telas/08_certificado_anexado_multiverso2023.png}
+    \legend{Fonte: Documento utilizado nos testes do protótipo (2026).}
+    \label{fig:certificado-anexado-multiverso2023}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Observações de pré-validação registradas no PDF final.}
+    \includegraphics[width=\textwidth]{figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png}
+    \legend{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:pdf-pre-validacao-multiplas-inconsistencias}
+\end{figure}
+
+O resultado demonstra que a pré-validação não apenas executa verificações internas, mas também registra no documento final os pontos que exigem conferência. No exemplo, foram sinalizadas a divergência entre o nome informado e o nome presente no certificado, a existência de certificado anterior ao ano de ingresso, a carga horária solicitada superior ao total comprovado e a reutilização do mesmo comprovante em outra atividade. Essas mensagens devem ser interpretadas como apoio à conferência preliminar, e não como decisão automática de indeferimento, preservando a responsabilidade avaliativa do colegiado.
+
+A partir desses cenários e da evidência visual registrada, observou-se que o protótipo atende aos critérios de sucesso de forma funcional no ambiente de testes local. A eficiência da interface foi verificada pela possibilidade de organizar arquivos sem recarregamento completo da página. A precisão da extração foi observada principalmente em certificados com camada textual acessível. A conformidade com o regulamento foi evidenciada pela aplicação de pisos e tetos e pela sinalização de inconsistências. Por fim, a integridade da unificação foi verificada pela geração do PDF consolidado com dados, tabela, paginação e anexos em um único arquivo.
 
 \section{Discussão da Solução}
 
