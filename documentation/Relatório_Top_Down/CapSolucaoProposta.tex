@@ -153,6 +153,16 @@ Além das verificações determinísticas, este módulo foi arquitetado para sup
 
 Superadas as validações, o processo culmina na geração do documento. Para essa etapa, o \textit{backend} utiliza recursos de montagem e escrita de PDF baseados nas bibliotecas \textit{pypdf} e \textit{ReportLab}. O serviço cria uma capa em formato de tabela com os dados do discente, as categorias do barema, as cargas horárias computadas e os intervalos de páginas dos comprovantes. Em seguida, anexa os certificados enviados, converte imagens para páginas PDF quando necessário e adiciona numeração ao documento consolidado.
 
+Após a geração do arquivo, a interface apresenta uma tela de confirmação que libera o download do documento e permite ao discente escolher o canal preferencial de retorno antes de solicitar a análise da coordenação. Essa etapa encerra o fluxo público de preparação do barema e estabelece a transição entre a montagem do documento pelo discente e o acompanhamento institucional pelo painel administrativo (Figura \ref{fig:confirmacao-barema-gerado}).
+
+\begin{figure}[H]
+    \centering
+    \caption{Confirmação de geração do barema após o envio do formulário.}
+    \includegraphics[width=0.9\textwidth]{figuras/telas/07_confirmacao_barema_gerado.png}
+    \legend{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:confirmacao-barema-gerado}
+\end{figure}
+
 Esse conjunto de verificações e geração atende principalmente aos requisitos RF03, RF04, RF05, RF06 e RF09, pois aplica os tetos regulamentares, registra alertas de pré-validação, consolida os anexos e produz um documento organizado para análise.
 
 \subsection{Painel de Análise (Coordenação)}
