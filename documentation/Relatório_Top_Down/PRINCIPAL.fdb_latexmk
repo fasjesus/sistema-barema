@@ -1,9 +1,8 @@
 # Fdb version 4
-["bibtex PRINCIPAL"] 1781619667.53418 "PRINCIPAL.aux" "PRINCIPAL.bbl" "PRINCIPAL" 1781619677.01328 0
-  "./referencias.bib" 1781535069 7047 137abb1e6161dc1bdd7724617ca131dd ""
-  "C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/bibtex/bib/abntex2/abntex2-options.bib" 1543103229 5396 4eb260dac60f150ae608d45252853090 ""
-  "C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/bibtex/bst/abntex2/abntex2-alf.bst" 1543103230 60064 0819ac8568f9a482510a46e3a8a6f605 ""
+["bibtex PRINCIPAL"] 1781645998.4947 "PRINCIPAL.aux" "PRINCIPAL.bbl" "PRINCIPAL" 1781645999.17976 0
   "PRINCIPAL.aux" 1781619674 45905 6f4dade27e9b5d972e22050363945302 "pdflatex"
+  "abntex2-alf.bst" 0 -1 0 ""
+  "abntex2-options.bib" 0 -1 0 ""
   "agradecimentos.aux" 1781619670 2270 8797dcfe8cbfe9c467cc2bef5210699b "pdflatex"
   "apendices.aux" 1781619674 2159 2eeb1f77e5dcf277f6042c0f4ba83464 "pdflatex"
   "dedicatoria.aux" 1781619670 2157 9b1e8ffe74e78896e0a8ed0a2c0bc491 "pdflatex"
@@ -12,19 +11,20 @@
   "folhaaprova.aux" 1781619670 2157 c24ad7f1aad3cb5027453ac27d5b7a32 "pdflatex"
   "folhaderosto.aux" 1781619670 2158 e70459e3b9042a4032936edf6efd18a0 "pdflatex"
   "modelocapa.aux" 1781619669 2156 c2d5fc6bb56b740d874f67696b42d541 "pdflatex"
+  "referencias.bib" 1781535069 7047 137abb1e6161dc1bdd7724617ca131dd ""
   "resumos.aux" 1781619670 2153 224349e051c9eb604ea813ee15c49694 "pdflatex"
   "siglas.aux" 1781619670 2264 8165dca55a499a8f0aa608a968000f3f "pdflatex"
   (generated)
   "PRINCIPAL.bbl"
   "PRINCIPAL.blg"
   (rewritten before read)
-["makeindex PRINCIPAL.idx"] 1781619657.77602 "PRINCIPAL.idx" "PRINCIPAL.ind" "PRINCIPAL" 1781619677.01216 0
-  "PRINCIPAL.idx" 1781619669 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex PRINCIPAL.idx"] 1781646065.62413 "PRINCIPAL.idx" "PRINCIPAL.ind" "PRINCIPAL" 1781646066.21914 2
+  "PRINCIPAL.idx" 1781619669 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "PRINCIPAL.ilg"
   "PRINCIPAL.ind"
   (rewritten before read)
-["pdflatex"] 1781619668.04634 "PRINCIPAL.tex" "PRINCIPAL.pdf" "PRINCIPAL" 1781619677.01957 0
+["pdflatex"] 1781646065.66056 "PRINCIPAL.tex" "PRINCIPAL.pdf" "PRINCIPAL" 1781646066.22065 2
   "C:/Users/fdpc0/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1780162457 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/fdpc0/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1780162573 13353042 5ec9402a57a8b77c5dec33faae21364d ""
   "C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc" 1256929440 2375 baa924870cfb487815765f9094cf3728 ""
@@ -289,13 +289,13 @@
   "PRINCIPAL.tex" 1781535069 7650 34eb40f0415e112f473b7f16d91ee005 ""
   "PRINCIPAL.toc" 1781619675 6994 e7c7670af87a1a60aa269dfb406daf31 "pdflatex"
   "agradecimentos.aux" 1781619670 2270 8797dcfe8cbfe9c467cc2bef5210699b "pdflatex"
-  "agradecimentos.tex" 1781563784 4047 6c917a120b577ead62ffd05e36e6b00e ""
+  "agradecimentos.tex" 1781646027 2456 fc07853bc026bccc06a858c22aec6562 ""
   "apendices.aux" 1781619674 2159 2eeb1f77e5dcf277f6042c0f4ba83464 "pdflatex"
   "apendices.tex" 0 -1 0 ""
   "dedicatoria.aux" 1781619670 2157 9b1e8ffe74e78896e0a8ed0a2c0bc491 "pdflatex"
-  "dedicatoria.tex" 1781535069 155 e4ab313b0057a48fee97c1643ab80029 ""
+  "dedicatoria.tex" 1781646062 1476 772e7b22bed129680bdde9c5cf4725eb ""
   "epigrafe.aux" 1781619670 2154 02d0cff660eb5189d40087d2dee3f856 "pdflatex"
-  "epigrafe.tex" 1781535069 140 685380febe7358c9dce2daf593b7e75e ""
+  "epigrafe.tex" 1781645994 1250 cd7867efea757f8cc6eccc497d75bc4f ""
   "ficha.aux" 1781619670 2151 6e00cf6f2cb1f60167fd106af0853e0b "pdflatex"
   "ficha.tex" 1781535069 1480 0796fa775a4ae4271c5961071d4bc93a ""
   "figs/brasao_uesc.png" 1781535069 60608 0c30dd636e52d8c1cfb8ad67acd5fb38 ""
@@ -324,7 +324,6 @@
   (generated)
   "PRINCIPAL.aux"
   "PRINCIPAL.brf"
-  "PRINCIPAL.idx"
   "PRINCIPAL.lof"
   "PRINCIPAL.log"
   "PRINCIPAL.pdf"
