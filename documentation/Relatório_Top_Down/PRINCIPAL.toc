@@ -1,6 +1,6 @@
 \changetocdepth {4}
 \babel@toc {brazil}{}\relax 
-\babel@toc {brazil}{}\relax 
+\babel@toc {brazilian}{}\relax 
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
@@ -40,7 +40,7 @@
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{Trabalhos Correlatos}}{26}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Automação de Processos Acadêmico-Administrativos}{26}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Sistemas Web para Gerenciamento de Atividades Complementares}{26}{section.5.2}%
+\contentsline {section}{\numberline {5.2}Sistemas \textit {web} para Gerenciamento de Atividades Complementares}{26}{section.5.2}%
 \contentsline {section}{\numberline {5.3}Extração Automatizada de Dados em Documentos PDF}{27}{section.5.3}%
 \contentsline {section}{\numberline {5.4}Síntese Comparativa}{27}{section.5.4}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
@@ -73,4 +73,5 @@
 \vspace {\cftbeforechapterskip }
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{55}{section*.37}%
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias Bibliogr\'aficas}}{55}{section*.37}%
+\vspace {\cftbeforechapterskip }

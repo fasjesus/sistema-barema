@@ -35,16 +35,16 @@ Os cenários avaliados são sintetizados na Tabela \ref{tab:cenarios-validacao}.
 \textbf{Cenário} & \textbf{Entrada simulada} & \textbf{Resultado observado} & \textbf{Critério relacionado} \\
 \midrule
 Anexação e organização de certificados & Envio de múltiplos comprovantes em categorias distintas do barema. & Os arquivos foram associados às categorias correspondentes, mantidos no fluxo de montagem e incorporados ao PDF final. & Eficiência da \textit{Interface}; Integridade da Unificação. \\
-Extração de metadados & Certificados PDF com camada textual acessível contendo carga horária e data. & O sistema extraiu informações textuais utilizadas na pré-validação e no apoio ao preenchimento da carga horária. & Precisão na Extração de Metadados. \\
+Extração de metadados & Certificados PDF com camada textual acessível contendo carga horária e data. & O sistema extraiu informações textuais utilizadas na pré-validação e no apoio ao preenchimento da carga horária. & Adequação da Extração de Metadados. \\
 Aplicação de tetos e pisos por categoria & Declaração de horas em quantidade superior ou inferior ao limite permitido/exigido para uma categoria. & A carga horária computável foi limitada conforme o regulamento, evitando que o total aproveitável ultrapassasse o teto e exigindo também o piso definido. & Conformidade com o Regulamento. \\
-Divergência entre declaração e certificado & Informação declarada pelo discente incompatível com os dados identificados no comprovante. & A inconsistência foi sinalizada como observação de pré-validação para conferência posterior. & Conformidade com o Regulamento; Precisão na Extração de Metadados. \\
+Divergência entre declaração e certificado & Informação declarada pelo discente incompatível com os dados identificados no comprovante. & A inconsistência foi sinalizada como observação de pré-validação para conferência posterior. & Conformidade com o Regulamento; Adequação da Extração de Metadados. \\
 Duplicidade de certificados & Envio de comprovantes com conteúdo textual repetido. & O sistema apontou possível duplicidade, permitindo que o discente ou a coordenação verificasse o caso antes do deferimento. & Conformidade com o Regulamento. \\
 Indisponibilidade de serviço externo & Execução da pré-validação sem disponibilidade de recurso externo de inteligência artificial. & A aplicação preservou as verificações básicas baseadas em regras objetivas, mantendo o fluxo funcional. & Conformidade com o Regulamento. \\
 Geração do PDF final & Montagem completa do barema com dados do discente, atividades e anexos. & O sistema gerou um arquivo único contendo tabela inicial, páginas numeradas e comprovantes anexados. & Integridade da Unificação. \\
 Registro de parecer e notificação & Coordenador autenticado registra o parecer no painel administrativo e salva a avaliação da solicitação. & O parecer foi persistido, o \textit{status} da solicitação foi atualizado e o serviço de comunicação enviou o \textit{feedback} ao discente pelo canal informado, conforme evidenciado nas Figuras \ref{fig:painel-coordenador} e \ref{fig:email-feedback-barema}. & Eficiência da \textit{Interface}; Integridade do Fluxo de Análise. \\
 \bottomrule
 \end{tabularx}
-\legend{Fonte: Elaborado pelo autor (2026).}
+\legend{Fonte: Elaborado pela autora (2026).}
 \end{table}
 
 Para tornar a avaliação mais verificável, também foi construído um cenário integrado de pré-validação. Nesse cenário, o formulário foi preenchido com o nome \textit{Teste Nome}, matrícula \textit{202521158} e e-mail. O mesmo certificado, emitido em 2023 em nome de outra pessoa e com carga horária de 5 horas, foi anexado em duas atividades distintas, enquanto o discente declarou 10 horas em cada uma delas. A Figura \ref{fig:cenario-pre-validacao-multiplas-inconsistencias} apresenta o cenário de preenchimento, a Figura \ref{fig:certificado-anexado-multiverso2023} mostra o certificado utilizado como evidência no teste, e a Figura \ref{fig:pdf-pre-validacao-multiplas-inconsistencias} mostra a materialização das observações no PDF final.
@@ -53,7 +53,7 @@ Para tornar a avaliação mais verificável, também foi construído um cenário
     \centering
     \caption{Cenário integrado de pré-validação com certificado reutilizado em duas atividades.}
     \includegraphics[width=0.95\textwidth]{figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png}
-    \legend{Fonte: Elaborado pelo autor (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:cenario-pre-validacao-multiplas-inconsistencias}
 \end{figure}
 
@@ -69,7 +69,7 @@ Para tornar a avaliação mais verificável, também foi construído um cenário
     \centering
     \caption{Observações de pré-validação registradas no PDF final.}
     \includegraphics[width=\textwidth]{figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png}
-    \legend{Fonte: Elaborado pelo autor (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:pdf-pre-validacao-multiplas-inconsistencias}
 \end{figure}
 
@@ -89,7 +89,7 @@ Apesar dos resultados promissores, a plataforma deve ser interpretada como um in
 
 \section{Limitações Observadas}
 
-Antes de delimitar as restrições do cenário atual, cabe destacar a robustez técnica demonstrada pelo protótipo no processamento estável de fluxos assíncronos e na fidelidade do documento consolidado gerado. Contudo, foram mapeadas limitações operacionais inerentes à tecnologia empregada que devem ser documentadas.
+Antes de delimitar as restrições do cenário atual, cabe destacar o comportamento funcional observado nos cenários testados, especialmente no processamento de fluxos assíncronos e na geração do documento consolidado. Contudo, foram mapeadas limitações operacionais inerentes à tecnologia empregada que devem ser documentadas.
 
 A primeira limitação reside na dependência da qualidade estrutural do arquivo PDF enviado. A extração automática de dados textuais via PyMuPDF\texttrademark{} apresenta melhor desempenho quando o documento possui uma camada de texto acessível; certificados compostos apenas por imagens ou escaneamentos de baixa resolução podem demandar o uso de Reconhecimento Óptico de Caracteres (OCR). Embora o projeto preveja suporte a esse tipo de recurso como mecanismo complementar, sua efetividade depende da qualidade do arquivo, da configuração do ambiente e da capacidade de reconhecimento do motor utilizado. Ademais, as rotinas que utilizam chamadas de inteligência artificial externa ficam condicionadas à latência de rede e à estabilidade do provedor escolhido, reforçando a importância do mecanismo de contingência estruturado no \textit{backend}.
 

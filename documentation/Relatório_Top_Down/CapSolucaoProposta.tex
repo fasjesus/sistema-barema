@@ -1,7 +1,7 @@
 \chapter{Solução Proposta}
 \label{cap:solucao-proposta}
 
-Este capítulo apresenta a solução proposta para apoiar os discentes na organização do barema de atividades complementares conforme discutido na Seção \ref{sec:desafios}. A solução consiste em um sistema web que centraliza o preenchimento dos dados do aluno, a anexação dos certificados, a pré-validação das informações e a geração de um documento final em PDF.
+Este capítulo apresenta a solução proposta para apoiar os discentes na organização do barema de atividades complementares conforme discutido na Seção \ref{sec:desafios}. A solução consiste em um sistema \textit{web} que centraliza o preenchimento dos dados do aluno, a anexação dos certificados, a pré-validação das informações e a geração de um documento final em PDF.
 
 \section{Visão Geral e Casos de Uso}
 
@@ -13,7 +13,7 @@ Para mapear as interações entre os usuários e o sistema, bem como definir o e
     \centering
     \caption{Diagrama de Casos de Uso do sistema Barema.}
     \includegraphics[width=0.9\textwidth]{figuras/diagramas/dcu.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:casos-de-uso}
 \end{figure}
 
@@ -23,7 +23,7 @@ A Figura \ref{fig:ds-gerar-documento-unificado} complementa a visão funcional a
     \centering
     \caption{Diagrama de sequência do fluxo de geração do barema.}
     \includegraphics[width=\textwidth]{figuras/diagramas/ds_gerar_documento_unificado.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:ds-gerar-documento-unificado}
 \end{figure}
 
@@ -60,7 +60,7 @@ Conforme delineado no capítulo \ref{cap:metodologia}, o levantamento de requisi
 {RF12} & O sistema deve enviar o \textit{feedback} da análise automaticamente para o e-mail ou WhatsApp do discente.  \\
 \bottomrule
 \end{tabularx}
-\legend{Fonte: Elaborado pelo autor (2026).}
+\legend{Fonte: Elaborado pela autora (2026).}
 \end{table}
 
 Também foram detectados os Requisitos Não-Funcionais do Sistema, listados a seguir:
@@ -81,7 +81,7 @@ Também foram detectados os Requisitos Não-Funcionais do Sistema, listados a se
 {RNF03}  & O painel de gerenciamento administrativo deve ser restrito e protegido por controle de acesso (autenticação).  \\
 \bottomrule
 \end{tabularx}
-\legend{Fonte: Elaborado pelo autor (2026).}
+\legend{Fonte: Elaborado pela autora (2026).}
 \end{table} 
 
 
@@ -97,7 +97,7 @@ Para guiar a implementação desse núcleo de negócio e documentar as entidades
     \centering
     \caption{Diagrama de Classes do núcleo de domínio do sistema.}
     \includegraphics[width=0.9\textwidth]{figuras/diagramas/dominio.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:diagrama-classes}
 \end{figure}
 
@@ -109,7 +109,7 @@ O reflexo físico dessa persistência pode ser visualizado no Modelo Entidade-Re
     \centering
     \caption{Modelo Entidade-Relacionamento (MER) do banco de dados.}
     \includegraphics[width=0.6\textwidth]{figuras/diagramas/bd.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:diagrama-er}
 \end{figure}
 
@@ -127,7 +127,7 @@ Este módulo é responsável pela interação primária com o discente, engloban
     \centering
     \caption{Tela inicial do sistema Barema.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/01_tela_inicial_barema.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:tela-inicial-barema}
 \end{figure}
 
@@ -137,7 +137,7 @@ Após o preenchimento, a interface renderiza a tabela de atividades. A construç
     \centering
     \caption{Formulário do barema com atividades carregadas.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/02_formulario_com_tabela.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:formulario-barema}
 \end{figure}
 
@@ -163,13 +163,13 @@ Além das verificações determinísticas, este módulo foi arquitetado para sup
 
 Superadas as validações, o processo culmina na geração do documento. Para essa etapa, o \textit{backend} utiliza recursos de montagem e escrita de PDF baseados nas bibliotecas \textit{pypdf} e \textit{ReportLab}. O serviço cria uma capa em formato de tabela com os dados do discente, as categorias do barema, as cargas horárias computadas e os intervalos de páginas dos comprovantes. Em seguida, anexa os certificados enviados, converte imagens para páginas PDF quando necessário e adiciona numeração ao documento consolidado.
 
-Após a geração do arquivo, a interface apresenta uma tela de confirmação que libera o download do documento e permite ao discente escolher o canal preferencial de retorno. A solicitação de análise só é habilitada depois que o documento é gerado e baixado, garantindo que o protocolo encaminhado corresponda ao PDF consolidado produzido pelo sistema. Essa etapa encerra o fluxo público de preparação do barema e estabelece a transição entre a montagem do documento pelo discente e o acompanhamento institucional pelo painel administrativo (Figura \ref{fig:confirmacao-barema-gerado}).
+Após a geração do arquivo, a interface apresenta uma tela de confirmação que libera o \textit{download} do documento e permite ao discente escolher o canal preferencial de retorno. A solicitação de análise só é habilitada depois que o documento é gerado e baixado, garantindo que o protocolo encaminhado corresponda ao PDF consolidado produzido pelo sistema. Essa etapa encerra o fluxo público de preparação do barema e estabelece a transição entre a montagem do documento pelo discente e o acompanhamento institucional pelo painel administrativo (Figura \ref{fig:confirmacao-barema-gerado}).
 
 \begin{figure}[H]
     \centering
     \caption{Confirmação de geração do barema após o envio do formulário.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/07_confirmacao_barema_gerado.png}
-    \legend{Fonte: Elaborado pelo autor (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:confirmacao-barema-gerado}
 \end{figure}
 
@@ -183,7 +183,7 @@ O último componente do escopo lida com a tramitação oficial do documento gera
     \centering
     \caption{Tela de \textit{login} administrativo.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/03_login_administrativo.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:login-administrativo}
 \end{figure}
 
@@ -193,7 +193,7 @@ Ao confirmar o envio do barema, o Módulo de Análise converte os dados da memó
     \centering
     \caption{Painel do coordenador para análise das solicitações.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/04_painel_coordenador.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:painel-coordenador}
 \end{figure}
 
@@ -207,7 +207,7 @@ Caso a escolha do aluno seja por correio eletrônico, o \textit{backend} aciona 
     \centering
     \caption{E-mail de \textit{feedback} recebido pelo discente após o registro do parecer.}
     \includegraphics[width=0.9\textwidth]{figuras/telas/10_email_feedback_barema.png}
-    \legend{Fonte: Elaboração própria (2026).}
+    \legend{Fonte: Elaborado pela autora (2026).}
     \label{fig:email-feedback-barema}
 \end{figure}
 
