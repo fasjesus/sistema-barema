@@ -46,7 +46,7 @@ Conforme delineado no capítulo \ref{cap:metodologia}, o levantamento de requisi
 \toprule
 \textbf{Código} & \textbf{Descrição} \\
 \midrule
-{RF01} & O sistema deve permitir que o discente anexe, categorize e altere a ordem dos certificados PDF.  \\
+{RF01} & O sistema deve permitir que o discente anexe, categorize, adicione e remova certificados PDF.  \\
 {RF02} & O sistema deve extrair automaticamente a quantidade de páginas dos arquivos PDF enviados.  \\
 {RF03} & O sistema deve comparar a carga horária informada com os tetos máximos permitidos no regulamento.  \\
 {RF04} & O sistema deve emitir alertas visuais ao usuário caso haja divergência entre as regras e os dados inseridos.  \\
@@ -76,8 +76,8 @@ Também foram detectados os Requisitos Não-Funcionais do Sistema, listados a se
 \toprule
 \textbf{Código} & \textbf{Descrição} \\
 \midrule
-{RNF01}  & A interface gráfica deve refletir o reposicionamento e a reordenação de arquivos de forma imediata.  \\
-{RNF02}  & O processamento das regras e aplicação de tetos deve possuir tempo de resposta ágil, sem travamentos na interface.  \\
+{RNF01}  & A interface gráfica deve refletir a adição, substituição e remoção de arquivos de forma imediata.  \\
+{RNF02}  & O processamento das regras e aplicação de tetos deve preservar a fluidez do preenchimento, sem recarregamento completo da página.  \\
 {RNF03}  & O painel de gerenciamento administrativo deve ser restrito e protegido por controle de acesso (autenticação).  \\
 \bottomrule
 \end{tabularx}
@@ -113,7 +113,7 @@ O reflexo físico dessa persistência pode ser visualizado no Modelo Entidade-Re
     \label{fig:diagrama-er}
 \end{figure}
 
-Por fim, ao observar o modelo estrutural do banco de dados, cabe destacar uma decisão importante sobre a arquitetura do projeto: o sistema não exige \textit{login} dos discentes. Essa escolha foi feita para facilitar o uso, permitindo que o aluno gere seu protocolo de forma direta e sem burocracia. Por conta disso, as informações de identificação (nome, matrícula e \textit{e-mail}) não ficam em uma tabela separada de usuários. Em vez disso, são salvas diretamente no registro da tabela de \texttt{analises}. Essa estratégia simplifica a infraestrutura, pois elimina a necessidade de gerenciar o cadastro e a recuperação de senhas dos alunos, restringindo a autenticação de segurança estritamente ao painel da coordenação.
+Por fim, ao observar o modelo estrutural do banco de dados, cabe destacar uma decisão importante sobre a arquitetura do projeto: o sistema não exige \textit{login} dos discentes. Essa escolha foi feita para facilitar o uso, permitindo que o aluno gere seu protocolo de forma direta e sem burocracia. Por conta disso, as informações de identificação (nome, matrícula e \textit{e-mail}) não ficam em uma tabela separada de usuários. Em vez disso, são salvas diretamente no registro da tabela de \texttt{analises}. Essa estratégia simplifica a infraestrutura, pois elimina a necessidade de gerenciar o cadastro e a recuperação de senhas dos alunos, restringindo a autenticação de segurança ao painel da coordenação. No fluxo administrativo, o acesso é protegido por autenticação da coordenação, senhas armazenadas em formato de \textit{hash}, controle de tentativas sucessivas de \textit{login} inválido e limitação de requisições por endereço de IP, reduzindo riscos de abuso no protótipo.
 
 \section{Implementação}
 
@@ -121,7 +121,7 @@ A partir do escopo definido pelos Casos de Uso, a construção do \textit{softwa
 
 \subsection{Montagem do Barema}
 
-Este módulo é responsável pela interação primária com o discente, englobando a coleta de dados e a recepção dos arquivos comprobatórios. Inicialmente, o usuário acessa uma tela com um formulário para inserção dos dados básicos de identificação. A matrícula inserida atua como chave de busca para que a lógica de domínio carregue dinamicamente o edital regulamentar adequado (Figura \ref{fig:tela-inicial-barema}).
+Este módulo é responsável pela interação primária com o discente, englobando a coleta de dados e a recepção dos arquivos comprobatórios. Inicialmente, o usuário acessa uma tela com um formulário para inserção dos dados básicos de identificação. A matrícula inserida atua como chave de busca para que a lógica de domínio carregue dinamicamente o barema aplicável (Figura \ref{fig:tela-inicial-barema}).
 
 \begin{figure}[H]
     \centering
@@ -141,7 +141,7 @@ Após o preenchimento, a interface renderiza a tabela de atividades. A construç
     \label{fig:formulario-barema}
 \end{figure}
 
-Com isso, o módulo de montagem atende principalmente aos requisitos RF01, RF02 e RNF01, pois permite anexar, categorizar, reordenar e inspecionar os documentos de forma integrada à interface.
+Com isso, o módulo de montagem atende principalmente aos requisitos RF01, RF02 e RNF01, pois permite anexar, categorizar, adicionar, remover e inspecionar os documentos de forma integrada à interface.
 
 \subsection{Extração de Dados}
 
@@ -157,13 +157,13 @@ Esse módulo atende principalmente aos requisitos RF02, RF07 e RF08, pois fornec
 
 \subsection{Pré-validação e Geração do Documento}
 
-Com os dados extraídos em memória, a aplicação executa a Pré-validação. A validação básica cruza os metadados do arquivo com as regras institucionais carregadas no edital, verificando discrepâncias na carga horária, titularidade e submissões em duplicidade (comparando o conteúdo bruto dos binários). 
+Com os dados extraídos em memória, a aplicação executa a Pré-validação. A validação básica cruza os metadados do arquivo com as regras institucionais definidas nas restrições do barema, verificando discrepâncias na carga horária, titularidade e submissões em duplicidade (comparando o conteúdo bruto dos binários). 
 
 Além das verificações determinísticas, este módulo foi arquitetado para suportar uma camada opcional de contingência e flexibilidade textuais operada por recursos de inteligência artificial. Se a \textit{API} externa estiver configurada e disponível, o sistema aproxima semanticamente o contexto do certificado com a categoria exigida; em caso de falha de conexão, o sistema adota um comportamento de resiliência e retorna à validação básica.
 
 Superadas as validações, o processo culmina na geração do documento. Para essa etapa, o \textit{backend} utiliza recursos de montagem e escrita de PDF baseados nas bibliotecas \textit{pypdf} e \textit{ReportLab}. O serviço cria uma capa em formato de tabela com os dados do discente, as categorias do barema, as cargas horárias computadas e os intervalos de páginas dos comprovantes. Em seguida, anexa os certificados enviados, converte imagens para páginas PDF quando necessário e adiciona numeração ao documento consolidado.
 
-Após a geração do arquivo, a interface apresenta uma tela de confirmação que libera o download do documento e permite ao discente escolher o canal preferencial de retorno antes de solicitar a análise da coordenação. Essa etapa encerra o fluxo público de preparação do barema e estabelece a transição entre a montagem do documento pelo discente e o acompanhamento institucional pelo painel administrativo (Figura \ref{fig:confirmacao-barema-gerado}).
+Após a geração do arquivo, a interface apresenta uma tela de confirmação que libera o download do documento e permite ao discente escolher o canal preferencial de retorno. A solicitação de análise só é habilitada depois que o documento é gerado e baixado, garantindo que o protocolo encaminhado corresponda ao PDF consolidado produzido pelo sistema. Essa etapa encerra o fluxo público de preparação do barema e estabelece a transição entre a montagem do documento pelo discente e o acompanhamento institucional pelo painel administrativo (Figura \ref{fig:confirmacao-barema-gerado}).
 
 \begin{figure}[H]
     \centering
@@ -201,7 +201,7 @@ O ciclo de caso de uso deste módulo encerra-se com o registro do parecer instit
 
 Embasado nos dados persistidos, o sistema verifica o \texttt{metodo\_preferencial} escolhido pelo discente durante o preenchimento. Para a orquestração e o disparo automático dessas mensagens, optou-se pela integração com a plataforma de comunicações em nuvem \textit{Twilio}. A escolha dessa ferramenta justifica-se pela possibilidade de centralizar múltiplos canais de notificação (\textit{omnichannel}) em uma única API.
 
-Caso a escolha do aluno seja por correio eletrônico, o \textit{backend} aciona a \textit{API} de \textit{email} da plataforma (\textit{Twilio SendGrid}) para despachar o \textit{feedback} detalhado, como exemplificado na Figura \ref{fig:email-feedback-barema}. Se a preferência for pelo aplicativo \textit{WhatsApp}, o orquestrador consome a API de mensageria nativa do \textit{Twilio}, enviando a notificação para o número informado e mantendo também o envio por \textit{email} quando esse dado está disponível. Essa automatização reduz a carga operacional da coordenação no envio manual de retornos e contribui para que o discente receba a informação sobre o a situação do seu barema.
+Caso a escolha do aluno seja por correio eletrônico, o \textit{backend} aciona a \textit{API} de \textit{email} da plataforma (\textit{Twilio SendGrid}) para despachar o \textit{feedback} detalhado, como exemplificado na Figura \ref{fig:email-feedback-barema}. Se a preferência for pelo aplicativo \textit{WhatsApp}, o orquestrador consome a API de mensageria nativa do \textit{Twilio}, enviando a notificação para o número informado e mantendo também o envio por \textit{email} quando esse dado está disponível. Essa automatização reduz a carga operacional da coordenação no envio manual de retornos e contribui para que o discente receba a informação sobre a situação do seu barema.
 
 \begin{figure}[H]
     \centering

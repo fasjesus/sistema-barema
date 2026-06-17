@@ -69,7 +69,7 @@ A partir dos diagramas UML estruturados, delineamento arquitetural e seleção d
 
 A avaliação do protótipo foi planejada com base em testes funcionais e na verificação rigorosa de conformidade com as regras do Barema. O objetivo dessa etapa é garantir que o sistema processe corretamente as informações de entrada e aplique as validações institucionais de forma precisa, simulando o uso real por parte dos discentes e mitigando erros formais antes da submissão oficial ao colegiado.
 
-O planejamento dos testes de conformidade consistiu no mapeamento das restrições do edital do COLCIC em matrizes de rastreabilidade. A partir dessas matrizes, estabeleceu-se que cada fluxo alternativo ou de erro desenhado para o orquestrador deveria ser provocado intencionalmente por meio de dados de entrada controlados, permitindo avaliar o comportamento adaptativo do \textit{backend} tanto em condições ideais quanto em cenários de falha.
+O planejamento dos testes de conformidade consistiu no mapeamento das restrições do barema do COLCIC. A partir desse mapeamento, estabeleceu-se que cada fluxo alternativo ou de erro desenhado para o orquestrador deveria ser provocado intencionalmente por meio de dados de entrada controlados, permitindo avaliar o comportamento adaptativo do \textit{backend} tanto em condições ideais quanto em cenários de falha.
 
 Para isso, a validação foi estruturada em torno de cenários específicos de uso, que cobrem as principais funcionalidades da ferramenta. Os cenários observados incluem:
 
@@ -88,10 +88,10 @@ Para isso, a validação foi estruturada em torno de cenários específicos de u
 Para determinar se a solução computacional atende satisfatoriamente ao problema identificado e valida a viabilidade tecnológica da proposta, foram estabelecidos critérios de sucesso objetivos:
 
 \begin{itemize}
-    \item \textbf{Eficiência da \textit{Interface}:} As atualizações de estado, substituições de arquivos e sinalizações de erro devem ocorrer de forma assíncrona, mantendo o tempo de resposta ágil e a fluidez da navegação sem recarregamento de página.
+    \item \textbf{Eficiência da \textit{Interface}:} As atualizações de estado, substituições de arquivos e sinalizações de erro devem ocorrer de forma assíncrona, preservando a fluidez da navegação sem recarregamento completo de página.
     \item \textbf{Precisão na Extração de Metadados:} O motor de busca baseado em \textit{PyMuPDF} deve apresentar eficácia na leitura de certificados com camada de texto padrão, extraindo corretamente a paginação e identificando os valores de carga horária.
-    \item \textbf{Conformidade com o Regulamento:} O sistema deve aplicar rigorosamente as restrições do COLCIC, bloqueando o cômputo de horas excedentes e gerando alertas reativos ao discente em caso de discrepâncias de nome, horas ou temporalidade.
-    \item \textbf{Integridade da Unificação:} O arquivo PDF final gerado deve consolidar todos os anexos válidos em um único documento perfeitamente paginado, ordenado e com folhas de rosto divisórias, sem perda de qualidade visual dos binários originais.
+    \item \textbf{Conformidade com o Regulamento:} O sistema deve aplicar rigorosamente as restrições do barema do COLCIC, bloqueando o cômputo de horas excedentes/faltantes e gerando alertas reativos ao discente em caso de discrepâncias de nome, horas ou temporalidade.
+    \item \textbf{Integridade da Unificação:} O arquivo PDF final gerado deve consolidar folha inicial de consolidação, tabela de indexação, paginação e anexos em um único documento, sem perda de qualidade visual dos binários originais.
 \end{itemize}
 
 Dessa forma, a avaliação busca responder se o protótipo reduz erros antes da submissão oficial, mantém aderência às regras do colegiado e produz um documento final devidamente organizado para a análise da coordenação.
