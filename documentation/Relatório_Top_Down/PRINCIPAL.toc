@@ -55,22 +55,22 @@
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \contentsline {chapter}{\chapternumberline {7}\MakeTextUppercase []{Solução Proposta}}{34}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Visão Geral e Casos de Uso}{34}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Requisitos do Sistema}{35}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Arquitetura e Persistência de Dados no Projeto}{36}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Implementação}{38}{section.7.4}%
-\contentsline {subsection}{\numberline {7.4.1}Montagem do Barema}{38}{subsection.7.4.1}%
-\contentsline {subsection}{\numberline {7.4.2}Extração de Dados}{40}{subsection.7.4.2}%
-\contentsline {subsection}{\numberline {7.4.3}Pré-validação e Geração do Documento}{40}{subsection.7.4.3}%
-\contentsline {subsection}{\numberline {7.4.4}Painel de Análise (Coordenação)}{41}{subsection.7.4.4}%
+\contentsline {section}{\numberline {7.2}Requisitos do Sistema}{36}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Arquitetura e Persistência de Dados no Projeto}{37}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Implementação}{39}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Montagem do Barema}{39}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Extração de Dados}{41}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Pré-validação e Geração do Documento}{41}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.4.4}Painel de Análise (Coordenação)}{42}{subsection.7.4.4}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {8}\MakeTextUppercase []{Resultados e Discussão}}{44}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Resultados Obtidos}{44}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Validação do Protótipo}{45}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Discussão da Solução}{49}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Limitações Observadas}{49}{section.8.4}%
+\contentsline {chapter}{\chapternumberline {8}\MakeTextUppercase []{Resultados e Discussão}}{45}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Resultados Obtidos}{45}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Validação do Protótipo}{46}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Discussão da Solução}{50}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Limitações Observadas}{50}{section.8.4}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {9}\MakeTextUppercase []{Conclusão}}{51}{chapter.9}%
+\contentsline {chapter}{\chapternumberline {9}\MakeTextUppercase []{Conclusão}}{52}{chapter.9}%
 \vspace {\cftbeforechapterskip }
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{53}{section*.35}%
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{54}{section*.37}%

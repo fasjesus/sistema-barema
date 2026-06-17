@@ -17,6 +17,16 @@ Para mapear as interações entre os usuários e o sistema, bem como definir o e
     \label{fig:casos-de-uso}
 \end{figure}
 
+A Figura \ref{fig:ds-gerar-documento-unificado} complementa a visão funcional ao detalhar a sequência operacional do fluxo de geração do barema. O diagrama evidencia a interação entre o discente, a interface \textit{web}, o \textit{backend} Flask e o sistema de arquivos, contemplando a validação inicial da matrícula, o registro das cargas horárias das atividades, o envio dos comprovantes e o retorno visual apresentado ao usuário. Esse fluxo representa a etapa fundamental de preparação dos dados e anexos que subsidiam a posterior consolidação do documento unificado.
+
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama de sequência do fluxo de geração do barema.}
+    \includegraphics[width=\textwidth]{figuras/diagramas/ds_gerar_documento_unificado.png}
+    \legend{Fonte: Elaboração própria (2026).}
+    \label{fig:ds-gerar-documento-unificado}
+\end{figure}
+
 A partir desta modelagem de interações, a arquitetura e a implementação do sistema foram divididas em cinco módulos operacionais lógicos: Montagem do Barema, Extração de Dados, Pré-validação, Geração do Documento e Painel de Análise dos Baremas.
 
 Em termos operacionais, o fluxo inicia-se quando o discente informa seus dados de identificação e matrícula. A partir da matrícula, o sistema seleciona o barema aplicável e apresenta as categorias de atividades correspondentes. Em seguida, o aluno anexa os certificados em cada categoria, informa as cargas horárias declaradas e pode revisar a organização dos arquivos antes da geração final. Durante esse processo, a aplicação extrai informações dos documentos, aplica regras de carga horária, sinaliza possíveis inconsistências e, ao final, consolida os dados e anexos em um PDF único. Caso deseje uma conferência preliminar, o discente pode solicitar análise pela coordenação, que acessa o painel administrativo, registra o parecer e aciona o envio de retorno ao aluno pelo canal informado.
@@ -177,7 +187,7 @@ O último componente do escopo lida com a tramitação oficial do documento gera
     \label{fig:login-administrativo}
 \end{figure}
 
-Ao confirmar o envio do barema, o Módulo de Análise converte os dados da memória transiente para o estado persistente, criando um registro de protocolo via SQLAlchemy na base SQLite. O coordenador, devidamente autenticado, acessa uma interface gerencial que consome esses registros, permitindo a filtragem de \textit{status} e o acesso direto ao PDF unificado gerado no módulo anterior (Figura \ref{fig:painel-coordenador}). 
+Ao confirmar o envio do barema, o Módulo de Análise converte os dados da memória transiente para o estado persistente, criando um registro de protocolo via SQLAlchemy na base SQLite. O coordenador, devidamente autenticado, acessa uma interface gerencial que consome esses registros, permitindo a filtragem de \textit{status}, o acesso direto ao PDF unificado gerado no módulo anterior e o registro do parecer institucional no mesmo painel (Figura \ref{fig:painel-coordenador}). 
 
 \begin{figure}[H]
     \centering
@@ -187,10 +197,18 @@ Ao confirmar o envio do barema, o Módulo de Análise converte os dados da memó
     \label{fig:painel-coordenador}
 \end{figure}
 
-O ciclo de caso de uso deste módulo encerra-se com o registro do parecer institucional no sistema e a consequente tentativa de notificação do discente. Assim que o coordenador submete a avaliação, o serviço de análise registra o parecer, atualiza o \textit{status} do protocolo no banco de dados e invoca o módulo de comunicação responsável por enviar o retorno ao aluno.
+O ciclo de caso de uso deste módulo encerra-se com o registro do parecer institucional no sistema e a consequente tentativa de notificação do discente. Na interface administrativa apresentada na Figura \ref{fig:painel-coordenador}, o coordenador registra o texto do parecer no campo correspondente e aciona o comando de salvamento. Assim que a avaliação é submetida, o serviço de análise registra o parecer, atualiza o \textit{status} do protocolo no banco de dados e invoca o módulo de comunicação responsável por enviar o retorno ao aluno.
 
 Embasado nos dados persistidos, o sistema verifica o \texttt{metodo\_preferencial} escolhido pelo discente durante o preenchimento. Para a orquestração e o disparo automático dessas mensagens, optou-se pela integração com a plataforma de comunicações em nuvem \textit{Twilio}. A escolha dessa ferramenta justifica-se pela possibilidade de centralizar múltiplos canais de notificação (\textit{omnichannel}) em uma única API.
 
-Caso a escolha do aluno seja por correio eletrônico, o \textit{backend} aciona a \textit{API} de \textit{email} da plataforma (\textit{Twilio SendGrid}) para despachar o \textit{feedback} detalhado. Se a preferência for pelo aplicativo \textit{WhatsApp}, o orquestrador consome a API de mensageria nativa do \textit{Twilio}, enviando a notificação para o número informado e mantendo também o envio por \textit{email} quando esse dado está disponível. Essa automatização reduz a carga operacional da coordenação no envio manual de retornos e contribui para que o discente receba a informação sobre o encerramento institucional do processo.
+Caso a escolha do aluno seja por correio eletrônico, o \textit{backend} aciona a \textit{API} de \textit{email} da plataforma (\textit{Twilio SendGrid}) para despachar o \textit{feedback} detalhado, como exemplificado na Figura \ref{fig:email-feedback-barema}. Se a preferência for pelo aplicativo \textit{WhatsApp}, o orquestrador consome a API de mensageria nativa do \textit{Twilio}, enviando a notificação para o número informado e mantendo também o envio por \textit{email} quando esse dado está disponível. Essa automatização reduz a carga operacional da coordenação no envio manual de retornos e contribui para que o discente receba a informação sobre o a situação do seu barema.
+
+\begin{figure}[H]
+    \centering
+    \caption{E-mail de \textit{feedback} recebido pelo discente após o registro do parecer.}
+    \includegraphics[width=0.9\textwidth]{figuras/telas/10_email_feedback_barema.png}
+    \legend{Fonte: Elaboração própria (2026).}
+    \label{fig:email-feedback-barema}
+\end{figure}
 
 O painel administrativo atende aos requisitos RF10, RF11, RF12 e RNF03, pois permite solicitar análise, consultar os protocolos registrados, registrar pareceres em área autenticada e acionar o serviço de notificação ao discente.

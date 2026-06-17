@@ -2,13 +2,15 @@
 \babel@toc {brazil}{}\relax 
 \contentsline {figure}{\numberline {1}{\ignorespaces Fluxo de desenvolvimento adotado na construção do protótipo.}}{30}{figure.caption.16}%
 \contentsline {figure}{\numberline {2}{\ignorespaces Diagrama de Casos de Uso do sistema Barema.}}{34}{figure.caption.17}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Diagrama de Classes do núcleo de domínio do sistema.}}{37}{figure.caption.20}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Modelo Entidade-Relacionamento (MER) do banco de dados.}}{38}{figure.caption.21}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Tela inicial do sistema Barema.}}{39}{figure.caption.22}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Formulário do barema com atividades carregadas.}}{39}{figure.caption.23}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Confirmação de geração do barema após o envio do formulário.}}{41}{figure.caption.24}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Tela de \textit {login} administrativo.}}{42}{figure.caption.25}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Painel do coordenador para análise das solicitações.}}{42}{figure.caption.26}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Cenário integrado de pré-validação com certificado reutilizado em duas atividades.}}{47}{figure.caption.28}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Certificado anexado como evidência no cenário integrado de pré-validação.}}{47}{figure.caption.29}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Observações de pré-validação registradas no PDF final.}}{48}{figure.caption.30}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Diagrama de sequência do fluxo de geração do barema.}}{35}{figure.caption.18}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Diagrama de Classes do núcleo de domínio do sistema.}}{38}{figure.caption.21}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Modelo Entidade-Relacionamento (MER) do banco de dados.}}{39}{figure.caption.22}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Tela inicial do sistema Barema.}}{40}{figure.caption.23}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Formulário do barema com atividades carregadas.}}{40}{figure.caption.24}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Confirmação de geração do barema após o envio do formulário.}}{42}{figure.caption.25}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Tela de \textit {login} administrativo.}}{43}{figure.caption.26}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Painel do coordenador para análise das solicitações.}}{43}{figure.caption.27}%
+\contentsline {figure}{\numberline {11}{\ignorespaces E-mail de \textit {feedback} recebido pelo discente após o registro do parecer.}}{44}{figure.caption.28}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Cenário integrado de pré-validação com certificado reutilizado em duas atividades.}}{48}{figure.caption.30}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Certificado anexado como evidência no cenário integrado de pré-validação.}}{48}{figure.caption.31}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Observações de pré-validação registradas no PDF final.}}{49}{figure.caption.32}%
