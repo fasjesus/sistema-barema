@@ -67,7 +67,7 @@
 \contentsline {section}{\numberline {8.1}Resultados Obtidos}{46}{section.8.1}%
 \contentsline {section}{\numberline {8.2}Validação do Protótipo}{47}{section.8.2}%
 \contentsline {section}{\numberline {8.3}Discussão da Solução}{51}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Limitações Observadas}{51}{section.8.4}%
+\contentsline {section}{\numberline {8.4}Limitações Observadas}{52}{section.8.4}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \contentsline {chapter}{\chapternumberline {9}\MakeTextUppercase []{Conclusão}}{53}{chapter.9}%
 \vspace {\cftbeforechapterskip }

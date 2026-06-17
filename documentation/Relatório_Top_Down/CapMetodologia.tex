@@ -69,7 +69,7 @@ A partir dos diagramas UML estruturados, delineamento arquitetural e seleção d
 
 A avaliação do protótipo foi planejada com base em testes funcionais e na verificação rigorosa de conformidade com as regras do Barema. O objetivo dessa etapa é garantir que o sistema processe corretamente as informações de entrada e aplique as validações institucionais de forma precisa, simulando o uso real por parte dos discentes e mitigando erros formais antes da submissão oficial ao colegiado.
 
-O planejamento dos testes de conformidade consistiu no mapeamento das restrições do barema do COLCIC. A partir desse mapeamento, estabeleceu-se que cada fluxo alternativo ou de erro desenhado para o orquestrador deveria ser provocado intencionalmente por meio de dados de entrada controlados, permitindo avaliar o comportamento adaptativo do \textit{backend} tanto em condições ideais quanto em cenários de falha.
+O planejamento dos testes de conformidade consistiu no mapeamento das restrições do barema do COLCIC. A partir desse mapeamento, estabeleceu-se que os principais fluxos alternativos ou de erro desenhados para o orquestrador deveriam ser provocados intencionalmente por meio de dados de entrada controlados, permitindo avaliar o comportamento adaptativo do \textit{backend} tanto em condições ideais quanto em cenários de falha.
 
 Para isso, a validação foi estruturada em torno de cenários específicos de uso, que cobrem as principais funcionalidades da ferramenta. Os cenários observados incluem:
 
@@ -79,7 +79,7 @@ Para isso, a validação foi estruturada em torno de cenários específicos de u
     \item \textbf{Identificação de carga horária e metadados:} Teste da capacidade do motor de busca textual em extrair e contabilizar as horas contidas nos documentos binários.
     \item \textbf{Comparação de horas e aplicação de tetos:} Verificação do cálculo entre as horas declaradas pelo discente e o limite máximo permitido por categoria no regulamento.
     \item \textbf{Detecção de certificados duplicados:} Validação da regra de negócio que impede a submissão repetida do mesmo comprovante por meio da comparação do conteúdo bruto.
-    \item \textbf{Mecanismo de contingência da pré-validação:} Avaliação da resiliência do sistema e ativação do comportamento seguro básico quando há indisponibilidade de serviços externos de inteligência artificial ou envio de arquivos sem texto extraível.
+    \item \textbf{Mecanismo de contingência da pré-validação:} Avaliação da resiliência do sistema tanto quando os recursos de OCR e inteligência artificial estão habilitados quanto quando há indisponibilidade desses mecanismos, verificando a ativação do comportamento seguro baseado em regras objetivas.
     \item \textbf{Geração do documento final:} Avaliação da legibilidade, paginação, inserção de separadores e integridade dos dados no PDF consolidado pela aplicação.
 \end{itemize}
 

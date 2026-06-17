@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  16 JUN 2026 23:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  16 JUN 2026 23:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1425,7 +1425,7 @@ Package pdftex.def Info: figuras/telas/05_cenario_pre_validacao_multiplas_incon
 sistencias.png  used on input line 55.
 (pdftex.def)             Requested size: 432.24861pt x 195.77232pt.
  [48]
-<figuras/telas/08_certificado_anexado_multiverso2023.png, id=514, 1690.315pt x 
+<figuras/telas/08_certificado_anexado_multiverso2023.png, id=515, 1690.315pt x 
 1195.46625pt>
 File: figuras/telas/08_certificado_anexado_multiverso2023.png Graphic file (typ
 e png)
@@ -1433,7 +1433,7 @@ e png)
 Package pdftex.def Info: figuras/telas/08_certificado_anexado_multiverso2023.pn
 g  used on input line 63.
 (pdftex.def)             Requested size: 432.24861pt x 305.70631pt.
-<figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png, id=515, 758.
+<figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png, id=516, 758.
 835pt x 487.8225pt>
 File: figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png Graphic 
 file (type png)
@@ -1477,13 +1477,13 @@ Package rerunfilecheck Info: File `PRINCIPAL.brf' has not changed.
 (rerunfilecheck)             Checksum: DA35A1B7E71DE98E0382FE818CFD1313;1356.
  ) 
 Here is how much of TeX's memory you used:
- 22621 strings out of 467683
- 384417 string characters out of 5414721
- 953954 words of memory out of 5000000
- 50745 multiletter control sequences out of 15000+600000
- 733766 words of font info for 251 fonts, out of 8000000 for 9000
+ 22614 strings out of 467683
+ 384358 string characters out of 5414721
+ 954954 words of memory out of 5000000
+ 50747 multiletter control sequences out of 15000+600000
+ 733600 words of font info for 247 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,13n,107p,1734b,745s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,13n,107p,1959b,745s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx9.pfb
@@ -1500,10 +1500,11 @@ b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb
 C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb
 ><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso17.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
-b>
-Output written on PRINCIPAL.pdf (56 pages, 5576169 bytes).
+b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb
+>
+Output written on PRINCIPAL.pdf (56 pages, 5600505 bytes).
 PDF statistics:
- 917 PDF objects out of 1000 (max. 8388607)
+ 922 PDF objects out of 1000 (max. 8388607)
  184 named destinations out of 1000 (max. 500000)
- 58460 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 58972 words of extra memory for PDF output out of 61914 (max. 10000000)
 

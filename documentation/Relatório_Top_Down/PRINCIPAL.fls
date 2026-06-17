@@ -531,6 +531,7 @@ INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\sym
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx9.tfm
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmri9.tfm
+INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt9.tfm
 INPUT .\figuras\telas\05_cenario_pre_validacao_multiplas_inconsistencias.png
 INPUT .\figuras\telas\05_cenario_pre_validacao_multiplas_inconsistencias.png
 INPUT .\figuras\telas\05_cenario_pre_validacao_multiplas_inconsistencias.png
@@ -632,3 +633,5 @@ INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmsso17
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmsso17.pfb
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmtt12.pfb
 INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmtt12.pfb
+INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmtt9.pfb
+INPUT C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmtt9.pfb
