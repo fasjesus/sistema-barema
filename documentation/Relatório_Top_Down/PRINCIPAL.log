@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  16 JUN 2026 23:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  16 JUN 2026 23:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1366,49 +1366,49 @@ File: figuras/diagramas/bd.png Graphic file (type png)
 Package pdftex.def Info: figuras/diagramas/bd.png  used on input line 111.
 (pdftex.def)             Requested size: 273.00278pt x 184.49706pt.
 
-[38 <./figuras/diagramas/dominio.png>]
-<figuras/telas/01_tela_inicial_barema.png, id=440, 1371.1225pt x 770.88pt>
+[38 <./figuras/diagramas/dominio.png>] [39 <./figuras/diagramas/bd.png>]
+<figuras/telas/01_tela_inicial_barema.png, id=447, 1371.1225pt x 770.88pt>
 File: figuras/telas/01_tela_inicial_barema.png Graphic file (type png)
 <use figuras/telas/01_tela_inicial_barema.png>
 Package pdftex.def Info: figuras/telas/01_tela_inicial_barema.png  used on inpu
-t line 129.
+t line 131.
 (pdftex.def)             Requested size: 409.49722pt x 230.23067pt.
- [39 <./figuras/diagramas/bd.png>]
-<figuras/telas/02_formulario_com_tabela.png, id=447, 1371.1225pt x 770.88pt>
+<figuras/telas/02_formulario_com_tabela.png, id=449, 1371.1225pt x 770.88pt>
 File: figuras/telas/02_formulario_com_tabela.png Graphic file (type png)
 <use figuras/telas/02_formulario_com_tabela.png>
 Package pdftex.def Info: figuras/telas/02_formulario_com_tabela.png  used on in
-put line 139.
+put line 141.
 (pdftex.def)             Requested size: 409.49722pt x 230.23067pt.
 
-[40 <./figuras/telas/01_tela_inicial_barema.png (PNG copy)> <./figuras/telas/02
-_formulario_com_tabela.png (PNG copy)>] [41]
-<figuras/telas/07_confirmacao_barema_gerado.png, id=457, 1144.275pt x 519.1395p
+[40 <./figuras/telas/01_tela_inicial_barema.png (PNG copy)>] [41 <./figuras/tel
+as/02_formulario_com_tabela.png (PNG copy)>]
+<figuras/telas/07_confirmacao_barema_gerado.png, id=459, 1144.275pt x 519.1395p
 t>
 File: figuras/telas/07_confirmacao_barema_gerado.png Graphic file (type png)
 <use figuras/telas/07_confirmacao_barema_gerado.png>
 Package pdftex.def Info: figuras/telas/07_confirmacao_barema_gerado.png  used o
-n input line 171.
+n input line 173.
 (pdftex.def)             Requested size: 409.49722pt x 185.78107pt.
- [42 <./figuras/telas/07_confirmacao_barema_gerado.png>]
-<figuras/telas/03_login_administrativo.png, id=464, 1371.1225pt x 770.88pt>
+ [42]
+<figuras/telas/03_login_administrativo.png, id=465, 1371.1225pt x 770.88pt>
 File: figuras/telas/03_login_administrativo.png Graphic file (type png)
 <use figuras/telas/03_login_administrativo.png>
 Package pdftex.def Info: figuras/telas/03_login_administrativo.png  used on inp
-ut line 185.
+ut line 187.
 (pdftex.def)             Requested size: 409.49722pt x 230.23067pt.
-<figuras/telas/04_painel_coordenador.png, id=466, 1145.4795pt x 522.15076pt>
+ [43 <./figuras/telas/07_confirmacao_barema_gerado.png> <./figuras/telas/03_log
+in_administrativo.png (PNG copy)>]
+<figuras/telas/04_painel_coordenador.png, id=473, 1145.4795pt x 522.15076pt>
 File: figuras/telas/04_painel_coordenador.png Graphic file (type png)
 <use figuras/telas/04_painel_coordenador.png>
 Package pdftex.def Info: figuras/telas/04_painel_coordenador.png  used on input
- line 195.
+ line 197.
 (pdftex.def)             Requested size: 409.49722pt x 186.65952pt.
- [43 <./figuras/telas/03_login_administrativo.png (PNG copy)>]
-<figuras/telas/10_email_feedback_barema.png, id=474, 1145.4795pt x 516.7305pt>
+<figuras/telas/10_email_feedback_barema.png, id=476, 1145.4795pt x 516.7305pt>
 File: figuras/telas/10_email_feedback_barema.png Graphic file (type png)
 <use figuras/telas/10_email_feedback_barema.png>
 Package pdftex.def Info: figuras/telas/10_email_feedback_barema.png  used on in
-put line 209.
+put line 211.
 (pdftex.def)             Requested size: 409.49722pt x 184.72186pt.
  [44 <./figuras/telas/04_painel_coordenador.png>]) (CapResultados.tex
 [45 <./figuras/telas/10_email_feedback_barema.png>]
@@ -1416,7 +1416,7 @@ Cap\'{\i }tulo 8.
 [46
 
 ] [47]
-<figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png, id=506, 
+<figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png, id=508, 
 1144.87724pt x 518.53725pt>
 File: figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png Grap
 hic file (type png)
@@ -1425,7 +1425,7 @@ Package pdftex.def Info: figuras/telas/05_cenario_pre_validacao_multiplas_incon
 sistencias.png  used on input line 55.
 (pdftex.def)             Requested size: 432.24861pt x 195.77232pt.
  [48]
-<figuras/telas/08_certificado_anexado_multiverso2023.png, id=515, 1690.315pt x 
+<figuras/telas/08_certificado_anexado_multiverso2023.png, id=517, 1690.315pt x 
 1195.46625pt>
 File: figuras/telas/08_certificado_anexado_multiverso2023.png Graphic file (typ
 e png)
@@ -1433,7 +1433,7 @@ e png)
 Package pdftex.def Info: figuras/telas/08_certificado_anexado_multiverso2023.pn
 g  used on input line 63.
 (pdftex.def)             Requested size: 432.24861pt x 305.70631pt.
-<figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png, id=516, 758.
+<figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png, id=518, 758.
 835pt x 487.8225pt>
 File: figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png Graphic 
 file (type png)
@@ -1479,7 +1479,7 @@ Package rerunfilecheck Info: File `PRINCIPAL.brf' has not changed.
 Here is how much of TeX's memory you used:
  22614 strings out of 467683
  384358 string characters out of 5414721
- 954954 words of memory out of 5000000
+ 953954 words of memory out of 5000000
  50747 multiletter control sequences out of 15000+600000
  733600 words of font info for 247 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1502,9 +1502,9 @@ C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb
 >
-Output written on PRINCIPAL.pdf (56 pages, 5600505 bytes).
+Output written on PRINCIPAL.pdf (56 pages, 5601790 bytes).
 PDF statistics:
- 922 PDF objects out of 1000 (max. 8388607)
+ 924 PDF objects out of 1000 (max. 8388607)
  184 named destinations out of 1000 (max. 500000)
  58972 words of extra memory for PDF output out of 61914 (max. 10000000)
 

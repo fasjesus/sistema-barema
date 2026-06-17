@@ -119,6 +119,8 @@ Por fim, ao observar o modelo estrutural do banco de dados, cabe destacar uma de
 
 A partir do escopo definido pelos Casos de Uso, a construção do \textit{software} foi segmentada em módulos operacionais. A seguir, detalha-se o funcionamento e as bibliotecas empregadas em cada um destes núcleos.
 
+O código-fonte do protótipo foi versionado e disponibilizado em repositório público no GitHub, permitindo consulta, auditoria e continuidade do desenvolvimento da ferramenta: \url{https://github.com/fasjesus/sistema-barema}. O repositório contém um arquivo \texttt{README.md} com orientações para configuração das variáveis de ambiente, instalação das dependências, preparação do banco de dados e execução do projeto em ambiente local. Além disso, uma instância temporária da aplicação foi disponibilizada em \url{https://fasjesus.pythonanywhere.com/}, com a finalidade de demonstração e validação inicial, enquanto se planeja uma futura hospedagem em infraestrutura institucional da UESC.
+
 \subsection{Montagem do Barema}
 
 Este módulo é responsável pela interação primária com o discente, englobando a coleta de dados e a recepção dos arquivos comprobatórios. Inicialmente, o usuário acessa uma tela com um formulário para inserção dos dados básicos de identificação. A matrícula inserida atua como chave de busca para que a lógica de domínio carregue dinamicamente o barema aplicável (Figura \ref{fig:tela-inicial-barema}).

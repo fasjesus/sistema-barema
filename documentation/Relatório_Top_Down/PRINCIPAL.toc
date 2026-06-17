@@ -58,9 +58,9 @@
 \contentsline {section}{\numberline {7.2}Requisitos do Sistema}{36}{section.7.2}%
 \contentsline {section}{\numberline {7.3}Arquitetura e Persistência de Dados no Projeto}{37}{section.7.3}%
 \contentsline {section}{\numberline {7.4}Implementação}{39}{section.7.4}%
-\contentsline {subsection}{\numberline {7.4.1}Montagem do Barema}{39}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.1}Montagem do Barema}{40}{subsection.7.4.1}%
 \contentsline {subsection}{\numberline {7.4.2}Extração de Dados}{41}{subsection.7.4.2}%
-\contentsline {subsection}{\numberline {7.4.3}Pré-validação e Geração do Documento}{41}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.4.3}Pré-validação e Geração do Documento}{42}{subsection.7.4.3}%
 \contentsline {subsection}{\numberline {7.4.4}Painel de Análise (Coordenação)}{43}{subsection.7.4.4}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \contentsline {chapter}{\chapternumberline {8}\MakeTextUppercase []{Resultados e Discussão}}{46}{chapter.8}%
