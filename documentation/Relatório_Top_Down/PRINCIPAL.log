@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  16 JUN 2026 23:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  16 JUN 2026 23:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1404,13 +1404,14 @@ File: figuras/telas/04_painel_coordenador.png Graphic file (type png)
 Package pdftex.def Info: figuras/telas/04_painel_coordenador.png  used on input
  line 197.
 (pdftex.def)             Requested size: 409.49722pt x 186.65952pt.
-<figuras/telas/10_email_feedback_barema.png, id=476, 1145.4795pt x 516.7305pt>
+ [44 <./figuras/telas/04_painel_coordenador.png>]
+<figuras/telas/10_email_feedback_barema.png, id=481, 1145.4795pt x 516.7305pt>
 File: figuras/telas/10_email_feedback_barema.png Graphic file (type png)
 <use figuras/telas/10_email_feedback_barema.png>
 Package pdftex.def Info: figuras/telas/10_email_feedback_barema.png  used on in
 put line 211.
 (pdftex.def)             Requested size: 409.49722pt x 184.72186pt.
- [44 <./figuras/telas/04_painel_coordenador.png>]) (CapResultados.tex
+) (CapResultados.tex
 [45 <./figuras/telas/10_email_feedback_barema.png>]
 Cap\'{\i }tulo 8.
 [46
@@ -1502,7 +1503,7 @@ C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb
 >
-Output written on PRINCIPAL.pdf (56 pages, 5601790 bytes).
+Output written on PRINCIPAL.pdf (56 pages, 5602099 bytes).
 PDF statistics:
  924 PDF objects out of 1000 (max. 8388607)
  184 named destinations out of 1000 (max. 500000)
