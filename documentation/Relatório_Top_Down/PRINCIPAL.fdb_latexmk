@@ -1,9 +1,8 @@
 # Fdb version 4
-["bibtex PRINCIPAL"] 1781663863.25785 "PRINCIPAL.aux" "PRINCIPAL.bbl" "PRINCIPAL" 1781663863.75039 0
-  "./referencias.bib" 1781657165 7047 137abb1e6161dc1bdd7724617ca131dd ""
-  "C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/bibtex/bib/abntex2/abntex2-options.bib" 1543103229 5396 4eb260dac60f150ae608d45252853090 ""
-  "C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/bibtex/bst/abntex2/abntex2-alf.bst" 1543103230 60064 0819ac8568f9a482510a46e3a8a6f605 ""
+["bibtex PRINCIPAL"] 1781663935.10263 "PRINCIPAL.aux" "PRINCIPAL.bbl" "PRINCIPAL" 1781663935.66688 0
   "PRINCIPAL.aux" 1781663861 46674 984739d2e4d3108599b0e7eca5ef673a "pdflatex"
+  "abntex2-alf.bst" 0 -1 0 ""
+  "abntex2-options.bib" 0 -1 0 ""
   "agradecimentos.aux" 1781663852 2225 fc3dc47c89029804ffd1e402d9f384e9 "pdflatex"
   "dedicatoria.aux" 1781663852 2112 37a18037550b9f55aa82d2aebf5f4c5b "pdflatex"
   "epigrafe.aux" 1781663852 2109 74b000567e0c37953503eba8ba5240dc "pdflatex"
@@ -11,19 +10,20 @@
   "folhaaprova.aux" 1781663852 2112 7c02a26ff98e80a5b1ada991e119ddf3 "pdflatex"
   "folhaderosto.aux" 1781663852 2113 03ca8b65e3f0eb7a3a70f92f63473334 "pdflatex"
   "modelocapa.aux" 1781663852 2111 bbd8bb26256b6f458d77d983b382df6a "pdflatex"
+  "referencias.bib" 1781657165 7047 137abb1e6161dc1bdd7724617ca131dd ""
   "resumos.aux" 1781663852 2108 33cfdf35b33dfe81ad9fb10bc7671b42 "pdflatex"
   "siglas.aux" 1781663852 2219 bdb0a63a31922d56f3d42fdc15d37527 "pdflatex"
   (generated)
   "PRINCIPAL.bbl"
   "PRINCIPAL.blg"
   (rewritten before read)
-["makeindex PRINCIPAL.idx"] 1781663849.59209 "PRINCIPAL.idx" "PRINCIPAL.ind" "PRINCIPAL" 1781663863.74965 0
-  "PRINCIPAL.idx" 1781663851 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex PRINCIPAL.idx"] 1781663946.02024 "PRINCIPAL.idx" "PRINCIPAL.ind" "PRINCIPAL" 1781663946.57842 2
+  "PRINCIPAL.idx" 1781663851 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "PRINCIPAL.ilg"
   "PRINCIPAL.ind"
   (rewritten before read)
-["pdflatex"] 1781663850.14158 "PRINCIPAL.tex" "PRINCIPAL.pdf" "PRINCIPAL" 1781663863.75196 0
+["pdflatex"] 1781663946.05545 "PRINCIPAL.tex" "PRINCIPAL.pdf" "PRINCIPAL" 1781663946.57921 2
   "C:/Users/fdpc0/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1780162457 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/fdpc0/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1780162573 13353042 5ec9402a57a8b77c5dec33faae21364d ""
   "C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc" 1256929440 2375 baa924870cfb487815765f9094cf3728 ""
@@ -262,7 +262,6 @@
   (generated)
   "PRINCIPAL.aux"
   "PRINCIPAL.brf"
-  "PRINCIPAL.idx"
   "PRINCIPAL.lof"
   "PRINCIPAL.log"
   "PRINCIPAL.pdf"
