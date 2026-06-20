@@ -5,7 +5,7 @@ A formação em nível de graduação transcende as atividades realizadas em sal
 
 O aproveitamento dessas atividades depende da comprovação documental das horas realizadas pelo discente. Esse processo se relaciona também às normas nacionais sobre carga horária mínima e integralização dos cursos de graduação, que estabelecem parâmetros para a organização dos percursos formativos em cursos presenciais \cite{brasil2007resolucao}. No âmbito do Colegiado de Ciência da Computação (COLCIC), a validação das AC exige que o estudante apresente um Barema organizado, contendo a relação das atividades, a carga horária correspondente e os documentos comprobatórios reunidos em um único arquivo.
 
-Embora esse procedimento seja essencial para a regularidade acadêmica do discente, sua execução ainda ocorre de forma predominantemente manual. O estudante precisa reunir certificados e comprovantes dispersos, organizar os arquivos em formato PDF, preencher a tabela de atividades, calcular as cargas horárias por categoria, observar os tetos previstos no regulamento e indicar corretamente a paginação dos comprovantes no documento final. Pequenas alterações na ordem dos arquivos ou na quantidade de certificados anexados podem comprometer toda a indexação já realizada, exigindo retrabalho na montagem do Barema.
+Embora esse procedimento seja essencial para a regularidade acadêmica do discente, sua execução ainda ocorre de forma predominantemente manual. O estudante precisa reunir certificados e comprovantes dispersos, organizar os arquivos em formato PDF (\textit{Portable Document Format}), preencher a tabela de atividades, calcular as cargas horárias por categoria, observar os tetos previstos no regulamento e indicar corretamente a paginação dos comprovantes no documento final. Pequenas alterações na ordem dos arquivos ou na quantidade de certificados anexados podem comprometer toda a indexação já realizada, exigindo retrabalho na montagem do Barema.
 
 Esse fluxo manual produz três dificuldades principais. A primeira está relacionada à complexidade regulatória, pois o discente precisa interpretar e aplicar corretamente limites de carga horária por categoria. A segunda diz respeito à organização documental, uma vez que a paginação e a unificação dos comprovantes são suscetíveis a erros quando realizadas sem apoio automatizado. A terceira envolve o retrabalho administrativo da coordenação, que precisa devolver e reavaliar submissões com falhas formais antes mesmo de analisar o mérito acadêmico das atividades apresentadas.
 
@@ -27,9 +27,9 @@ Para alcançar o objetivo geral, foram definidos os seguintes objetivos específ
 \begin{enumerate}
     \item Realizar o levantamento de requisitos funcionais, normativos e operacionais relacionados ao processo de preparação e submissão do Barema.
     \item Desenvolver uma aplicação \textit{web} capaz de organizar dados do discente, certificados e atividades em um fluxo único de preenchimento.
-    \item Implementar mecanismos de extração de dados, aplicação de regras de negócio e geração de um arquivo PDF unificado, indexado e paginado.
+    \item Implementar mecanismos de extração de dados, pré-validação dos dados extraídos de certificados, aplicação de regras de negócio e geração de um arquivo PDF unificado, indexado e paginado.
     \item Estruturar a persistência das solicitações de análise, favorecendo a rastreabilidade do processo e o envio de \textit{feedbacks}.
-    \item Avaliar o funcionamento do protótipo quanto à conformidade dos cálculos de horas, à detecção de inconsistências e à aplicação dos limites regulamentares do curso.
+    \item Avaliar o funcionamento do protótipo quanto à aplicação dos limites regulamentares do curso, à detecção de inconsistências e à indexação dos documentos gerados.
 \end{enumerate}
 
 \section{Contribuições do Trabalho}
@@ -37,11 +37,12 @@ Para alcançar o objetivo geral, foram definidos os seguintes objetivos específ
 Como contribuição para a área de Engenharia de Software aplicada à gestão acadêmica, este trabalho apresenta:
 
 \begin{itemize}
-    \item um protótipo funcional voltado à preparação automatizada do Barema de Atividades Complementares do COLCIC/UESC;
-    \item um fluxo integrado para preenchimento de dados, anexação de certificados, organização de comprovantes e geração de PDF unificado;
-    \item um mecanismo de pré-validação que confronta informações declaradas pelo discente com dados extraídos dos documentos anexados;
-    \item uma modelagem de regras de negócio capaz de representar limites de carga horária e categorias previstas no regulamento;
-    \item um painel administrativo de apoio à coordenação para acompanhamento das solicitações submetidas.
+    \item Um protótipo funcional voltado à preparação automatizada do Barema de Atividades Complementares do COLCIC/UESC;
+    \item Um fluxo integrado para preenchimento de dados, anexação de certificados, organização de comprovantes e geração de PDF unificado;
+    \item Um mecanismo de pré-validação que confronta informações declaradas pelo discente com dados extraídos dos documentos anexados;
+    \item Uma modelagem de regras de negócio capaz de representar limites de carga horária e categorias previstas no regulamento;
+    \item Um painel de análise para apoio à coordenação para acompanhamento das solicitações submetidas.
+    \item Um painel para apoio técnico à administração da aplicação - referente à manutenção do banco de dados - restrito à um usuário com cargo de administrador.
 \end{itemize}
 
 \section{Organização do Documento}

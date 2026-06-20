@@ -67,12 +67,6 @@ Dispon{\'\i}vel em: \url{https://repositorio.ufsc.br/handle/123456789/229377}.}
 {FOWLER, M. \emph{Padr{\~o}es de Arquitetura de Aplica{\c{c}}{\~o}es
   Corporativas}. [S.l.]: Bookman Editora, 2006.}
 
-\bibitem[{Google} 2026]{tesseract}
-\abntrefinfo{{Google}}{{Google}}{2026}
-{{Google}. \emph{Tesseract Open Source OCR Engine}. 2026.
-Dispon{\'\i}vel em: \url{https://github.com/tesseract-ocr/tesseract}. Acesso
-  em: 12 mar. 2026.}
-
 \bibitem[Grinberg 2018]{grinberg2018}
 \abntrefinfo{Grinberg}{GRINBERG}{2018}
 {GRINBERG, M. \emph{Flask Web Development: Developing Web Applications with
@@ -122,6 +116,11 @@ Belo Horizonte, MG, 2007.}
 {{SQLAlchemy Authors}. \emph{SQLAlchemy Documentation}. 2026.
 Dispon{\'\i}vel em: \url{https://docs.sqlalchemy.org/}. Acesso em: 12 abr.
   2026.}
+
+\bibitem[{Tesseract OCR} 2026]{tesseract}
+\abntrefinfo{{Tesseract OCR}}{{Tesseract OCR}}{2026}
+{{Tesseract OCR}. \emph{Tesseract OCR}. 2026.
+Dispon{\'\i}vel em: \url{https://tesseractocr.org/}. Acesso em: 12 mar. 2026.}
 
 \bibitem[{Twilio Inc.} 2026]{twilio}
 \abntrefinfo{{Twilio Inc.}}{{Twilio Inc.}}{2026}

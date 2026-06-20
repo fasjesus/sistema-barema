@@ -8,9 +8,9 @@ Este capítulo apresenta a base conceitual que sustenta o desenvolvimento e a ar
 
 \subsection{Arquitetura em Camadas e o Padrão MVC}
 
-O desenvolvimento de aplicações web modernas exige a adoção de modelos arquiteturais que favoreçam a modularidade e o isolamento de responsabilidades. Tradicionalmente, o padrão arquitetural em camadas organiza o sistema em níveis distintos — apresentação, negócio e persistência —, de forma que alterações em uma camada não comprometam as demais. Dentro desse modelo,  o padrão \textit{Model-View-Controller} (MVC) é amplamente empregado para separar a lógica de apresentação da lógica de negócio e de acesso a dados \cite{pressman2016}.
+O desenvolvimento de aplicações \textit{web} modernas exige a adoção de modelos arquiteturais que favoreçam a modularidade e o isolamento de responsabilidades. Tradicionalmente, o padrão arquitetural em camadas organiza o sistema em níveis distintos — apresentação, negócio e persistência —, de forma que alterações em uma camada não comprometam as demais. Dentro desse modelo,  o padrão \textit{Model-View-Controller} (MVC) é amplamente empregado para separar a lógica de apresentação da lógica de negócio e de acesso a dados \cite{pressman2016}.
 
-\citeonline{fowler2002} descreve o MVC como um dos padrões arquiteturais mais relevantes para aplicações web, destacando que a separação entre o modelo de dados, a camada de visualização e o controlador de fluxo é o que permite a 
+\citeonline{fowler2002} descreve o MVC como um dos padrões arquiteturais mais relevantes para aplicações \textit{web}, destacando que a separação entre o modelo de dados, a camada de visualização e o controlador de fluxo é o que permite a 
 evolução independente de cada componente sem ruptura do sistema como um todo. No contexto deste trabalho, essa separação é crítica: as regras de negócio do COLCIC precisam estar isoladas da 
 interface e da camada de geração de documentos, de modo que alterações no regulamento possam ser incorporadas sem reescrever o sistema inteiro.
 
@@ -24,7 +24,7 @@ O ORM atua como uma camada de abstração que traduz de forma transparente as op
 
 \subsection{Processamento de Documentos Digitais e Extração de Texto}
 
-A manipulação de arquivos no formato PDF (\textit{Portable Document Format}) introduz desafios relacionados à natureza não estruturada das informações. Diferente de linguagens de marcação estruturadas (como XML ou JSON), o PDF foca na fidelidade de renderização visual e na disposição física de caracteres em coordenadas bidimensionais, omitindo frequentemente tags de estrutura semântica ou separadores lógicos de parágrafos.
+A manipulação de arquivos no formato PDF introduz desafios relacionados à natureza não estruturada das informações. Diferente de linguagens de marcação estruturadas (como XML ou JSON), o PDF foca na fidelidade de renderização visual e na disposição física de caracteres em coordenadas bidimensionais, omitindo frequentemente tags de estrutura semântica ou separadores lógicos de parágrafos.
 
 Para transformar esses fluxos de bytes brutos em dados inteligíveis pela lógica de negócio, utilizam-se bibliotecas especializadas na decodificação da estrutura interna do arquivo. A partir do conteúdo textual extraído, aplicam-se técnicas de processamento baseadas em Expressões Regulares (\textit{Regular Expressions} — Regex). As expressões regulares operam como autômatos finitos determinísticos que realizam o casamento de padrões textuais \cite{hopcroft2006}, permitindo varrer o conteúdo do documento em busca de tokens numéricos adjacentes a qualificadores de carga horária — como "horas", "h" e "carga horária" — para identificar automaticamente os metadados operacionais dos certificados.
 
@@ -34,12 +34,12 @@ Para transformar esses fluxos de bytes brutos em dados inteligíveis pela lógic
 A experiência do usuário em plataformas utilitárias é diretamente influenciada pela latência observada nas atualizações da interface. Nielsen estabelece três limiares fundamentais de tempo de resposta que permanecem 
 relevantes desde suas formulações originais: respostas em até 0,1 segundo sustentam a percepção de instantaneidade; respostas em até 1,0 segundo mantêm o fluxo de pensamento do usuário sem interrupções perceptíveis; e respostas que ultrapassam 10 segundos comprometem a atenção do usuário e exigem \textit{feedback} visual explícito de progresso \cite{nielsen1993}.
 
-Para alcançar esse patamar de reatividade em operações de manipulação de arquivos, adota-se o modelo de computação assíncrona na camada de apresentação. Utilizando \textit{APIs} nativas dos navegadores modernos, como a \textit{Fetch API}, a interface web envia dados e arquivos binários em segundo plano para as rotas do servidor. O servidor processa as informações e devolve respostas leves em formato JSON, permitindo que o estado visual do navegador seja modificado dinamicamente via JavaScript sem a necessidade de recarregamento completo da página e sem interromper o fluxo de pensamento do usuário.
+Para alcançar esse patamar de reatividade em operações de manipulação de arquivos, adota-se o modelo de computação assíncrona na camada de apresentação. Utilizando APIs nativas dos navegadores modernos, como a Fetch API, a interface \textit{web} envia dados e arquivos binários em segundo plano para as rotas do servidor. O servidor processa as informações e devolve respostas leves em formato JSON, permitindo que o estado visual do navegador seja modificado dinamicamente via JavaScript sem a necessidade de recarregamento completo da página e sem interromper o fluxo de pensamento do usuário.
 
 \section{Tecnologias de Apoio à Implementação}
 \label{sec:tecnologias_ferramentas}
 
-A implementação do sistema exigiu a combinação de tecnologias voltadas à construção de aplicações web, ao processamento de documentos digitais, à persistência de dados e à comunicação assíncrona entre interface e servidor. A escolha dessas tecnologias foi orientada pelas necessidades do domínio: manipular arquivos enviados pelo discente, aplicar regras de negócio, gerar documentos consolidados e registrar solicitações de análise.
+A implementação do sistema exigiu a combinação de tecnologias voltadas à construção de aplicações \textit{web}, ao processamento de documentos digitais, à persistência de dados e à comunicação assíncrona entre interface e servidor. A escolha dessas tecnologias foi orientada pelas necessidades do domínio: manipular arquivos enviados pelo discente, aplicar regras de negócio, gerar documentos consolidados e registrar solicitações de análise.
 
 \subsection{Linguagem Python e Microframework Flask}
 
@@ -49,7 +49,7 @@ No contexto deste trabalho, o Flask atua como camada de controle da aplicação,
 
 \subsection{Processamento de PDF e Reconhecimento Óptico de Caracteres}
 
-O processamento de certificados em formato digital exige ferramentas capazes de acessar o conteúdo interno de documentos PDF e, quando necessário, lidar com arquivos sem camada textual. O PyMuPDF fornece acesso programático a documentos PDF, permitindo extrair texto, inspecionar páginas e manipular arquivos de forma automatizada \cite{pymupdf2026}. Para documentos digitalizados como imagem, o Tesseract oferece recursos de Reconhecimento Óptico de Caracteres (OCR), convertendo conteúdo visual em texto processável \cite{tesseract}.
+O processamento de certificados em formato digital exige ferramentas capazes de acessar o conteúdo interno de documentos PDF e, quando necessário, lidar com arquivos sem camada textual. O PyMuPDF fornece acesso programático a documentos PDF, permitindo extrair texto, inspecionar páginas e manipular arquivos de forma automatizada \cite{pymupdf2026}. Para documentos digitalizados como imagem, o Tesseract oferece recursos de OCR, convertendo conteúdo visual em texto processável \cite{tesseract}.
 
 Neste trabalho, essas tecnologias apoiam a extração de informações relevantes dos certificados, como carga horária, datas e dados textuais associados ao discente. O PyMuPDF é utilizado como via principal quando o documento possui texto nativo, enquanto o OCR funciona como alternativa para certificados digitalizados ou imagens. Essa combinação amplia a capacidade do sistema de lidar com documentos heterogêneos, embora a qualidade da extração continue dependente da legibilidade e da estrutura dos arquivos enviados.
 
@@ -61,7 +61,7 @@ No sistema desenvolvido, essa combinação permite registrar o histórico de sol
 
 \subsection{Comunicação Assíncrona e Reatividade da Interface}
 
-A interação do discente com o sistema envolve o envio de arquivos, atualização de cargas horárias e exibição de mensagens de validação. Para evitar recarregamentos completos da página a cada operação, utiliza-se JavaScript em conjunto com a \textit{Fetch API}, que permite a realização de requisições HTTP assíncronas a partir do navegador.
+A interação do discente com o sistema envolve o envio de arquivos, atualização de cargas horárias e exibição de mensagens de validação. Para evitar recarregamentos completos da página a cada operação, utiliza-se JavaScript em conjunto com a Fetch API, que permite a realização de requisições HTTP assíncronas a partir do navegador.
 
 Essa estratégia contribui para uma experiência mais fluida, pois a interface pode enviar certificados ao servidor, receber respostas em formato estruturado e atualizar apenas os elementos necessários da página. No contexto do Barema, isso é especialmente importante porque o discente precisa perceber rapidamente os efeitos de suas ações, como anexação de comprovantes, alertas de divergência e atualização dos totais de carga horária.
 
