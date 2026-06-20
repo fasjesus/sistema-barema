@@ -17,13 +17,13 @@
   "PRINCIPAL.bbl"
   "PRINCIPAL.blg"
   (rewritten before read)
-["makeindex PRINCIPAL.idx"] 1781976913.99348 "PRINCIPAL.idx" "PRINCIPAL.ind" "PRINCIPAL" 1781976914.51829 2
+["makeindex PRINCIPAL.idx"] 1781976984.38866 "PRINCIPAL.idx" "PRINCIPAL.ind" "PRINCIPAL" 1781976985.2143 2
   "PRINCIPAL.idx" 1781976698 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "PRINCIPAL.ilg"
   "PRINCIPAL.ind"
   (rewritten before read)
-["pdflatex"] 1781976914.02439 "PRINCIPAL.tex" "PRINCIPAL.pdf" "PRINCIPAL" 1781976914.51916 2
+["pdflatex"] 1781976984.4279 "PRINCIPAL.tex" "PRINCIPAL.pdf" "PRINCIPAL" 1781976985.21515 2
   "C:/Users/fdpc0/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1780162457 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/fdpc0/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1780162573 13353042 5ec9402a57a8b77c5dec33faae21364d ""
   "C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc" 1256929440 2375 baa924870cfb487815765f9094cf3728 ""
