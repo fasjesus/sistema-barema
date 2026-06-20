@@ -1,17 +1,17 @@
 \babel@toc {brazil}{}\relax 
 \babel@toc {brazilian}{}\relax 
 \contentsline {figure}{\numberline {1}{\ignorespaces Fluxo de desenvolvimento adotado na construção do protótipo.}}{31}{figure.caption.16}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Diagrama de Casos de Uso do sistema Barema.}}{35}{figure.caption.17}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Diagrama de sequência do fluxo de geração do barema.}}{36}{figure.caption.18}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Diagrama de Classes do núcleo de domínio do sistema.}}{39}{figure.caption.21}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Modelo Entidade-Relacionamento (MER) do banco de dados.}}{40}{figure.caption.22}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Tela inicial do sistema Barema.}}{41}{figure.caption.23}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Formulário do barema com atividades carregadas.}}{42}{figure.caption.24}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Confirmação de geração do barema após o envio do formulário.}}{44}{figure.caption.25}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Tela de \textit {login} para acesso restrito.}}{45}{figure.caption.26}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Painel do coordenador para análise das solicitações.}}{45}{figure.caption.27}%
-\contentsline {figure}{\numberline {11}{\ignorespaces E-mail de \textit {feedback} recebido pelo discente após o registro do parecer.}}{46}{figure.caption.28}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Cenário integrado de pré-validação com certificado reutilizado em duas atividades.}}{50}{figure.caption.30}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Certificado anexado como evidência no cenário integrado de pré-validação.}}{50}{figure.caption.31}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Observações de pré-validação registradas no PDF final.}}{51}{figure.caption.32}%
-\contentsline {figure}{\numberline {15}{\ignorespaces Modelo de barema em planilha utilizado como referência para o preenchimento manual.}}{59}{figure.caption.39}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Diagrama de Casos de Uso do sistema Barema.}}{36}{figure.caption.17}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Diagrama de sequência do fluxo de geração do barema.}}{37}{figure.caption.18}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Diagrama de Classes do núcleo de domínio do sistema.}}{40}{figure.caption.21}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Modelo Entidade-Relacionamento (MER) do banco de dados.}}{41}{figure.caption.22}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Tela inicial do sistema Barema.}}{42}{figure.caption.23}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Formulário do barema com atividades carregadas.}}{43}{figure.caption.24}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Confirmação de geração do barema após o envio do formulário.}}{45}{figure.caption.25}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Tela de \textit {login} para acesso restrito.}}{46}{figure.caption.26}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Painel do coordenador para análise das solicitações.}}{46}{figure.caption.27}%
+\contentsline {figure}{\numberline {11}{\ignorespaces E-mail de \textit {feedback} recebido pelo discente após o registro do parecer.}}{47}{figure.caption.28}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Cenário integrado de pré-validação com certificado reutilizado em duas atividades.}}{51}{figure.caption.30}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Certificado anexado como evidência no cenário integrado de pré-validação.}}{51}{figure.caption.31}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Observações de pré-validação registradas no PDF final.}}{52}{figure.caption.32}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Modelo de barema em planilha utilizado como referência para o preenchimento manual.}}{60}{figure.caption.39}%

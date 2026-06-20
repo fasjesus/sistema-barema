@@ -55,30 +55,30 @@
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \contentsline {chapter}{\chapternumberline {7}\MakeTextUppercase []{Solução Proposta}}{35}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Visão Geral e Casos de Uso}{35}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Requisitos do Sistema}{37}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Arquitetura e Persistência de Dados no Projeto}{38}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Implementação}{40}{section.7.4}%
-\contentsline {subsection}{\numberline {7.4.1}Montagem do Barema}{41}{subsection.7.4.1}%
-\contentsline {subsection}{\numberline {7.4.2}Extração de Dados}{42}{subsection.7.4.2}%
-\contentsline {subsection}{\numberline {7.4.3}Pré-validação e Geração do Documento}{43}{subsection.7.4.3}%
-\contentsline {subsection}{\numberline {7.4.4}Painel de Análise (Coordenação)}{44}{subsection.7.4.4}%
+\contentsline {section}{\numberline {7.2}Requisitos do Sistema}{38}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Arquitetura e Persistência de Dados no Projeto}{39}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Implementação}{41}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Montagem do Barema}{42}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Extração de Dados}{43}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Pré-validação e Geração do Documento}{44}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.4.4}Painel de Análise (Coordenação)}{45}{subsection.7.4.4}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {8}\MakeTextUppercase []{Resultados e Discussão}}{47}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Resultados Obtidos}{47}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Validação do Protótipo}{48}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Discussão da Solução}{52}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Limitações Observadas}{53}{section.8.4}%
+\contentsline {chapter}{\chapternumberline {8}\MakeTextUppercase []{Resultados e Discussão}}{48}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Resultados Obtidos}{48}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Validação do Protótipo}{49}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Discussão da Solução}{53}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Limitações Observadas}{54}{section.8.4}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {9}\MakeTextUppercase []{Conclusão}}{54}{chapter.9}%
+\contentsline {chapter}{\chapternumberline {9}\MakeTextUppercase []{Conclusão}}{55}{chapter.9}%
 \vspace {\cftbeforechapterskip }
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Referências}}{56}{section*.37}%
+\contentsline {chapter}{\MakeTextUppercase []{Referências}}{57}{section*.37}%
 \renewcommand *{\cftappendixname }{AP\^ENDICE \space }
 \setlength {\cftpartindent }{\cftlastnumwidth } \setlength {\cftpartnumwidth }{2em}
 \cftinsert {A}
-\contentsline {part}{\uppercase {Ap\^endices}}{58}{section*.38}%
+\contentsline {part}{\uppercase {Ap\^endices}}{59}{section*.38}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Modelo de Barema em Planilha do COLCIC}}{59}{chapter.A}%
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Modelo de Barema em Planilha do COLCIC}}{60}{chapter.A}%

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  20 JUN 2026 16:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  20 JUN 2026 17:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -855,20 +855,6 @@ Package: amsthm 2020/05/29 v2.20.6
 \thm@headsep=\skip264
 \dth@everypar=\toks40
 )
-(C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
-Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
-)
-(C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/lipsum\lipsum.sty
-(C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/l3keys2e\l3k
-eys2e.sty
-Package: l3keys2e 2025-10-09 LaTeX2e option processing using LaTeX3 keys
-)
-Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
-\g__lipsum_par_int=\count379
-\l__lipsum_a_int=\count380
-\l__lipsum_b_int=\count381
-
-(C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/lipsum\lipsum.ltd.tex))
 (C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\backref.sty
 Package: backref 2025-06-21 v1.45 Bibliographical back referencing
 )
@@ -879,8 +865,8 @@ Package: abntex2cite 2018/11/24 v-1.9.7 abnTeX2
 y)
 \minimumbiblabelwidth=\skip265
 \ABCIauxlen=\skip266
-\c@ABCIaux=\count382
-\c@ABCImax=\count383
+\c@ABCIaux=\count379
+\c@ABCImax=\count380
  (C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifpdf.sty
 Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
 )
@@ -898,7 +884,7 @@ LaTeX Info: Redefining \cite on input line 618.
 
 Class memoir Warning: The subfig package hasn't been updated since 2005.
 (memoir)              Consider using the subcaption package instead.  on input 
-line 88.
+line 83.
 
 (C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/subfig\subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
@@ -923,22 +909,22 @@ sto
 File: caption-memoir.sto 2023/09/08 v2.2c Adaption of the caption package to th
 e memoir document class (AR)
 ))
-\c@caption@flags=\count384
-\c@continuedfloat=\count385
+\c@caption@flags=\count381
+\c@continuedfloat=\count382
 Package caption Info: changepage package is loaded.
 \caption@adjustwidth@hsize=\dimen279
 \caption@adjustwidth@linewidth=\dimen280
 Package caption Info: hyperref package is loaded.
 )
-\c@KVtest=\count386
+\c@KVtest=\count383
 \sf@farskip=\skip268
 \sf@captopadj=\dimen281
 \sf@capskip=\skip269
 \sf@nearskip=\skip270
-\c@subfigure=\count387
-\c@subfigure@save=\count388
-\c@subtable=\count389
-\c@subtable@save=\count390
+\c@subfigure=\count384
+\c@subfigure@save=\count385
+\c@subtable=\count386
+\c@subtable@save=\count387
 \sf@top=\skip271
 \sf@bottom=\skip272
 )
@@ -946,25 +932,25 @@ Package caption Info: hyperref package is loaded.
 Package: colortbl 2026/05/01 v1.0l Color table columns (DPC)
 \everycr=\toks42
 \minrowclearance=\skip273
-\rownum=\count391
+\rownum=\count388
 )
 (C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/multirow\multirow.sty
 Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
 \multirow@colwidth=\skip274
-\multirow@cntb=\count392
+\multirow@cntb=\count389
 \multirow@dima=\skip275
 \bigstrutjot=\dimen282
 )
 (C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/tools\multicol.sty
 Package: multicol 2025/10/21 v2.0b multicolumn formatting (FMi)
-\c@tracingmulticols=\count393
+\c@tracingmulticols=\count390
 \mult@box=\box62
 \multicol@leftmargin=\dimen283
-\c@unbalance=\count394
-\c@collectmore=\count395
-\doublecol@number=\count396
-\multicoltolerance=\count397
-\multicolpretolerance=\count398
+\c@unbalance=\count391
+\c@collectmore=\count392
+\doublecol@number=\count393
+\multicoltolerance=\count394
+\multicolpretolerance=\count395
 \full@width=\dimen284
 \page@free=\dimen285
 \premulticols=\dimen286
@@ -1015,25 +1001,19 @@ Package: multicol 2025/10/21 v2.0b multicolumn formatting (FMi)
 \@tempa=\box103
 \@tempa=\box104
 \@tempa=\box105
-\c@minrows=\count399
-\c@columnbadness=\count400
-\c@finalcolumnbadness=\count401
+\c@minrows=\count396
+\c@columnbadness=\count397
+\c@finalcolumnbadness=\count398
 \last@try=\dimen289
 \multicolovershoot=\dimen290
 \multicolundershoot=\dimen291
 \mult@nat@firstbox=\box106
 \colbreak@box=\box107
-\mc@col@check@num=\count402
-\g__mc_curr_col_int=\count403
+\mc@col@check@num=\count399
+\g__mc_curr_col_int=\count400
 )
-(C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/cite\cite.sty
-LaTeX Info: Redefining \citen on input line 81.
-LaTeX Info: Redefining \cite on input line 302.
-LaTeX Info: Redefining \nocite on input line 332.
-Package: cite 2015/02/27  v 5.5
-)
-Package color Info: Redefining color blue on input line 107.
-Package hyperref Info: Option `colorlinks' set `true' on input line 119.
+Package color Info: Redefining color blue on input line 99.
+Package hyperref Info: Option `colorlinks' set `true' on input line 111.
 \PRINCIPAL@idxfile=\write4
 \openout4 = `PRINCIPAL.idx'.
 
@@ -1041,7 +1021,7 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 119.
 Writing index file PRINCIPAL.idx 
 (C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count404
+\c@float@type=\count401
 \float@exts=\toks43
 \float@box=\box108
 \@float@everytoks=\toks44
@@ -1057,41 +1037,41 @@ ntos.aux) (epigrafe.aux) (resumos.aux)
 (siglas.aux) (apendices.aux))
 \openout1 = `PRINCIPAL.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 146.
-LaTeX Font Info:    ... okay on input line 146.
-Package hyperref Info: Link coloring ON on input line 146.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+Package hyperref Info: Link coloring ON on input line 138.
 \myptabbox=\box110
 \myptabboxwidth=\skip278
 
 (C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count405
+\scratchcounter=\count402
 \scratchdimen=\dimen292
 \scratchbox=\box111
-\nofMPsegments=\count406
-\nofMParguments=\count407
+\nofMPsegments=\count403
+\nofMParguments=\count404
 \everyMPshowfont=\toks45
-\MPscratchCnt=\count408
+\MPscratchCnt=\count405
 \MPscratchDim=\dimen293
-\MPnumerator=\count409
-\makeMPintoPDFobject=\count410
+\MPnumerator=\count406
+\makeMPintoPDFobject=\count407
 \everyMPtoPDFconversion=\toks46
 )
 (C:\Users\fdpc0\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
@@ -1104,13 +1084,13 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-LaTeX Info: Redefining \microtypecontext on input line 146.
-Package microtype Info: Applying patch `item' on input line 146.
-Package microtype Info: Applying patch `toc' on input line 146.
-Package microtype Info: Applying patch `eqnum' on input line 146.
-Package microtype Info: Applying patch `footnote' on input line 146.
-Package microtype Info: Applying patch `verbatim' on input line 146.
-LaTeX Info: Redefining \microtypesetup on input line 146.
+LaTeX Info: Redefining \microtypecontext on input line 138.
+Package microtype Info: Applying patch `item' on input line 138.
+Package microtype Info: Applying patch `toc' on input line 138.
+Package microtype Info: Applying patch `eqnum' on input line 138.
+Package microtype Info: Applying patch `footnote' on input line 138.
+Package microtype Info: Applying patch `verbatim' on input line 138.
+LaTeX Info: Redefining \microtypesetup on input line 138.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1325,7 +1305,7 @@ Cap\'{\i }tulo 6.
 [30
 
 ]
-<figuras/fluxo_desenvolvimento.png, id=390, 5449.35875pt x 2374.8725pt>
+<figuras/fluxo_desenvolvimento.png, id=421, 5449.35875pt x 2374.8725pt>
 File: figuras/fluxo_desenvolvimento.png Graphic file (type png)
 <use figuras/fluxo_desenvolvimento.png>
 Package pdftex.def Info: figuras/fluxo_desenvolvimento.png  used on input line 
@@ -1334,15 +1314,15 @@ Package pdftex.def Info: figuras/fluxo_desenvolvimento.png  used on input line
  [31 <./figuras/fluxo_desenvolvimento.png>] [32] [33])
 (CapSolucaoProposta.tex [34]
 Cap\'{\i }tulo 7.
-<figuras/diagramas/dcu.png, id=416, 4035.075pt x 2398.9625pt>
+<figuras/diagramas/dcu.png, id=447, 4035.075pt x 2398.9625pt>
 File: figuras/diagramas/dcu.png Graphic file (type png)
 <use figuras/diagramas/dcu.png>
 Package pdftex.def Info: figuras/diagramas/dcu.png  used on input line 15.
 (pdftex.def)             Requested size: 409.49722pt x 243.4244pt.
 [35
 
- <./figuras/diagramas/dcu.png>]
-<figuras/diagramas/ds_gerar_documento_unificado.png, id=423, 7098.52pt x 6669.9
+]
+<figuras/diagramas/ds_gerar_documento_unificado.png, id=453, 7098.52pt x 6669.9
 1875pt>
 File: figuras/diagramas/ds_gerar_documento_unificado.png Graphic file (type png
 )
@@ -1350,7 +1330,8 @@ File: figuras/diagramas/ds_gerar_documento_unificado.png Graphic file (type png
 Package pdftex.def Info: figuras/diagramas/ds_gerar_documento_unificado.png  us
 ed on input line 25.
 (pdftex.def)             Requested size: 455.0pt x 427.45346pt.
- [36 <./figuras/diagramas/ds_gerar_documento_unificado.png>] [37]
+ [36 <./figuras/diagramas/dcu.png>] [37 <./figuras/diagramas/ds_gerar_documento
+_unificado.png>] [38]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 9
 2.
 
@@ -1361,69 +1342,69 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<figuras/diagramas/dominio.png, id=437, 5272.69875pt x 4195.675pt>
+<figuras/diagramas/dominio.png, id=472, 5272.69875pt x 4195.675pt>
 File: figuras/diagramas/dominio.png Graphic file (type png)
 <use figuras/diagramas/dominio.png>
 Package pdftex.def Info: figuras/diagramas/dominio.png  used on input line 99.
 (pdftex.def)             Requested size: 409.49722pt x 325.80167pt.
- [38]
-<figuras/diagramas/bd.png, id=445, 3365.57375pt x 2274.4975pt>
+ [39]
+<figuras/diagramas/bd.png, id=480, 3365.57375pt x 2274.4975pt>
 File: figuras/diagramas/bd.png Graphic file (type png)
 <use figuras/diagramas/bd.png>
 Package pdftex.def Info: figuras/diagramas/bd.png  used on input line 111.
 (pdftex.def)             Requested size: 273.00278pt x 184.49706pt.
 
-[39 <./figuras/diagramas/dominio.png>] [40 <./figuras/diagramas/bd.png>]
-<figuras/telas/01_tela_inicial_barema.png, id=459, 1371.1225pt x 770.88pt>
+[40 <./figuras/diagramas/dominio.png>] [41 <./figuras/diagramas/bd.png>]
+<figuras/telas/01_tela_inicial_barema.png, id=494, 1371.1225pt x 770.88pt>
 File: figuras/telas/01_tela_inicial_barema.png Graphic file (type png)
 <use figuras/telas/01_tela_inicial_barema.png>
 Package pdftex.def Info: figuras/telas/01_tela_inicial_barema.png  used on inpu
 t line 135.
 (pdftex.def)             Requested size: 409.49722pt x 230.23067pt.
 
-[41 <./figuras/telas/01_tela_inicial_barema.png (PNG copy)>]
-<figuras/telas/02_formulario_com_tabela.png, id=465, 1371.1225pt x 770.88pt>
+[42 <./figuras/telas/01_tela_inicial_barema.png (PNG copy)>]
+<figuras/telas/02_formulario_com_tabela.png, id=500, 1371.1225pt x 770.88pt>
 File: figuras/telas/02_formulario_com_tabela.png Graphic file (type png)
 <use figuras/telas/02_formulario_com_tabela.png>
 Package pdftex.def Info: figuras/telas/02_formulario_com_tabela.png  used on in
 put line 145.
 (pdftex.def)             Requested size: 409.49722pt x 230.23067pt.
- [42 <./figuras/telas/02_formulario_com_tabela.png (PNG copy)>] [43]
-<figuras/telas/07_confirmacao_barema_gerado.png, id=476, 1144.275pt x 519.1395p
+ [43 <./figuras/telas/02_formulario_com_tabela.png (PNG copy)>] [44]
+<figuras/telas/07_confirmacao_barema_gerado.png, id=511, 1144.275pt x 519.1395p
 t>
 File: figuras/telas/07_confirmacao_barema_gerado.png Graphic file (type png)
 <use figuras/telas/07_confirmacao_barema_gerado.png>
 Package pdftex.def Info: figuras/telas/07_confirmacao_barema_gerado.png  used o
 n input line 177.
 (pdftex.def)             Requested size: 409.49722pt x 185.78107pt.
-<figuras/telas/03_login_administrativo.png, id=478, 1371.1225pt x 770.88pt>
+<figuras/telas/03_login_administrativo.png, id=513, 1371.1225pt x 770.88pt>
 File: figuras/telas/03_login_administrativo.png Graphic file (type png)
 <use figuras/telas/03_login_administrativo.png>
 Package pdftex.def Info: figuras/telas/03_login_administrativo.png  used on inp
 ut line 191.
 (pdftex.def)             Requested size: 409.49722pt x 230.23067pt.
- [44 <./figuras/telas/07_confirmacao_barema_gerado.png>]
-<figuras/telas/04_painel_coordenador.png, id=485, 1145.4795pt x 522.15076pt>
+ [45 <./figuras/telas/07_confirmacao_barema_gerado.png>]
+<figuras/telas/04_painel_coordenador.png, id=520, 1145.4795pt x 522.15076pt>
 File: figuras/telas/04_painel_coordenador.png Graphic file (type png)
 <use figuras/telas/04_painel_coordenador.png>
 Package pdftex.def Info: figuras/telas/04_painel_coordenador.png  used on input
  line 201.
 (pdftex.def)             Requested size: 409.49722pt x 186.65952pt.
- [45 <./figuras/telas/03_login_administrativo.png (PNG copy)> <./figuras/telas/
+ [46 <./figuras/telas/03_login_administrativo.png (PNG copy)> <./figuras/telas/
 04_painel_coordenador.png>]
-<figuras/telas/10_email_feedback_barema.png, id=493, 1145.4795pt x 516.7305pt>
+<figuras/telas/10_email_feedback_barema.png, id=528, 1145.4795pt x 516.7305pt>
 File: figuras/telas/10_email_feedback_barema.png Graphic file (type png)
 <use figuras/telas/10_email_feedback_barema.png>
 Package pdftex.def Info: figuras/telas/10_email_feedback_barema.png  used on in
 put line 215.
 (pdftex.def)             Requested size: 409.49722pt x 184.72186pt.
 ) (CapResultados.tex
-[46 <./figuras/telas/10_email_feedback_barema.png>]
+[47 <./figuras/telas/10_email_feedback_barema.png>]
 Cap\'{\i }tulo 8.
-[47
+[48
 
-] [48]
-<figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png, id=520, 
+] [49]
+<figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png, id=556, 
 1144.87724pt x 518.53725pt>
 File: figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png Grap
 hic file (type png)
@@ -1431,8 +1412,8 @@ hic file (type png)
 Package pdftex.def Info: figuras/telas/05_cenario_pre_validacao_multiplas_incon
 sistencias.png  used on input line 55.
 (pdftex.def)             Requested size: 432.24861pt x 195.77232pt.
- [49]
-<figuras/telas/08_certificado_anexado_multiverso2023.png, id=530, 1690.315pt x 
+ [50]
+<figuras/telas/08_certificado_anexado_multiverso2023.png, id=565, 1690.315pt x 
 1195.46625pt>
 File: figuras/telas/08_certificado_anexado_multiverso2023.png Graphic file (typ
 e png)
@@ -1440,7 +1421,7 @@ e png)
 Package pdftex.def Info: figuras/telas/08_certificado_anexado_multiverso2023.pn
 g  used on input line 63.
 (pdftex.def)             Requested size: 432.24861pt x 305.70631pt.
-<figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png, id=531, 758.
+<figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png, id=566, 758.
 835pt x 487.8225pt>
 File: figuras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png Graphic 
 file (type png)
@@ -1448,22 +1429,22 @@ file (type png)
 Package pdftex.def Info: figuras/telas/06_pdf_pre_validacao_multiplas_inconsist
 encias.png  used on input line 71.
 (pdftex.def)             Requested size: 455.0pt x 292.50221pt.
- [50 <./figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png> <
-./figuras/telas/08_certificado_anexado_multiverso2023.png (PNG copy)>] [51 <./f
-iguras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png>] [52]) (CapCon
-clusao.tex [53]
+ [51 <./figuras/telas/05_cenario_pre_validacao_multiplas_inconsistencias.png> <
+./figuras/telas/08_certificado_anexado_multiverso2023.png (PNG copy)>] [52 <./f
+iguras/telas/06_pdf_pre_validacao_multiplas_inconsistencias.png>] [53]) (CapCon
+clusao.tex [54]
 Cap\'{\i }tulo 9.
-[54
+[55
 
 ]) (PRINCIPAL.bbl (PRINCIPAL.brf)
 \tf@brf=\write5
 \openout5 = `PRINCIPAL.brf'.
 
- [55]
+ [56]
 bibitemlist
-[56
+[57
 
-]) [57]
+]) [58]
 \openout2 = `apendices.aux'.
 
  (apendices.tex
@@ -1471,13 +1452,13 @@ bibitemlist
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\uppercase' on input line 4.
 
-[58
+[59
 
 
 
 ]
 AP\^ENDICE A.
-<figuras/apendices/modelo_barema_planilha_colcic.png, id=622, 584.78474pt x 522
+<figuras/apendices/modelo_barema_planilha_colcic.png, id=657, 584.78474pt x 522
 .15076pt>
 File: figuras/apendices/modelo_barema_planilha_colcic.png Graphic file (type pn
 g)
@@ -1485,7 +1466,7 @@ g)
 Package pdftex.def Info: figuras/apendices/modelo_barema_planilha_colcic.png  u
 sed on input line 13.
 (pdftex.def)             Requested size: 455.0pt x 406.2641pt.
-) [59
+) [60
 
  <./figuras/apendices/modelo_barema_planilha_colcic.png>] (PRINCIPAL.ind)
 \tf@lof=\write6
@@ -1508,13 +1489,13 @@ Package rerunfilecheck Info: File `PRINCIPAL.brf' has not changed.
 (rerunfilecheck)             Checksum: 642349C853013C8BF4ABEA3124E88FA3;1356.
  ) 
 Here is how much of TeX's memory you used:
- 22674 strings out of 467683
- 386158 string characters out of 5414721
- 956399 words of memory out of 5000000
- 50794 multiletter control sequences out of 15000+600000
+ 22179 strings out of 467683
+ 374758 string characters out of 5414721
+ 859698 words of memory out of 5000000
+ 50315 multiletter control sequences out of 15000+600000
  740493 words of font info for 254 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,13n,107p,1943b,745s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,12n,107p,1943b,745s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx9.pfb
@@ -1533,9 +1514,9 @@ C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb
 >
-Output written on PRINCIPAL.pdf (59 pages, 5683818 bytes).
+Output written on PRINCIPAL.pdf (60 pages, 5689535 bytes).
 PDF statistics:
- 951 PDF objects out of 1000 (max. 8388607)
- 189 named destinations out of 1000 (max. 500000)
+ 986 PDF objects out of 1000 (max. 8388607)
+ 190 named destinations out of 1000 (max. 500000)
  63089 words of extra memory for PDF output out of 74296 (max. 10000000)
 
