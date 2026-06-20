@@ -26,11 +26,11 @@ Os cenários avaliados são sintetizados na Tabela \ref{tab:cenarios-validacao}.
 \begin{table}[H]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{2.8pt}
+\renewcommand{\arraystretch}{1.22}
 \caption{Cenários funcionais utilizados na validação do protótipo}
 \label{tab:cenarios-validacao}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.3cm}}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.6cm}}
 \toprule
 \textbf{Cenário} & \textbf{Entrada simulada} & \textbf{Resultado observado} & \textbf{Critério relacionado} \\
 \midrule
@@ -41,13 +41,13 @@ Divergência entre declaração e certificado & Informação declarada pelo disc
 Duplicidade de certificados & Envio de comprovantes com conteúdo textual repetido. & O sistema apontou possível duplicidade, permitindo que o discente ou a coordenação verificasse o caso antes do deferimento. & Conformidade com o Regulamento. \\
 Recurso de inteligência artificial & Execução da pré-validação com inteligência artificial habilitada e, em outro cenário, com o serviço externo desabilitado ou indisponível. & Com a IA configurada, o sistema retornou sinalizações compatíveis com o contexto analisado; sem o serviço externo, preservou as verificações básicas baseadas em regras objetivas. A ativação desses recursos é controlada por variáveis no arquivo \texttt{.env}. & Conformidade com o Regulamento. \\
 Geração do PDF final & Montagem completa do barema com dados do discente, atividades e anexos. & O sistema gerou um arquivo único contendo tabela inicial, páginas numeradas e comprovantes anexados. & Integridade da Unificação. \\
-Registro de parecer e notificação & Coordenador autenticado registra o parecer no painel administrativo e salva a avaliação da solicitação. & O parecer foi persistido, o \textit{status} da solicitação foi atualizado e o serviço de comunicação enviou o \textit{feedback} ao discente pelo canal informado, conforme evidenciado nas Figuras \ref{fig:painel-coordenador} e \ref{fig:email-feedback-barema}. & Eficiência da \textit{Interface}; Integridade da Unificação. \\
+Registro de parecer e notificação & Coordenador autenticado registra o parecer no painel administrativo e salva a avaliação da solicitação. & O parecer foi persistido, o \textit{status} da solicitação foi atualizado e o serviço de comunicação enviou o \textit{feedback} ao discente pelo canal informado, conforme evidenciado nas Figuras \ref{fig:painel-coordenador} e \ref{fig:email-feedback-barema}. & Eficiência da \textit{Interface}. \\
 \bottomrule
 \end{tabularx}
 \legend{Fonte: Elaborado pela autora (2026).}
 \end{table}
 
-Para tornar a avaliação mais verificável, também foi construído um cenário integrado de pré-validação. Nesse cenário, o formulário foi preenchido com o nome \textit{Teste Nome}, matrícula \textit{202521158} e e-mail. O mesmo certificado, emitido em 2023 em nome de outra pessoa e com carga horária de 5 horas, foi anexado em duas atividades distintas, enquanto o discente declarou 10 horas em cada uma delas. A Figura \ref{fig:cenario-pre-validacao-multiplas-inconsistencias} apresenta o cenário de preenchimento, a Figura \ref{fig:certificado-anexado-multiverso2023} mostra o certificado utilizado como evidência no teste, e a Figura \ref{fig:pdf-pre-validacao-multiplas-inconsistencias} mostra a materialização das observações no PDF final.
+Para tornar a avaliação mais verificável, também foi construído um cenário integrado de pré-validação. Nesse cenário, o formulário foi preenchido com o nome: Teste Nome, matrícula: 202521158 e e-mail. O mesmo certificado, emitido em 2023 em nome de outra pessoa e com carga horária de 5 horas, foi anexado em duas atividades distintas, enquanto o discente declarou 10 horas em cada uma delas. A Figura \ref{fig:cenario-pre-validacao-multiplas-inconsistencias} apresenta o cenário de preenchimento, a Figura \ref{fig:certificado-anexado-multiverso2023} mostra o certificado utilizado como evidência no teste, e a Figura \ref{fig:pdf-pre-validacao-multiplas-inconsistencias} mostra a materialização das observações no PDF final.
 
 \begin{figure}[H]
     \centering
