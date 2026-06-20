@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  20 JUN 2026 15:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.5.30)  20 JUN 2026 16:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1508,11 +1508,11 @@ Package rerunfilecheck Info: File `PRINCIPAL.brf' has not changed.
 (rerunfilecheck)             Checksum: 642349C853013C8BF4ABEA3124E88FA3;1356.
  ) 
 Here is how much of TeX's memory you used:
- 22676 strings out of 467683
- 386182 string characters out of 5414721
+ 22674 strings out of 467683
+ 386158 string characters out of 5414721
  956399 words of memory out of 5000000
  50794 multiletter control sequences out of 15000+600000
- 740622 words of font info for 255 fonts, out of 8000000 for 9000
+ 740493 words of font info for 254 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,13n,107p,1943b,745s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
@@ -1533,7 +1533,7 @@ C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
 b><C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb
 >
-Output written on PRINCIPAL.pdf (59 pages, 5683865 bytes).
+Output written on PRINCIPAL.pdf (59 pages, 5683822 bytes).
 PDF statistics:
  951 PDF objects out of 1000 (max. 8388607)
  189 named destinations out of 1000 (max. 500000)
