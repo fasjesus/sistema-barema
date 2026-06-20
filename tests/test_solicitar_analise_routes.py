@@ -5,7 +5,6 @@ from io import BytesIO
 from unittest.mock import patch
 
 from app import app
-from core.security import request_rate_limiter
 
 
 class FakeAnaliseService:
@@ -20,11 +19,9 @@ class FakeAnaliseService:
 class SolicitarAnaliseRouteTest(unittest.TestCase):
     def setUp(self):
         self.previous_config = {
-            "RATE_LIMIT_REQUESTS": app.config["RATE_LIMIT_REQUESTS"],
             "TESTING": app.config.get("TESTING", False),
         }
-        app.config.update(TESTING=True, RATE_LIMIT_REQUESTS=100)
-        request_rate_limiter.clear()
+        app.config.update(TESTING=True)
         self.tempdir = tempfile.TemporaryDirectory()
         self.fake_service = FakeAnaliseService()
         self.base_dir_patch = patch("routes.aluno_routes.BASE_DIR", self.tempdir.name)
@@ -37,7 +34,6 @@ class SolicitarAnaliseRouteTest(unittest.TestCase):
         self.base_dir_patch.stop()
         self.tempdir.cleanup()
         app.config.update(self.previous_config)
-        request_rate_limiter.clear()
 
     def test_salva_exatamente_o_pdf_enviado(self):
         pdf_bytes = b"%PDF-1.4\nmesmo-pdf-do-download\n%%EOF"

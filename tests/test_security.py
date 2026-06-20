@@ -1,7 +1,7 @@
 import unittest
 from types import SimpleNamespace
 
-from core.security import LoginAttemptLimiter, SlidingWindowRateLimiter, get_client_ip
+from core.security import LoginAttemptLimiter, get_client_ip
 
 
 class FakeClock:
@@ -13,22 +13,6 @@ class FakeClock:
 
     def advance(self, seconds):
         self.now += seconds
-
-
-class SlidingWindowRateLimiterTest(unittest.TestCase):
-    def test_blocks_requests_after_limit_until_window_expires(self):
-        clock = FakeClock()
-        limiter = SlidingWindowRateLimiter(clock=clock)
-
-        self.assertTrue(limiter.hit("ip-1", limit=2, window_seconds=60).allowed)
-        self.assertTrue(limiter.hit("ip-1", limit=2, window_seconds=60).allowed)
-
-        blocked = limiter.hit("ip-1", limit=2, window_seconds=60)
-        self.assertFalse(blocked.allowed)
-        self.assertEqual(blocked.retry_after, 60)
-
-        clock.advance(61)
-        self.assertTrue(limiter.hit("ip-1", limit=2, window_seconds=60).allowed)
 
 
 class LoginAttemptLimiterTest(unittest.TestCase):
