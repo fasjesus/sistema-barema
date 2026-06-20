@@ -72,8 +72,8 @@ Dispon{\'\i}vel em: \url{https://repositorio.ufsc.br/handle/123456789/229377}.}
 {GRINBERG, M. \emph{Flask Web Development: Developing Web Applications with
   Python}. 2. ed. [S.l.]: O'Reilly Media, 2018.}
 
-\bibitem[HOPCROFT, MOTWANI e ULLMAN 2006]{hopcroft2006}
-\abntrefinfo{HOPCROFT, MOTWANI e ULLMAN}{HOPCROFT; MOTWANI; ULLMAN}{2006}
+\bibitem[Hopcroft, Motwani e Ullman 2006]{hopcroft2006}
+\abntrefinfo{Hopcroft, Motwani e Ullman}{HOPCROFT; MOTWANI; ULLMAN}{2006}
 {HOPCROFT, J.~E.; MOTWANI, R.; ULLMAN, J.~D. \emph{Introduction to Automata
   Theory, Languages, and Computation}. 3. ed. Boston: Addison-Wesley, 2006.
 ISBN 978-0-321-46225-1.}
