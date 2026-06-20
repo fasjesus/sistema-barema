@@ -127,6 +127,8 @@ O código-fonte do protótipo foi versionado e disponibilizado em repositório p
 
 Este módulo é responsável pela interação primária com o discente, englobando a coleta de dados e a recepção dos arquivos comprobatórios. Inicialmente, o usuário acessa uma tela com um formulário para inserção dos dados básicos de identificação. A matrícula inserida atua como chave de busca para que a lógica de domínio carregue dinamicamente o barema aplicável (Figura \ref{fig:tela-inicial-barema}).
 
+As atividades exibidas no formulário não foram codificadas diretamente na interface. Elas são carregadas a partir de arquivos CSV derivados da estrutura do barema do COLCIC, contendo identificador, descrição da atividade e carga horária máxima. Conforme o tipo de barema selecionado a partir da matrícula, o repositório da aplicação lê o arquivo correspondente e converte cada linha em uma entidade de atividade, que orienta tanto a renderização do formulário quanto a aplicação das regras de carga horária.
+
 \begin{figure}[H]
     \centering
     \caption{Tela inicial do sistema Barema.}
@@ -135,7 +137,7 @@ Este módulo é responsável pela interação primária com o discente, engloban
     \label{fig:tela-inicial-barema}
 \end{figure}
 
-Após o preenchimento, a interface renderiza a tabela de atividades. A construção visual e interativa deste módulo foi realizada utilizando JavaScript nativo integrado à Fetch API. Essa tecnologia foi fundamental para atender ao requisito de usabilidade (RNF01), pois permite a comunicação assíncrona com o \textit{backend}. Dessa forma, o aluno pode anexar PDFs e visualizar o preenchimento da carga horária sem que ocorra o recarregamento da página (Figura \ref{fig:formulario-barema}).
+Após o preenchimento da matrícula, a interface renderiza a tabela de atividades. A construção visual e interativa deste módulo foi realizada utilizando JavaScript nativo integrado à Fetch API. Essa tecnologia foi fundamental para atender ao requisito de usabilidade (RNF01), pois permite a comunicação assíncrona com o \textit{backend}. Dessa forma, o aluno pode anexar PDFs e visualizar o preenchimento da carga horária sem que ocorra o recarregamento da página (Figura \ref{fig:formulario-barema}).
 
 \begin{figure}[H]
     \centering
