@@ -155,11 +155,12 @@
                             <tbody id="atividadesTbody"></tbody>
                         </table>
                         <div class="button-container">
-                            <button type="submit">Gerar PDF Unificado</button>
+                            <button type="button" id="btnPreviewBarema" class="barema-action-button barema-action-secondary">Pré-visualizar</button>
+                            <button type="submit" class="barema-action-button barema-action-primary">Gerar Barema</button>
                         </div>
                         <div id="processingFeedback" class="processing-feedback" aria-live="polite">
                             <span class="processing-spinner"></span>
-                            <span>Verificando certificados e gerando o documento...</span>
+                            <span id="processingFeedbackText">Verificando certificados e gerando o documento...</span>
                         </div>
                     </div>
                 </form>
@@ -225,8 +226,13 @@
         const btnDownload = document.getElementById('btnDownload');
         const btnConfirmarSolicitacao = document.getElementById('btnConfirmarSolicitacao');
         const avisoDownloadAnalise = document.getElementById('avisoDownloadAnalise');
+        const btnPreviewBarema = document.getElementById('btnPreviewBarema');
+        const processingFeedback = document.getElementById('processingFeedback');
+        const processingFeedbackText = document.getElementById('processingFeedbackText');
         let baremaBlob = null;
         let downloadConfirmado = false;
+        let previewUrlAtual = null;
+        let previewDisponivel = false;
 
         function setSolicitacaoHabilitada(habilitada) {
             btnConfirmarSolicitacao.disabled = !habilitada;
@@ -250,6 +256,16 @@
             downloadConfirmado = true;
             setSolicitacaoHabilitada(true);
         });
+
+        function resetarPreviaGerada() {
+            if (!previewDisponivel) return;
+            previewDisponivel = false;
+            if (previewUrlAtual) {
+                window.URL.revokeObjectURL(previewUrlAtual);
+                previewUrlAtual = null;
+            }
+            btnPreviewBarema.textContent = 'Pré-visualizar';
+        }
 
         // Alterna campo de entrada do WhatsApp
         function toggleWhatsInput(show) {
@@ -331,6 +347,7 @@
 
         // Delegação de Eventos
         document.querySelector('.container').addEventListener('input', function(e) {
+            if (e.target.closest('#baremaForm')) resetarPreviaGerada();
             if (e.target.classList.contains('input-horas')) {
                 const input = e.target;
                 const max = parseFloat(input.getAttribute('max'));
@@ -354,6 +371,7 @@
         });
 
         document.querySelector('.container').addEventListener('change', function(e) {
+            if (e.target.closest('#baremaForm')) resetarPreviaGerada();
             if (e.target.classList.contains('input-horas')) {
                 const input = e.target;
                 const min = parseFloat(input.dataset.minHoras);
@@ -376,6 +394,7 @@
         document.querySelector('.container').addEventListener('click', function(e) {
             if (e.target.classList.contains('add-more')) {
                 e.preventDefault();
+                resetarPreviaGerada();
                 const id = e.target.dataset.targetId;
                 const div = document.createElement('div');
                 div.innerHTML = createNewFileInputHTML('certificado_' + id);
@@ -383,6 +402,7 @@
             }
             const deleteButton = e.target.closest('.delete-file');
             if (deleteButton) {
+                resetarPreviaGerada();
                 const wrapper = deleteButton.closest('.file-input-wrapper');
                 const container = wrapper.closest('.input-container');
                 if (container.children.length > 1) wrapper.remove();
@@ -400,8 +420,84 @@
         });
 
         // SUBMISSÃO FINAL
+        function validarFormularioBarema() {
+            if (!baremaForm.reportValidity()) return false;
+
+            const rows = document.querySelectorAll('#atividadesTbody tr');
+            let errors = [];
+            let temAtividadePreenchida = false;
+            rows.forEach(row => {
+                const horasInput = row.querySelector('.input-horas');
+                const h = horasInput.value;
+                const min = parseFloat(horasInput.dataset.minHoras);
+                const horas = parseFloat(h);
+                const f = Array.from(row.querySelectorAll('input[type="file"]')).some(i => i.files.length > 0);
+                if ((!isNaN(horas) && horas > 0) || f) temAtividadePreenchida = true;
+                if (!isNaN(min) && horas > 0 && horas < min) errors.push(`Carga horaria minima de ${min}h para: ${row.cells[0].innerText}`);
+                if (f && !h) errors.push(`Defina horas para: ${row.cells[0].innerText}`);
+                if (h > 0 && !f) errors.push(`Anexe comprovante para: ${row.cells[0].innerText}`);
+            });
+            if (!temAtividadePreenchida) errors.push("Preencha ao menos uma atividade com carga horaria e comprovante antes de gerar o barema.");
+
+            if (errors.length > 0) {
+                alert(errors.join("\n"));
+                return false;
+            }
+
+            return true;
+        }
+
+        btnPreviewBarema.addEventListener('click', async function() {
+            if (previewDisponivel && previewUrlAtual) {
+                window.open(previewUrlAtual, '_blank', 'noopener');
+                return;
+            }
+
+            if (!validarFormularioBarema()) return;
+
+            const originalText = btnPreviewBarema.textContent;
+            const submitButton = baremaForm.querySelector('button[type="submit"]');
+            btnPreviewBarema.disabled = true;
+            submitButton.disabled = true;
+            btnPreviewBarema.textContent = 'Gerando prévia...';
+            processingFeedbackText.textContent = 'Verificando certificados e preparando a prévia...';
+            processingFeedback.style.display = 'flex';
+
+            try {
+                const response = await fetch("{{ url_for('aluno.barema_preview') }}", {
+                    method: 'POST',
+                    body: new FormData(baremaForm)
+                });
+
+                if (!response.ok) {
+                    const data = await response.json().catch(() => ({}));
+                    alert(data.error || "Erro ao processar prévia.");
+                    return;
+                }
+
+                const blob = await response.blob();
+                if (previewUrlAtual) window.URL.revokeObjectURL(previewUrlAtual);
+                previewUrlAtual = window.URL.createObjectURL(blob);
+                previewDisponivel = true;
+                btnPreviewBarema.textContent = 'Abrir prévia';
+
+                const previewWindow = window.open(previewUrlAtual, '_blank', 'noopener');
+                if (!previewWindow) {
+                    alert("A prévia foi gerada. Clique em Abrir prévia para visualizar.");
+                }
+            } catch (err) {
+                alert("Erro ao processar prévia.");
+            } finally {
+                btnPreviewBarema.disabled = false;
+                submitButton.disabled = false;
+                if (!previewDisponivel) btnPreviewBarema.textContent = originalText;
+                processingFeedback.style.display = 'none';
+            }
+        });
+
         baremaForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            if (!validarFormularioBarema()) return;
             
             const rows = document.querySelectorAll('#atividadesTbody tr');
             let errors = [];
@@ -420,8 +516,10 @@
             const formData = new FormData(this);
             const submitButton = baremaForm.querySelector('button[type="submit"]');
             const processingFeedback = document.getElementById('processingFeedback');
+            btnPreviewBarema.disabled = true;
             submitButton.disabled = true;
             submitButton.textContent = 'Processando...';
+            processingFeedbackText.textContent = 'Verificando certificados e gerando o documento...';
             processingFeedback.style.display = 'flex';
             try {
                 // Chamada usando url_for para segurança
@@ -480,14 +578,16 @@
                         }
                     };
                 } else {
-                    alert("Erro ao processar Barema.");
+                    const data = await response.json().catch(() => ({}));
+                    alert(data.error || "Erro ao processar Barema.");
                 }
             } catch (err) {
                 alert("Erro ao processar Barema.");
             } finally {
                 if (baremaForm.style.display !== 'none') {
+                    btnPreviewBarema.disabled = false;
                     submitButton.disabled = false;
-                    submitButton.textContent = 'Gerar PDF Unificado';
+                    submitButton.textContent = 'Gerar';
                     processingFeedback.style.display = 'none';
                 }
             }
