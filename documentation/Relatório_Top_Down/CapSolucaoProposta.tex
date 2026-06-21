@@ -1,7 +1,7 @@
 \chapter{Solução Proposta}
 \label{cap:solucao-proposta}
 
-Este capítulo apresenta a solução proposta para apoiar os discentes na organização do barema de atividades complementares conforme discutido na Seção \ref{sec:desafios}. A solução consiste em um sistema \textit{web} que centraliza o preenchimento dos dados do aluno, a anexação dos certificados, a pré-validação das informações e a geração de um documento final em PDF.
+Este capítulo apresenta a solução proposta para apoiar os discentes na organização do barema de atividades complementares conforme discutido na Seção \ref{sec:desafios}. A solução consiste em um sistema \textit{web} que centraliza o preenchimento dos dados do aluno, a anexação dos certificados, a pré-validação das informações, a pré-visualização do documento consolidado e a geração de um documento final em PDF.
 
 \section{Visão Geral e Casos de Uso}
 
@@ -29,7 +29,7 @@ A Figura \ref{fig:ds-gerar-documento-unificado} complementa a visão funcional a
 
 A partir desta modelagem de interações, a arquitetura e a implementação do sistema foram divididas em cinco módulos operacionais lógicos: Montagem do Barema, Extração de Dados, Pré-validação, Geração do Documento e Painel de Análise dos Baremas.
 
-Em termos operacionais, o fluxo inicia-se quando o discente informa seus dados de identificação e matrícula. A partir da matrícula, o sistema seleciona o barema aplicável e apresenta as categorias de atividades correspondentes. Em seguida, o aluno anexa os certificados em cada categoria, informa as cargas horárias declaradas e pode revisar a organização dos arquivos antes da geração final. Durante esse processo, a aplicação extrai informações dos documentos, aplica regras de carga horária, sinaliza possíveis inconsistências e, ao final, consolida os dados e anexos em um PDF único. Caso deseje uma conferência preliminar, o discente pode solicitar análise pela coordenação, que acessa o painel da coordenação, registra o parecer e aciona o envio de retorno ao aluno pelo canal informado.
+Em termos operacionais, o fluxo inicia-se quando o discente informa seus dados de identificação e matrícula. A partir da matrícula, o sistema seleciona o barema aplicável e apresenta as categorias de atividades correspondentes. Em seguida, o aluno anexa os certificados em cada categoria, informa as cargas horárias declaradas e pode revisar a organização dos arquivos antes da geração final. Durante esse processo, a aplicação extrai informações dos documentos, aplica regras de carga horária e sinaliza possíveis inconsistências. Antes de gerar o documento definitivo, o discente pode abrir uma prévia temporária do PDF, verificar as advertências registradas pela pré-validação e retornar ao formulário ainda preenchido para corrigir dados ou substituir anexos. O aluno pode então gerar o PDF consolidado para \textit{download}. Caso deseje uma conferência preliminar, o discente pode solicitar análise pela coordenação, que acessa o painel da coordenação, registra o parecer e aciona o envio de retorno ao aluno pelo canal informado.
 
 \section{Requisitos do Sistema}\label{requisitos}
 
@@ -58,6 +58,7 @@ Conforme delineado no capítulo \ref{cap:metodologia}, o levantamento de requisi
 {RF10} & O sistema deve permitir que o discente solicite a análise formal do Barema após a geração do documento. \\
 {RF11} & O sistema deve fornecer um painel da coordenação protegido para o coordenador visualizar e gerenciar o histórico de solicitações.  \\
 {RF12} & O sistema deve enviar o \textit{feedback} da análise automaticamente para o e-mail ou WhatsApp do discente.  \\
+{RF13} & O sistema deve permitir que o discente visualize uma prévia temporária do Barema com as pré-validações antes da geração definitiva e da solicitação de análise. \\
 \bottomrule
 \end{tabularx}
 \legend{Fonte: Elaborado pela autora (2026).}
@@ -79,6 +80,7 @@ Também foram detectados os Requisitos Não-Funcionais do Sistema, listados a se
 {RNF01}  & A interface gráfica deve refletir a adição, substituição e remoção de arquivos de forma imediata.  \\
 {RNF02}  & O processamento das regras e aplicação de tetos deve preservar a fluidez do preenchimento, sem recarregamento completo da página.  \\
 {RNF03}  & O painel de gerenciamento administrativo deve ser restrito e protegido por controle de acesso (autenticação).  \\
+{RNF04}  & A pré-visualização do documento deve preservar o estado do formulário, mantendo dados digitados e anexos selecionados sem recarregamento da página. \\
 \bottomrule
 \end{tabularx}
 \legend{Fonte: Elaborado pela autora (2026).}
@@ -169,6 +171,8 @@ Além das verificações determinísticas, este módulo foi arquitetado para sup
 
 Superadas as validações, o processo culmina na geração do documento. Para essa etapa, o \textit{backend} utiliza recursos de montagem e escrita de PDF baseados nas bibliotecas pypdf e ReportLab. O serviço cria uma capa em formato de tabela com os dados do discente, as categorias do barema, as cargas horárias computadas e os intervalos de páginas dos comprovantes. Em seguida, anexa os certificados enviados, converte imagens para páginas PDF quando necessário e adiciona numeração ao documento consolidado.
 
+Antes da geração definitiva, a interface oferece uma ação de pré-visualização. Essa operação reutiliza o mesmo fluxo de pré-validação e montagem do PDF, mas retorna ao navegador um documento temporário para conferência do discente. Como a requisição é realizada de forma assíncrona, o formulário original permanece ativo, preservando horas informadas e arquivos anexados. Dessa forma, o aluno pode observar as advertências emitidas pelo sistema, corrigir inconsistências e somente então acionar a geração definitiva. A prévia não registra solicitação no banco de dados nem representa submissão formal à coordenação.
+
 Após a geração do arquivo, a interface apresenta uma tela de confirmação que libera o \textit{download} do documento e permite ao discente escolher o canal preferencial de retorno. A solicitação de análise só é habilitada depois que o documento é gerado e baixado, garantindo que o protocolo encaminhado corresponda ao PDF consolidado produzido pelo sistema. Essa etapa encerra o fluxo público de preparação do barema e estabelece a transição entre a montagem do documento pelo discente e o acompanhamento institucional pelo painel da coordenação (Figura \ref{fig:confirmacao-barema-gerado}).
 
 \begin{figure}[H]
@@ -179,7 +183,7 @@ Após a geração do arquivo, a interface apresenta uma tela de confirmação qu
     \label{fig:confirmacao-barema-gerado}
 \end{figure}
 
-Esse conjunto de verificações e geração atende principalmente aos requisitos RF03, RF04, RF05, RF06 e RF09, pois aplica os tetos regulamentares, registra alertas de pré-validação, consolida os anexos e produz um documento organizado para análise.
+Esse conjunto de verificações, pré-visualização e geração atende principalmente aos requisitos RF03, RF04, RF05, RF06, RF09 e RF13, pois aplica os tetos regulamentares, registra alertas de pré-validação, permite conferência prévia do documento, consolida os anexos e produz um documento organizado para análise.
 
 \subsection{Painel de Análise (Coordenação)}
 
