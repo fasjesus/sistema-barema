@@ -1,5 +1,5 @@
 # Fdb version 4
-["bibtex PRINCIPAL"] 1782054257.05345 "PRINCIPAL.aux" "PRINCIPAL.bbl" "PRINCIPAL" 1782054257.49925 2
+["bibtex PRINCIPAL"] 1782054257.05345 "PRINCIPAL.aux" "PRINCIPAL.bbl" "PRINCIPAL" 1782054257.49925 0
   "PRINCIPAL.aux" 1782054190 46620 ed4a3dc88064a4da0e995985a291ffa5 "pdflatex"
   "abntex2-alf.bst" 0 -1 0 ""
   "abntex2-options.bib" 0 -1 0 ""
@@ -17,13 +17,13 @@
   "PRINCIPAL.bbl"
   "PRINCIPAL.blg"
   (rewritten before read)
-["makeindex PRINCIPAL.idx"] 1782054257.02634 "PRINCIPAL.idx" "PRINCIPAL.ind" "PRINCIPAL" 1782054257.49899 2
+["makeindex PRINCIPAL.idx"] 1782054350.43322 "PRINCIPAL.idx" "PRINCIPAL.ind" "PRINCIPAL" 1782054350.86388 2
   "PRINCIPAL.idx" 1782054181 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
   "PRINCIPAL.ilg"
   "PRINCIPAL.ind"
   (rewritten before read)
-["pdflatex"] 1782054257.07932 "PRINCIPAL.tex" "PRINCIPAL.pdf" "PRINCIPAL" 1782054257.50027 2
+["pdflatex"] 1782054350.45849 "PRINCIPAL.tex" "PRINCIPAL.pdf" "PRINCIPAL" 1782054350.86437 2
   "C:/Users/fdpc0/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1780162457 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/fdpc0/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1780162573 13353042 5ec9402a57a8b77c5dec33faae21364d ""
   "C:/Users/fdpc0/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc" 1256929440 2375 baa924870cfb487815765f9094cf3728 ""

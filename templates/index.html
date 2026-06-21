@@ -447,6 +447,44 @@
             return true;
         }
 
+        function calcularTotalHorasInformadas() {
+            const rows = document.querySelectorAll('#atividadesTbody tr');
+            return Array.from(rows).reduce((total, row) => {
+                const horasInput = row.querySelector('.input-horas');
+                if (!horasInput) return total;
+
+                let horas = parseFloat(String(horasInput.value || '').replace(',', '.'));
+                const max = parseFloat(horasInput.getAttribute('max'));
+
+                if (isNaN(horas) || horas <= 0) return total;
+                if (!isNaN(max) && max > 0 && horas > max) horas = max;
+
+                return total + horas;
+            }, 0);
+        }
+
+        function cargaMinimaDoBarema() {
+            return baremaTipoInput.value === 'antigo' ? 200 : 120;
+        }
+
+        function formatarHoras(valor) {
+            return Number.isInteger(valor) ? String(valor) : String(valor).replace('.', ',');
+        }
+
+        function validarCargaMinimaParaGeracao() {
+            const totalInformado = calcularTotalHorasInformadas();
+            const cargaMinima = cargaMinimaDoBarema();
+
+            if (totalInformado < cargaMinima) {
+                alert(
+                    `Carga horaria insuficiente para gerar o barema. Minimo exigido: ${formatarHoras(cargaMinima)}h. Total informado: ${formatarHoras(totalInformado)}h.`
+                );
+                return false;
+            }
+
+            return true;
+        }
+
         btnPreviewBarema.addEventListener('click', async function() {
             if (previewDisponivel && previewUrlAtual) {
                 window.open(previewUrlAtual, '_blank', 'noopener');
@@ -498,6 +536,7 @@
         baremaForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             if (!validarFormularioBarema()) return;
+            if (!validarCargaMinimaParaGeracao()) return;
             
             const rows = document.querySelectorAll('#atividadesTbody tr');
             let errors = [];

@@ -51,6 +51,40 @@ def _horas_maior_que_zero(valor):
     except ValueError:
         return False
 
+def _formatar_horas(valor):
+    try:
+        numero = float(valor)
+    except (TypeError, ValueError):
+        return str(valor)
+
+    if numero.is_integer():
+        return str(int(numero))
+    return f"{numero:g}"
+
+def _carga_minima_exigida(aluno, tipo_barema=None):
+    ano_ingresso = _ano_ingresso_from_matricula(aluno.matricula)
+
+    if ano_ingresso is None:
+        return 200 if tipo_barema == "antigo" else 120
+
+    return 200 if ano_ingresso < 2023 else 120
+
+def _validar_carga_minima(processo):
+    carga_minima = _carga_minima_exigida(
+        processo.estudante,
+        processo.tipo_barema,
+    )
+    total_horas = processo.total_horas
+
+    if total_horas < carga_minima:
+        raise BaremaValidationError(
+            "Carga horaria insuficiente: o barema exige no minimo {0}h, "
+            "mas foram computadas {1}h.".format(
+                _formatar_horas(carga_minima),
+                _formatar_horas(total_horas),
+            )
+        )
+
 def _mensagens_do_resultado(filename, resultado):
     mensagens = []
     mensagens.extend(f"{filename}: Erro: {erro}" for erro in resultado.erros)
@@ -128,7 +162,7 @@ def _validar_certificados_da_atividade(
         print(f"VALIDACAO: {mensagem} Detalhe: {exc}")
         return [mensagem]
 
-def _gerar_pdf_barema(form, files):
+def _montar_processo_barema(form, files):
     aluno = Estudante(
         nome=form.get('nome',''),
         matricula=form.get('matricula',''),
@@ -188,7 +222,11 @@ def _gerar_pdf_barema(form, files):
             "Preencha ao menos uma atividade antes de gerar o barema."
         )
 
-    return pdf_service.gerar_completo(processo, certificados), aluno
+    return processo, aluno, certificados
+
+def _gerar_pdf_barema(form, files):
+    processo, aluno, certificados = _montar_processo_barema(form, files)
+    return pdf_service.gerar_completo(processo, certificados), aluno, processo
 
 class HomeView(MethodView):
     def get(self):
@@ -202,7 +240,12 @@ class BaremaDataView(MethodView):
 class GerarRascunhoView(MethodView):
     def post(self):
         try:
-            pdf, aluno = _gerar_pdf_barema(request.form, request.files)
+            processo, aluno, certificados = _montar_processo_barema(
+                request.form,
+                request.files,
+            )
+            _validar_carga_minima(processo)
+            pdf = pdf_service.gerar_completo(processo, certificados)
             return send_file(
                 pdf,
                 mimetype='application/pdf',
@@ -218,7 +261,7 @@ class GerarRascunhoView(MethodView):
 class PreviewBaremaView(MethodView):
     def post(self):
         try:
-            pdf, aluno = _gerar_pdf_barema(request.form, request.files)
+            pdf, aluno, _processo = _gerar_pdf_barema(request.form, request.files)
             return send_file(
                 pdf,
                 mimetype='application/pdf',
