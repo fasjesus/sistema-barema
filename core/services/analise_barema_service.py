@@ -25,5 +25,8 @@ class AnaliseBaremaService:
         solicitacao = analise_modelo.to_domain()
         solicitacao.registrar_parecer(parecer)
         analise_atualizada = self.repository.salvar_entidade(analise_modelo, solicitacao)
-        self.notification_service.enviar_feedback(analise_atualizada, parecer)
+        analise_atualizada.notificacao_resultados = self.notification_service.enviar_feedback(
+            analise_atualizada,
+            parecer,
+        )
         return analise_atualizada

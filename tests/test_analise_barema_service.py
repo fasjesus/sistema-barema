@@ -39,6 +39,7 @@ class FakeNotificationService:
 
     def enviar_feedback(self, analise, parecer):
         self.envios.append((analise, parecer))
+        return {"email": object()}
 
 
 class AnaliseBaremaServiceTest(unittest.TestCase):
@@ -75,6 +76,7 @@ class AnaliseBaremaServiceTest(unittest.TestCase):
         self.assertEqual(analise.status, "Analisado")
         self.assertEqual(analise.feedback, "Parecer aprovado.")
         self.assertEqual(len(notification_service.envios), 1)
+        self.assertIn("email", analise.notificacao_resultados)
 
 
 if __name__ == "__main__":

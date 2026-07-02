@@ -148,6 +148,41 @@
             font-weight: 700;
         }
 
+        .flash-stack {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px 28px 0;
+            background: #f8fbff;
+        }
+
+        .flash-message {
+            border: 1px solid var(--border-color);
+            border-left-width: 6px;
+            border-radius: 6px;
+            padding: 12px 14px;
+            background: #ffffff;
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .flash-success {
+            border-left-color: var(--success-color);
+            color: var(--success-color);
+        }
+
+        .flash-warning {
+            border-left-color: var(--warning-color);
+            color: var(--warning-color);
+        }
+
+        .flash-danger {
+            border-left-color: var(--danger-color);
+            color: var(--danger-color);
+        }
+
         .requests-scroll {
             flex: 1 1 auto;
             min-height: 0;
@@ -373,6 +408,7 @@
 
             .panel-header,
             .filter-bar,
+            .flash-stack,
             .requests-scroll {
                 padding-left: 16px;
                 padding-right: 16px;
@@ -493,6 +529,16 @@
             </div>
             <div id="counter" class="stats-badge">Mostrando todas as solicitações</div>
         </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-stack" aria-live="polite">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
 
         <div class="requests-scroll">
             <table id="analisesTable">
