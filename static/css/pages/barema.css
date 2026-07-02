@@ -357,7 +357,14 @@ td input[type="number"] {
 /* === BOTÕES (CTA) ======================== */
 /* ========================================= */
 
-.button-container { text-align: center; margin-top: 30px; }
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+}
 
 .processing-feedback {
     align-items: center;
@@ -399,6 +406,35 @@ td input[type="number"] {
 .SecondaryButton:hover { transform: translateY(-2px); }
 
 /* Botão de Enviar */
+.barema-action-button {
+    padding: 14px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.2s, opacity 0.2s;
+    text-transform: uppercase;
+    min-width: 190px;
+}
+
+.barema-action-secondary {
+    background-color: #ffffff;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 5px 15px rgba(49, 76, 165, 0.12);
+}
+
+.barema-action-secondary:hover {
+    background-color: #eef3ff;
+    transform: translateY(-3px);
+}
+
+.barema-action-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+}
+
 button[type="submit"] { 
     padding: 14px 40px; 
     background-color: var(--primary-color); 

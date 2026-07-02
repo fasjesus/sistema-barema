@@ -20,12 +20,13 @@ class NotificationService:
 
     def enviar_feedback(self, analise, parecer):
         """Método mestre que decide por onde enviar."""
-        mensagem = f"Olá {analise.nome_aluno}, seu Barema foi analisado! Parecer: {parecer}"
+        mensagem = f"Olá {analise.nome_aluno}, seu Barema foi analisado!\nParecer: {parecer}"
+        mensagem_email = f"Olá {analise.nome_aluno}, seu Barema foi analisado!<br><strong>Parecer:</strong> {parecer}"
         resultados = {}
 
         # Envia email também quando WhatsApp for preferido, como fallback de entrega.
         if analise.email_aluno:
-            resultados['email'] = self._enviar_email(analise.email_aluno, mensagem)
+            resultados['email'] = self._enviar_email(analise.email_aluno, mensagem_email)
 
         if analise.metodo_preferencial == 'whatsapp':
             numero = self._normalizar_numero_whatsapp(analise.whatsapp_aluno)

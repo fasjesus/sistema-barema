@@ -1,4 +1,3 @@
-from collections import defaultdict, deque
 from dataclasses import dataclass
 from math import ceil
 from threading import Lock
@@ -6,45 +5,9 @@ from time import monotonic
 
 
 @dataclass(frozen=True)
-class RateLimitResult:
-    allowed: bool
-    retry_after: int = 0
-
-
-@dataclass(frozen=True)
 class LoginBlockResult:
     blocked: bool
     retry_after: int = 0
-
-
-class SlidingWindowRateLimiter:
-    def __init__(self, clock=None):
-        self._clock = clock or monotonic
-        self._events = defaultdict(deque)
-        self._lock = Lock()
-
-    def hit(self, key, limit, window_seconds):
-        if limit <= 0 or window_seconds <= 0:
-            return RateLimitResult(allowed=True)
-
-        now = self._clock()
-        cutoff = now - window_seconds
-
-        with self._lock:
-            events = self._events[key]
-            while events and events[0] <= cutoff:
-                events.popleft()
-
-            if len(events) >= limit:
-                retry_after = max(1, ceil(events[0] + window_seconds - now))
-                return RateLimitResult(allowed=False, retry_after=retry_after)
-
-            events.append(now)
-            return RateLimitResult(allowed=True)
-
-    def clear(self):
-        with self._lock:
-            self._events.clear()
 
 
 class LoginAttemptLimiter:
@@ -117,5 +80,4 @@ def get_client_ip(request, trust_proxy_headers=False):
     return request.remote_addr or "unknown"
 
 
-request_rate_limiter = SlidingWindowRateLimiter()
 login_attempt_limiter = LoginAttemptLimiter()

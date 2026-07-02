@@ -1,7 +1,7 @@
 import unittest
 
 from app import app
-from core.security import login_attempt_limiter, request_rate_limiter
+from core.security import login_attempt_limiter
 
 
 class LoginRateLimitViewTest(unittest.TestCase):
@@ -9,21 +9,17 @@ class LoginRateLimitViewTest(unittest.TestCase):
         self.previous_config = {
             "LOGIN_MAX_ATTEMPTS": app.config["LOGIN_MAX_ATTEMPTS"],
             "LOGIN_BLOCK_SECONDS": app.config["LOGIN_BLOCK_SECONDS"],
-            "RATE_LIMIT_REQUESTS": app.config["RATE_LIMIT_REQUESTS"],
         }
         app.config.update(
             TESTING=True,
             LOGIN_MAX_ATTEMPTS=3,
             LOGIN_BLOCK_SECONDS=60,
-            RATE_LIMIT_REQUESTS=100,
         )
         login_attempt_limiter.clear()
-        request_rate_limiter.clear()
 
     def tearDown(self):
         app.config.update(self.previous_config)
         login_attempt_limiter.clear()
-        request_rate_limiter.clear()
 
     def test_login_button_is_disabled_when_user_is_blocked(self):
         with app.test_client() as client:

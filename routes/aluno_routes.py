@@ -28,6 +28,9 @@ pdf_service = PDFService(
     logo_colcic=os.path.join(BASE_DIR, 'static', 'images', 'logo_computacao.png')
 )
 
+class BaremaValidationError(ValueError):
+    pass
+
 def _ano_ingresso_from_matricula(matricula):
     try:
         return int(str(matricula or "")[:4])
@@ -41,6 +44,46 @@ def _activity_rule_from_entity(atividade):
         min_horas=atividade.min_horas_num,
         max_horas=atividade.max_horas_num,
     )
+
+def _horas_maior_que_zero(valor):
+    try:
+        return float(str(valor or "").replace(",", ".")) > 0
+    except ValueError:
+        return False
+
+def _formatar_horas(valor):
+    try:
+        numero = float(valor)
+    except (TypeError, ValueError):
+        return str(valor)
+
+    if numero.is_integer():
+        return str(int(numero))
+    return f"{numero:g}"
+
+def _carga_minima_exigida(aluno, tipo_barema=None):
+    ano_ingresso = _ano_ingresso_from_matricula(aluno.matricula)
+
+    if ano_ingresso is None:
+        return 200 if tipo_barema == "antigo" else 120
+
+    return 200 if ano_ingresso < 2023 else 120
+
+def _validar_carga_minima(processo):
+    carga_minima = _carga_minima_exigida(
+        processo.estudante,
+        processo.tipo_barema,
+    )
+    total_horas = processo.total_horas
+
+    if total_horas < carga_minima:
+        raise BaremaValidationError(
+            "Carga horaria insuficiente: o barema exige no minimo {0}h, "
+            "mas foram computadas {1}h.".format(
+                _formatar_horas(carga_minima),
+                _formatar_horas(total_horas),
+            )
+        )
 
 def _mensagens_do_resultado(filename, resultado):
     mensagens = []
@@ -119,6 +162,72 @@ def _validar_certificados_da_atividade(
         print(f"VALIDACAO: {mensagem} Detalhe: {exc}")
         return [mensagem]
 
+def _montar_processo_barema(form, files):
+    aluno = Estudante(
+        nome=form.get('nome',''),
+        matricula=form.get('matricula',''),
+        email=form.get('email',''),
+    )
+    tipo = form.get('barema_tipo', 'antigo')
+    processo = ProcessoBarema(
+        estudante=aluno,
+        tipo_barema=tipo,
+        data_envio=form.get('data_verificacao',''),
+    )
+
+    atividades_base = repo.load_atividades(tipo)
+    certificados, pag_atual = [], 2
+    fingerprints_certificados = {}
+    tem_atividade_preenchida = False
+
+    for ativ in atividades_base:
+        ativ_objeto = repo.to_entity(ativ)
+        id_at = ativ['id']
+        horas_raw = form.get(f"horas_{id_at}", "")
+        files_atividade = files.getlist(f"certificado_{id_at}")
+        files_validos = [f for f in files_atividade if f and f.filename != '']
+        intervalos = []
+        observacoes = []
+        if files_validos or _horas_maior_que_zero(horas_raw):
+            tem_atividade_preenchida = True
+
+        for f in files_validos:
+            prox, inter = cert_processor.get_page_info(pag_atual, f)
+            intervalos.append(inter)
+            certificados.append(f)
+            pag_atual = prox
+
+        if files_validos or (horas_raw and str(horas_raw).strip()):
+            observacoes.extend(
+                _validar_certificados_da_atividade(
+                    files_validos,
+                    aluno,
+                    ativ_objeto,
+                    horas_raw,
+                    fingerprints_certificados,
+                )
+            )
+
+        item = ItemBarema(
+            atividade=ativ_objeto,
+            horas_input=str(horas_raw),
+            tipo_barema=tipo,
+            intervalo_paginas=", ".join(intervalos),
+            observacoes=observacoes
+        )
+        processo.adicionar_item(item)
+
+    if not tem_atividade_preenchida:
+        raise BaremaValidationError(
+            "Preencha ao menos uma atividade antes de gerar o barema."
+        )
+
+    return processo, aluno, certificados
+
+def _gerar_pdf_barema(form, files):
+    processo, aluno, certificados = _montar_processo_barema(form, files)
+    return pdf_service.gerar_completo(processo, certificados), aluno, processo
+
 class HomeView(MethodView):
     def get(self):
         atividades = repo.load_atividades('antigo')
@@ -131,51 +240,36 @@ class BaremaDataView(MethodView):
 class GerarRascunhoView(MethodView):
     def post(self):
         try:
-            aluno = Estudante(nome=request.form.get('nome',''), matricula=request.form.get('matricula',''), email=request.form.get('email',''))
-            tipo = request.form.get('barema_tipo', 'antigo')
-            processo = ProcessoBarema(estudante=aluno, tipo_barema=tipo, data_envio=request.form.get('data_verificacao',''))
-
-            atividades_base = repo.load_atividades(tipo)
-            certificados, pag_atual = [], 2
-            fingerprints_certificados = {}
-
-            for ativ in atividades_base:
-                ativ_objeto = repo.to_entity(ativ)
-                id_at = ativ['id'] 
-                horas_raw = request.form.get(f"horas_{id_at}", "")
-                files = request.files.getlist(f"certificado_{id_at}")
-                files_validos = [f for f in files if f and f.filename != '']
-                intervalos = []
-                observacoes = []
-                
-                for f in files_validos:
-                    prox, inter = cert_processor.get_page_info(pag_atual, f)
-                    intervalos.append(inter)
-                    certificados.append(f)
-                    pag_atual = prox
-
-                if files_validos or (horas_raw and str(horas_raw).strip()):
-                    observacoes.extend(
-                        _validar_certificados_da_atividade(
-                            files_validos,
-                            aluno,
-                            ativ_objeto,
-                            horas_raw,
-                            fingerprints_certificados,
-                        )
-                    )
-
-                item = ItemBarema(
-                    atividade=ativ_objeto,
-                    horas_input=str(horas_raw), 
-                    tipo_barema=tipo,
-                    intervalo_paginas=", ".join(intervalos),
-                    observacoes=observacoes
-                )
-                processo.adicionar_item(item)
-
+            processo, aluno, certificados = _montar_processo_barema(
+                request.form,
+                request.files,
+            )
+            _validar_carga_minima(processo)
             pdf = pdf_service.gerar_completo(processo, certificados)
-            return send_file(pdf, as_attachment=True, download_name=f"barema_{aluno.matricula}.pdf")
+            return send_file(
+                pdf,
+                mimetype='application/pdf',
+                as_attachment=True,
+                download_name=f"barema_{aluno.matricula}.pdf",
+            )
+        except BaremaValidationError as exc:
+            return jsonify({"error": str(exc)}), 400
+        except Exception:
+            print(traceback.format_exc())
+            return jsonify({"error": "Erro interno"}), 500
+
+class PreviewBaremaView(MethodView):
+    def post(self):
+        try:
+            pdf, aluno, _processo = _gerar_pdf_barema(request.form, request.files)
+            return send_file(
+                pdf,
+                mimetype='application/pdf',
+                as_attachment=False,
+                download_name=f"preview_barema_{aluno.matricula}.pdf",
+            )
+        except BaremaValidationError as exc:
+            return jsonify({"error": str(exc)}), 400
         except Exception:
             print(traceback.format_exc())
             return jsonify({"error": "Erro interno"}), 500
@@ -226,4 +320,5 @@ class SolicitarAnaliseView(MethodView):
 aluno_bp.add_url_rule('/', view_func=HomeView.as_view('home'))
 aluno_bp.add_url_rule('/get_barema_data/<tipo>', view_func=BaremaDataView.as_view('get_barema_data'))
 aluno_bp.add_url_rule('/barema', view_func=GerarRascunhoView.as_view('barema_process'))
+aluno_bp.add_url_rule('/barema/preview', view_func=PreviewBaremaView.as_view('barema_preview'))
 aluno_bp.add_url_rule('/solicitar-analise', view_func=SolicitarAnaliseView.as_view('solicitar_analise'))
